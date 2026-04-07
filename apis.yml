@@ -8,8 +8,8 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Advertising
   - Ad Serving
+  - Advertising
   - API-First
   - Monetization
 url: >-
@@ -26,8 +26,8 @@ apis:
       creative contents for serving ads in your application.
     humanURL: https://dev.kevel.com/reference/request
     tags:
-      - Decision
       - Ad Serving
+      - Decision
     properties:
       - type: Documentation
         url: https://dev.kevel.com/docs/native-ads-api-quickstart
@@ -40,8 +40,8 @@ apis:
       flights, ads, and other platform resources.
     humanURL: https://dev.kevel.com/docs/management-api-tutorial
     tags:
-      - Management
       - Campaigns
+      - Management
     properties:
       - type: Documentation
         url: https://dev.kevel.com/docs/management-api-tutorial
