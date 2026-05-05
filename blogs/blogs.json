@@ -1,0 +1,13 @@
+{
+  "repo": "kevel",
+  "feeds": [
+    {
+      "source": "https://www.kevel.com/blog",
+      "feed_url": "https://www.kevel.com/blog/rss.xml",
+      "saved": 10,
+      "title": ""
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:30:17Z"
+}
