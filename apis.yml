@@ -85,6 +85,8 @@ apis:
       - type: Documentation
         url: https://dev.kevel.com/reference/userdb-overview
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/kevelapi
   - type: Website
     url: https://www.kevel.com
     name: Kevel Website
