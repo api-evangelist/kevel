@@ -111,6 +111,8 @@ common:
   - type: Pricing
     url: https://www.kevel.com/pricing
     name: Kevel Pricing
+  - type: LLMsTxt
+    url: https://dev.kevel.com/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
