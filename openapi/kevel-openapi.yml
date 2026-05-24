@@ -1,0 +1,817 @@
+openapi: 3.1.0
+info:
+  title: Kevel APIs
+  description: |
+    OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
+    the Decision API for ad requests, the Management API for advertisers,
+    campaigns, flights, ads, creatives, sites, and zones, and the Reporting API
+    for performance analytics. Endpoint shapes are derived from Kevel's public
+    developer docs at https://dev.kevel.com/ and the published API index at
+    http://dev.kevel.com/llms.txt.
+  version: "1.0.0"
+  contact:
+    name: Kevel
+    url: https://www.kevel.com/
+servers:
+  - url: https://api.kevel.co/v1
+    description: Kevel Management API.
+  - url: https://e-{networkId}.adzerk.net
+    description: Kevel Decision API (per network host).
+    variables:
+      networkId:
+        default: "1"
+        description: Your Kevel network ID.
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: Decision
+    description: Request ad decisions and creatives.
+  - name: Advertisers
+    description: Manage advertiser accounts.
+  - name: Campaigns
+    description: Manage campaigns.
+  - name: Flights
+    description: Manage flights (line items).
+  - name: Ads
+    description: Manage ads.
+  - name: Creatives
+    description: Manage creatives.
+  - name: Sites
+    description: Manage sites.
+  - name: Zones
+    description: Manage zones.
+  - name: Channels
+    description: Manage channels.
+  - name: Reporting
+    description: Queue and retrieve performance reports.
+paths:
+  /api/v2:
+    servers:
+      - url: https://e-{networkId}.adzerk.net
+        variables:
+          networkId:
+            default: "1"
+    post:
+      tags: [Decision]
+      summary: Make an ad decision
+      operationId: makeDecision
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+      responses:
+        '200':
+          description: Decision response with selected ads.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionResponse'
+  /advertiser:
+    get:
+      tags: [Advertisers]
+      summary: List advertisers
+      operationId: listAdvertisers
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A page of advertisers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvertiserList'
+    post:
+      tags: [Advertisers]
+      summary: Create an advertiser
+      operationId: createAdvertiser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advertiser'
+      responses:
+        '200':
+          description: Created advertiser.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertiser'
+  /advertiser/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Advertisers]
+      summary: Get an advertiser
+      operationId: getAdvertiser
+      responses:
+        '200':
+          description: An advertiser.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertiser'
+    put:
+      tags: [Advertisers]
+      summary: Update an advertiser
+      operationId: updateAdvertiser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advertiser'
+      responses:
+        '200':
+          description: Updated advertiser.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertiser'
+    delete:
+      tags: [Advertisers]
+      summary: Delete an advertiser
+      operationId: deleteAdvertiser
+      responses:
+        '204':
+          description: Deleted.
+  /campaign:
+    get:
+      tags: [Campaigns]
+      summary: List campaigns
+      operationId: listCampaigns
+      responses:
+        '200':
+          description: A list of campaigns.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignList'
+    post:
+      tags: [Campaigns]
+      summary: Create a campaign
+      operationId: createCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+      responses:
+        '200':
+          description: Created campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+  /campaign/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Campaigns]
+      summary: Get a campaign
+      operationId: getCampaign
+      responses:
+        '200':
+          description: A campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+    put:
+      tags: [Campaigns]
+      summary: Update a campaign
+      operationId: updateCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+      responses:
+        '200':
+          description: Updated campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+  /flight:
+    get:
+      tags: [Flights]
+      summary: List flights
+      operationId: listFlights
+      responses:
+        '200':
+          description: A list of flights.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Flight'
+    post:
+      tags: [Flights]
+      summary: Create a flight
+      operationId: createFlight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Flight'
+      responses:
+        '200':
+          description: Created flight.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+  /flight/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Flights]
+      summary: Get a flight
+      operationId: getFlight
+      responses:
+        '200':
+          description: A flight.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+    put:
+      tags: [Flights]
+      summary: Update a flight
+      operationId: updateFlight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Flight'
+      responses:
+        '200':
+          description: Updated flight.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+  /ad:
+    get:
+      tags: [Ads]
+      summary: List ads
+      operationId: listAds
+      responses:
+        '200':
+          description: A list of ads.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ad'
+    post:
+      tags: [Ads]
+      summary: Create an ad
+      operationId: createAd
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+      responses:
+        '200':
+          description: Created ad.
+  /ad/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Ads]
+      summary: Get an ad
+      operationId: getAd
+      responses:
+        '200':
+          description: An ad.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ad'
+    put:
+      tags: [Ads]
+      summary: Update an ad
+      operationId: updateAd
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+      responses:
+        '200':
+          description: Updated ad.
+  /creative:
+    get:
+      tags: [Creatives]
+      summary: List creatives
+      operationId: listCreatives
+      responses:
+        '200':
+          description: A list of creatives.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Creative'
+    post:
+      tags: [Creatives]
+      summary: Create a creative
+      operationId: createCreative
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Creative'
+      responses:
+        '200':
+          description: Created creative.
+  /creative/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Creatives]
+      summary: Get a creative
+      operationId: getCreative
+      responses:
+        '200':
+          description: A creative.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Creative'
+    put:
+      tags: [Creatives]
+      summary: Update a creative
+      operationId: updateCreative
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Creative'
+      responses:
+        '200':
+          description: Updated creative.
+  /site:
+    get:
+      tags: [Sites]
+      summary: List sites
+      operationId: listSites
+      responses:
+        '200':
+          description: A list of sites.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Site'
+    post:
+      tags: [Sites]
+      summary: Create a site
+      operationId: createSite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Site'
+      responses:
+        '200':
+          description: Created site.
+  /site/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Sites]
+      summary: Get a site
+      operationId: getSite
+      responses:
+        '200':
+          description: A site.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+    put:
+      tags: [Sites]
+      summary: Update a site
+      operationId: updateSite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Site'
+      responses:
+        '200':
+          description: Updated site.
+  /zone:
+    get:
+      tags: [Zones]
+      summary: List zones
+      operationId: listZones
+      responses:
+        '200':
+          description: A list of zones.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Zone'
+  /zone/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Zones]
+      summary: Get a zone
+      operationId: getZone
+      responses:
+        '200':
+          description: A zone.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+    put:
+      tags: [Zones]
+      summary: Update a zone
+      operationId: updateZone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zone'
+      responses:
+        '200':
+          description: Updated zone.
+  /channel:
+    get:
+      tags: [Channels]
+      summary: List channels
+      operationId: listChannels
+      responses:
+        '200':
+          description: A list of channels.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Channel'
+    post:
+      tags: [Channels]
+      summary: Create a channel
+      operationId: createChannel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Channel'
+      responses:
+        '200':
+          description: Created channel.
+  /report/queue:
+    post:
+      tags: [Reporting]
+      summary: Queue an asynchronous report
+      operationId: queueReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportRequest'
+      responses:
+        '200':
+          description: Queued. Returns a report ID to poll.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: string
+  /report/{reportId}:
+    parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Reporting]
+      summary: Get a queued report
+      operationId: getReport
+      responses:
+        '200':
+          description: Report status and result data when ready.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResult'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Adzerk-ApiKey
+      description: Management/Reporting API key issued from the Kevel UI.
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: pageSize
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 100
+  schemas:
+    Advertiser:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Title:
+          type: string
+        IsActive:
+          type: boolean
+    AdvertiserList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Advertiser'
+        totalCount:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
+    Campaign:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+        AdvertiserId:
+          type: integer
+        StartDate:
+          type: string
+          format: date-time
+        EndDate:
+          type: string
+          format: date-time
+        IsActive:
+          type: boolean
+    CampaignList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Campaign'
+        totalCount:
+          type: integer
+    Flight:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+        CampaignId:
+          type: integer
+        PriorityId:
+          type: integer
+        StartDate:
+          type: string
+          format: date-time
+        EndDate:
+          type: string
+          format: date-time
+        Impressions:
+          type: integer
+        IsActive:
+          type: boolean
+    Ad:
+      type: object
+      properties:
+        Id:
+          type: integer
+        FlightId:
+          type: integer
+        CreativeId:
+          type: integer
+        IsActive:
+          type: boolean
+        IsDeleted:
+          type: boolean
+    Creative:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Title:
+          type: string
+        AdvertiserId:
+          type: integer
+        AdTypeId:
+          type: integer
+        ImageName:
+          type: string
+        Url:
+          type: string
+        Body:
+          type: string
+    Site:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Title:
+          type: string
+        Url:
+          type: string
+        IsDeleted:
+          type: boolean
+    Zone:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+        SiteId:
+          type: integer
+        IsDeleted:
+          type: boolean
+    Channel:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Title:
+          type: string
+        Commission:
+          type: number
+        Engine:
+          type: string
+        Keywords:
+          type: string
+        AdTypes:
+          type: array
+          items:
+            type: integer
+    Placement:
+      type: object
+      required: [networkId, siteId, adTypes]
+      properties:
+        divName:
+          type: string
+        networkId:
+          type: integer
+        siteId:
+          type: integer
+        adTypes:
+          type: array
+          items:
+            type: integer
+        zoneIds:
+          type: array
+          items:
+            type: integer
+        count:
+          type: integer
+          minimum: 1
+          maximum: 20
+        keywords:
+          type: array
+          items:
+            type: string
+    DecisionRequest:
+      type: object
+      required: [placements]
+      properties:
+        placements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Placement'
+        user:
+          type: object
+          properties:
+            key:
+              type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+        referrer:
+          type: string
+        ip:
+          type: string
+        consent:
+          type: object
+          additionalProperties: true
+    DecisionResponse:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            key:
+              type: string
+        decisions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+              properties:
+                adId:
+                  type: integer
+                creativeId:
+                  type: integer
+                flightId:
+                  type: integer
+                campaignId:
+                  type: integer
+                clickUrl:
+                  type: string
+                impressionUrl:
+                  type: string
+                contents:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
+    ReportRequest:
+      type: object
+      properties:
+        StartDate:
+          type: string
+          format: date
+        EndDate:
+          type: string
+          format: date
+        GroupBy:
+          type: array
+          items:
+            type: string
+        Parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              ParameterType:
+                type: string
+              Value:
+                type: string
+    ReportResult:
+      type: object
+      properties:
+        Id:
+          type: string
+        Status:
+          type: integer
+          description: 1 = pending, 2 = complete, 3 = error.
+        Result:
+          type: object
+          additionalProperties: true
