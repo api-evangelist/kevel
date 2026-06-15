@@ -1,0 +1,649 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kevel APIs",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Adzerk-ApiKey",
+      "value": "{{X-Adzerk-ApiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Decision",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Make an ad decision",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/api/v2",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Make an ad decision"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Advertisers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List advertisers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/advertiser",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List advertisers"
+        },
+        {
+          "info": {
+            "name": "Create an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/advertiser",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an advertiser"
+        },
+        {
+          "info": {
+            "name": "Get an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/advertiser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an advertiser"
+        },
+        {
+          "info": {
+            "name": "Update an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/advertiser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an advertiser"
+        },
+        {
+          "info": {
+            "name": "Delete an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.kevel.co/v1/advertiser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an advertiser"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/campaign"
+          },
+          "docs": "List campaigns"
+        },
+        {
+          "info": {
+            "name": "Create a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/campaign",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a campaign"
+        },
+        {
+          "info": {
+            "name": "Get a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/campaign/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a campaign"
+        },
+        {
+          "info": {
+            "name": "Update a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/campaign/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a campaign"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Flights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/flight"
+          },
+          "docs": "List flights"
+        },
+        {
+          "info": {
+            "name": "Create a flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/flight",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a flight"
+        },
+        {
+          "info": {
+            "name": "Get a flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/flight/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a flight"
+        },
+        {
+          "info": {
+            "name": "Update a flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/flight/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a flight"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List ads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/ad"
+          },
+          "docs": "List ads"
+        },
+        {
+          "info": {
+            "name": "Create an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/ad",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an ad"
+        },
+        {
+          "info": {
+            "name": "Get an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/ad/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an ad"
+        },
+        {
+          "info": {
+            "name": "Update an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/ad/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an ad"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Creatives",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List creatives",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/creative"
+          },
+          "docs": "List creatives"
+        },
+        {
+          "info": {
+            "name": "Create a creative",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/creative",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a creative"
+        },
+        {
+          "info": {
+            "name": "Get a creative",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/creative/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a creative"
+        },
+        {
+          "info": {
+            "name": "Update a creative",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/creative/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a creative"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List sites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/site"
+          },
+          "docs": "List sites"
+        },
+        {
+          "info": {
+            "name": "Create a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/site",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a site"
+        },
+        {
+          "info": {
+            "name": "Get a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/site/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a site"
+        },
+        {
+          "info": {
+            "name": "Update a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/site/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a site"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Zones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/zone"
+          },
+          "docs": "List zones"
+        },
+        {
+          "info": {
+            "name": "Get a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/zone/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a zone"
+        },
+        {
+          "info": {
+            "name": "Update a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/zone/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a zone"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Channels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List channels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/channel"
+          },
+          "docs": "List channels"
+        },
+        {
+          "info": {
+            "name": "Create a channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/channel",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a channel"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Queue an asynchronous report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/report/queue",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Queue an asynchronous report"
+        },
+        {
+          "info": {
+            "name": "Get a queued report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/report/:reportId",
+            "params": [
+              {
+                "name": "reportId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a queued report"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

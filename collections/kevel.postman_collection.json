@@ -1,0 +1,3211 @@
+{
+  "item": [
+    {
+      "id": "c97e81b7-3f85-4e29-9b11-35ddc61d50db",
+      "name": "Decision",
+      "description": {
+        "content": "Request ad decisions and creatives.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d2bb040a-3161-4ae8-a757-8f738b1d2add",
+          "name": "Make an ad decision",
+          "request": {
+            "name": "Make an ad decision",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v2"
+              ],
+              "host": [
+                "{{api-v2-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"placements\": [\n    {\n      \"networkId\": \"<integer>\",\n      \"siteId\": \"<integer>\",\n      \"adTypes\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"divName\": \"<string>\",\n      \"zoneIds\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"count\": \"<integer>\",\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"networkId\": \"<integer>\",\n      \"siteId\": \"<integer>\",\n      \"adTypes\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"divName\": \"<string>\",\n      \"zoneIds\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"count\": \"<integer>\",\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"user\": {\n    \"key\": \"<string>\"\n  },\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<string>\",\n  \"referrer\": \"<string>\",\n  \"ip\": \"<string>\",\n  \"consent\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aa55eca5-4d3b-4914-95bf-b9bb7cd40c91",
+              "name": "Decision response with selected ads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{api-v2-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"placements\": [\n    {\n      \"networkId\": 3062,\n      \"siteId\": 3762,\n      \"adTypes\": [\n        9469,\n        971\n      ],\n      \"divName\": \"string\",\n      \"zoneIds\": [\n        176,\n        5962\n      ],\n      \"count\": 3,\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"networkId\": 407,\n      \"siteId\": 483,\n      \"adTypes\": [\n        1372,\n        1754\n      ],\n      \"divName\": \"string\",\n      \"zoneIds\": [\n        9916,\n        6398\n      ],\n      \"count\": 19,\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"user\": {\n    \"key\": \"<string>\"\n  },\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<string>\",\n  \"referrer\": \"<string>\",\n  \"ip\": \"<string>\",\n  \"consent\": {\n    \"key_0\": 5161,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user\": {\n    \"key\": \"string\"\n  },\n  \"decisions\": {\n    \"key_0\": [\n      {\n        \"adId\": 4544,\n        \"creativeId\": 3428,\n        \"flightId\": 2269,\n        \"campaignId\": 3687,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": true,\n            \"key_1\": \"string\"\n          },\n          {\n            \"key_0\": \"string\"\n          }\n        ]\n      },\n      {\n        \"adId\": 8482,\n        \"creativeId\": 2135,\n        \"flightId\": 7459,\n        \"campaignId\": 6726,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": 7306,\n            \"key_1\": 6171\n          },\n          {\n            \"key_0\": 5011\n          }\n        ]\n      }\n    ],\n    \"key_1\": [\n      {\n        \"adId\": 7528,\n        \"creativeId\": 4293,\n        \"flightId\": 4596,\n        \"campaignId\": 2204,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": true,\n            \"key_1\": false\n          },\n          {\n            \"key_0\": 3554.4457911696436\n          }\n        ]\n      },\n      {\n        \"adId\": 9586,\n        \"creativeId\": 5034,\n        \"flightId\": 1286,\n        \"campaignId\": 7655,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": \"string\"\n          },\n          {\n            \"key_0\": \"string\",\n            \"key_1\": true,\n            \"key_2\": 131.56360995085657\n          }\n        ]\n      }\n    ],\n    \"key_2\": [\n      {\n        \"adId\": 8070,\n        \"creativeId\": 7704,\n        \"flightId\": 7748,\n        \"campaignId\": 3611,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": false\n          },\n          {\n            \"key_0\": 9873.059795666113,\n            \"key_1\": \"string\",\n            \"key_2\": 9272.939688125696,\n            \"key_3\": false\n          }\n        ]\n      },\n      {\n        \"adId\": 7390,\n        \"creativeId\": 3948,\n        \"flightId\": 1915,\n        \"campaignId\": 8340,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": 3079,\n            \"key_1\": \"string\",\n            \"key_2\": 9144,\n            \"key_3\": \"string\"\n          },\n          {\n            \"key_0\": false\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "851507f7-564e-4f3a-8e38-24973fc2b656",
+      "name": "Advertisers",
+      "description": {
+        "content": "Manage advertiser accounts.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a5d5a3ef-c02c-4601-bac3-bab6c9ce1278",
+          "name": "List advertisers",
+          "request": {
+            "name": "List advertisers",
+            "description": {},
+            "url": {
+              "path": [
+                "advertiser"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "100"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "29d8b6c3-c413-445a-918a-64eaba115ee3",
+              "name": "A page of advertisers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "advertiser"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"Id\": 6680,\n      \"Title\": \"string\",\n      \"IsActive\": false\n    },\n    {\n      \"Id\": 1766,\n      \"Title\": \"string\",\n      \"IsActive\": true\n    }\n  ],\n  \"totalCount\": 8586,\n  \"page\": 8545,\n  \"pageSize\": 2837\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a85e2714-ab06-4dea-8308-3596d5df7151",
+          "name": "Create an advertiser",
+          "request": {
+            "name": "Create an advertiser",
+            "description": {},
+            "url": {
+              "path": [
+                "advertiser"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dffa13e3-0a1f-4327-9d70-689952133794",
+              "name": "Created advertiser.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "advertiser"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 4958,\n  \"Title\": \"string\",\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aed9c61a-6d16-47c6-aa10-5cf57df71b89",
+          "name": "Get an advertiser",
+          "request": {
+            "name": "Get an advertiser",
+            "description": {},
+            "url": {
+              "path": [
+                "advertiser",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "81197836-365f-458b-a08e-0c0c07fdb2e4",
+              "name": "An advertiser.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "advertiser",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 4958,\n  \"Title\": \"string\",\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6969cdcf-b165-4311-990f-056794c98dd9",
+          "name": "Update an advertiser",
+          "request": {
+            "name": "Update an advertiser",
+            "description": {},
+            "url": {
+              "path": [
+                "advertiser",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a6b41738-1b50-4f5c-9ebf-ab7ffb56fd1c",
+              "name": "Updated advertiser.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "advertiser",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 4958,\n  \"Title\": \"string\",\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1285e95-332e-4b6c-b8e0-e65c93dc9bf7",
+          "name": "Delete an advertiser",
+          "request": {
+            "name": "Delete an advertiser",
+            "description": {},
+            "url": {
+              "path": [
+                "advertiser",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6c035ab8-1b9d-46e8-9202-545cb5f1f160",
+              "name": "Deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "advertiser",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ab5e3228-146e-43ba-984a-12f36781285a",
+      "name": "Campaigns",
+      "description": {
+        "content": "Manage campaigns.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "690d5346-6cb1-4f69-8dcc-e87dc7ccc3da",
+          "name": "List campaigns",
+          "request": {
+            "name": "List campaigns",
+            "description": {},
+            "url": {
+              "path": [
+                "campaign"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ead6c42f-3f38-4abe-8f4f-c91f032cdd3b",
+              "name": "A list of campaigns.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaign"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"Id\": 3843,\n      \"Name\": \"string\",\n      \"AdvertiserId\": 9697,\n      \"StartDate\": \"1975-03-26T01:57:03.266Z\",\n      \"EndDate\": \"1969-05-23T13:44:43.213Z\",\n      \"IsActive\": true\n    },\n    {\n      \"Id\": 761,\n      \"Name\": \"string\",\n      \"AdvertiserId\": 1089,\n      \"StartDate\": \"2018-08-13T04:46:47.767Z\",\n      \"EndDate\": \"1991-06-11T06:35:25.253Z\",\n      \"IsActive\": true\n    }\n  ],\n  \"totalCount\": 4126\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2a328636-5e96-46ea-9573-d12827549579",
+          "name": "Create a campaign",
+          "request": {
+            "name": "Create a campaign",
+            "description": {},
+            "url": {
+              "path": [
+                "campaign"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3c912e2f-3199-4787-ba0f-08a57b221333",
+              "name": "Created campaign.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaign"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 3056,\n  \"Name\": \"string\",\n  \"AdvertiserId\": 3131,\n  \"StartDate\": \"2003-09-29T22:16:30.397Z\",\n  \"EndDate\": \"2012-09-21T20:37:14.276Z\",\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1be330ed-76aa-474e-bf22-131fe0281c1d",
+          "name": "Get a campaign",
+          "request": {
+            "name": "Get a campaign",
+            "description": {},
+            "url": {
+              "path": [
+                "campaign",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3566f01-c907-4e8b-85ba-e8501e344408",
+              "name": "A campaign.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaign",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 3056,\n  \"Name\": \"string\",\n  \"AdvertiserId\": 3131,\n  \"StartDate\": \"2003-09-29T22:16:30.397Z\",\n  \"EndDate\": \"2012-09-21T20:37:14.276Z\",\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "91a0973a-6dcc-485d-bba1-272129718484",
+          "name": "Update a campaign",
+          "request": {
+            "name": "Update a campaign",
+            "description": {},
+            "url": {
+              "path": [
+                "campaign",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0ad0ced2-acbe-4dc7-bb9a-5c0e58270343",
+              "name": "Updated campaign.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaign",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 3056,\n  \"Name\": \"string\",\n  \"AdvertiserId\": 3131,\n  \"StartDate\": \"2003-09-29T22:16:30.397Z\",\n  \"EndDate\": \"2012-09-21T20:37:14.276Z\",\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4c4f31cf-2bed-4556-b634-bd29db7a4520",
+      "name": "Flights",
+      "description": {
+        "content": "Manage flights (line items).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "434b07d3-4baa-4fdd-b418-ad7ab23a5558",
+          "name": "List flights",
+          "request": {
+            "name": "List flights",
+            "description": {},
+            "url": {
+              "path": [
+                "flight"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "982f96e8-d21d-4afb-8184-a78cea19e168",
+              "name": "A list of flights.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 811,\n    \"Name\": \"string\",\n    \"CampaignId\": 7542,\n    \"PriorityId\": 9664,\n    \"StartDate\": \"2013-01-19T20:47:08.015Z\",\n    \"EndDate\": \"2003-04-26T19:06:53.346Z\",\n    \"Impressions\": 2844,\n    \"IsActive\": true\n  },\n  {\n    \"Id\": 3891,\n    \"Name\": \"string\",\n    \"CampaignId\": 5447,\n    \"PriorityId\": 5055,\n    \"StartDate\": \"1949-08-30T06:32:59.767Z\",\n    \"EndDate\": \"1959-06-13T20:41:30.893Z\",\n    \"Impressions\": 4086,\n    \"IsActive\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01732ad1-589a-450f-8564-06894025b545",
+          "name": "Create a flight",
+          "request": {
+            "name": "Create a flight",
+            "description": {},
+            "url": {
+              "path": [
+                "flight"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3b8137ba-2ca6-40cc-b83c-e8db2fe789ce",
+              "name": "Created flight.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 8530,\n  \"Name\": \"string\",\n  \"CampaignId\": 242,\n  \"PriorityId\": 6978,\n  \"StartDate\": \"2009-12-17T03:31:27.913Z\",\n  \"EndDate\": \"1977-02-11T18:45:47.467Z\",\n  \"Impressions\": 504,\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce452d6f-6d4c-40e2-b0f0-a013fad9dca2",
+          "name": "Get a flight",
+          "request": {
+            "name": "Get a flight",
+            "description": {},
+            "url": {
+              "path": [
+                "flight",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2e714f30-8400-4e24-8c8e-e0538c1d8228",
+              "name": "A flight.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 8530,\n  \"Name\": \"string\",\n  \"CampaignId\": 242,\n  \"PriorityId\": 6978,\n  \"StartDate\": \"2009-12-17T03:31:27.913Z\",\n  \"EndDate\": \"1977-02-11T18:45:47.467Z\",\n  \"Impressions\": 504,\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce543a77-8620-46b6-8dfa-212bff521844",
+          "name": "Update a flight",
+          "request": {
+            "name": "Update a flight",
+            "description": {},
+            "url": {
+              "path": [
+                "flight",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "519d89de-6f65-40d8-afc4-82f277fd06d7",
+              "name": "Updated flight.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 8530,\n  \"Name\": \"string\",\n  \"CampaignId\": 242,\n  \"PriorityId\": 6978,\n  \"StartDate\": \"2009-12-17T03:31:27.913Z\",\n  \"EndDate\": \"1977-02-11T18:45:47.467Z\",\n  \"Impressions\": 504,\n  \"IsActive\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9415ef05-67c6-44c4-a32a-962d5e3c2293",
+      "name": "Ads",
+      "description": {
+        "content": "Manage ads.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ad445a2b-25f0-4cee-a77f-baee29c7ab15",
+          "name": "List ads",
+          "request": {
+            "name": "List ads",
+            "description": {},
+            "url": {
+              "path": [
+                "ad"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a7419472-79fd-42ec-aca4-c46735107bae",
+              "name": "A list of ads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 3649,\n    \"FlightId\": 8240,\n    \"CreativeId\": 8065,\n    \"IsActive\": false,\n    \"IsDeleted\": false\n  },\n  {\n    \"Id\": 8611,\n    \"FlightId\": 6289,\n    \"CreativeId\": 884,\n    \"IsActive\": false,\n    \"IsDeleted\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d7c708d4-3ad1-4fef-b92f-ff2e7335fc98",
+          "name": "Create an ad",
+          "request": {
+            "name": "Create an ad",
+            "description": {},
+            "url": {
+              "path": [
+                "ad"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "69f0c87d-4465-4a3c-8e76-c24727494522",
+              "name": "Created ad.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "54043696-ea2d-4288-a975-65c2ac833f26",
+          "name": "Get an ad",
+          "request": {
+            "name": "Get an ad",
+            "description": {},
+            "url": {
+              "path": [
+                "ad",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bd12d9d7-15ef-4a28-abbe-39b245753c42",
+              "name": "An ad.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 4669,\n  \"FlightId\": 6363,\n  \"CreativeId\": 2594,\n  \"IsActive\": false,\n  \"IsDeleted\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b29c0c9-7271-4cd4-9952-8f2e8f3ba87b",
+          "name": "Update an ad",
+          "request": {
+            "name": "Update an ad",
+            "description": {},
+            "url": {
+              "path": [
+                "ad",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "abc138f0-02dd-4a24-adaf-43301362c291",
+              "name": "Updated ad.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4561eea2-a6c8-4625-837a-682739a44e8d",
+      "name": "Creatives",
+      "description": {
+        "content": "Manage creatives.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "21651359-1fb5-44ca-85bc-a092269915c3",
+          "name": "List creatives",
+          "request": {
+            "name": "List creatives",
+            "description": {},
+            "url": {
+              "path": [
+                "creative"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1b8df78d-056b-4969-8b62-c6c983ba022a",
+              "name": "A list of creatives.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 5867,\n    \"Title\": \"string\",\n    \"AdvertiserId\": 3487,\n    \"AdTypeId\": 3750,\n    \"ImageName\": \"string\",\n    \"Url\": \"string\",\n    \"Body\": \"string\"\n  },\n  {\n    \"Id\": 6781,\n    \"Title\": \"string\",\n    \"AdvertiserId\": 6614,\n    \"AdTypeId\": 1034,\n    \"ImageName\": \"string\",\n    \"Url\": \"string\",\n    \"Body\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f7f7b489-4d03-4734-a2ba-abf39acba793",
+          "name": "Create a creative",
+          "request": {
+            "name": "Create a creative",
+            "description": {},
+            "url": {
+              "path": [
+                "creative"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9b08e512-43fa-457a-8b91-feaebea67149",
+              "name": "Created creative.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2ff261dc-5aac-4a2f-a6da-ab372e8390b3",
+          "name": "Get a creative",
+          "request": {
+            "name": "Get a creative",
+            "description": {},
+            "url": {
+              "path": [
+                "creative",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "34b51e79-816e-42fd-81d6-9188ab63a077",
+              "name": "A creative.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 2041,\n  \"Title\": \"string\",\n  \"AdvertiserId\": 7740,\n  \"AdTypeId\": 1049,\n  \"ImageName\": \"string\",\n  \"Url\": \"string\",\n  \"Body\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c9b9682b-6af7-448c-a17b-575c6182d907",
+          "name": "Update a creative",
+          "request": {
+            "name": "Update a creative",
+            "description": {},
+            "url": {
+              "path": [
+                "creative",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9aa3f1a6-0d2a-4fd1-9ea2-de8d6b83f6e5",
+              "name": "Updated creative.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b79bfc03-ba2e-4d27-b5d4-04324ecf1479",
+      "name": "Sites",
+      "description": {
+        "content": "Manage sites.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "65a87fc9-3388-4939-badd-9bea8ffb1b65",
+          "name": "List sites",
+          "request": {
+            "name": "List sites",
+            "description": {},
+            "url": {
+              "path": [
+                "site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6245262a-cc6a-4114-9b29-22644f79a1fa",
+              "name": "A list of sites.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 9432,\n    \"Title\": \"string\",\n    \"Url\": \"string\",\n    \"IsDeleted\": true\n  },\n  {\n    \"Id\": 371,\n    \"Title\": \"string\",\n    \"Url\": \"string\",\n    \"IsDeleted\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e2b30c8-b18b-4382-ac84-1968adb281ae",
+          "name": "Create a site",
+          "request": {
+            "name": "Create a site",
+            "description": {},
+            "url": {
+              "path": [
+                "site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c5031a10-82cd-4e04-ae6b-46c3ad463a76",
+              "name": "Created site.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5a98b0f7-a062-4f65-9d75-f0c26fa4b80e",
+          "name": "Get a site",
+          "request": {
+            "name": "Get a site",
+            "description": {},
+            "url": {
+              "path": [
+                "site",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d5496146-eb10-4089-a239-22816a316305",
+              "name": "A site.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 7205,\n  \"Title\": \"string\",\n  \"Url\": \"string\",\n  \"IsDeleted\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d6811a73-80d7-46f3-854c-f4b0b30e32a3",
+          "name": "Update a site",
+          "request": {
+            "name": "Update a site",
+            "description": {},
+            "url": {
+              "path": [
+                "site",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "71d1cccc-620d-4ff5-adf4-2add086300fb",
+              "name": "Updated site.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0ebe55db-cf0d-40e5-ae7d-35c014f6d305",
+      "name": "Zones",
+      "description": {
+        "content": "Manage zones.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ede64249-b0ac-4ea9-beec-ec7226f0ede2",
+          "name": "List zones",
+          "request": {
+            "name": "List zones",
+            "description": {},
+            "url": {
+              "path": [
+                "zone"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b85d23d-577a-40f7-8352-4992298f4eb6",
+              "name": "A list of zones.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "zone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 7503,\n    \"Name\": \"string\",\n    \"SiteId\": 9322,\n    \"IsDeleted\": true\n  },\n  {\n    \"Id\": 8417,\n    \"Name\": \"string\",\n    \"SiteId\": 1712,\n    \"IsDeleted\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b684be52-a61c-410c-ae93-a97dd07a88ef",
+          "name": "Get a zone",
+          "request": {
+            "name": "Get a zone",
+            "description": {},
+            "url": {
+              "path": [
+                "zone",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "00f6a531-e424-4159-9023-7081c70a2e50",
+              "name": "A zone.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "zone",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 9847,\n  \"Name\": \"string\",\n  \"SiteId\": 8218,\n  \"IsDeleted\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c787ebd-3396-40e1-9c08-21f54c5189cb",
+          "name": "Update a zone",
+          "request": {
+            "name": "Update a zone",
+            "description": {},
+            "url": {
+              "path": [
+                "zone",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"SiteId\": \"<integer>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e958c379-dea5-4034-9ed4-1b4c678a0d94",
+              "name": "Updated zone.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "zone",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"SiteId\": \"<integer>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "17d0cd2c-8be7-422e-ba9a-7b5426ce04fa",
+      "name": "Channels",
+      "description": {
+        "content": "Manage channels.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a9669fe4-09e5-4ac9-985f-c6041780b2ff",
+          "name": "List channels",
+          "request": {
+            "name": "List channels",
+            "description": {},
+            "url": {
+              "path": [
+                "channel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "43c84d97-f2ca-44a8-8e20-e9c60a087977",
+              "name": "A list of channels.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 401,\n    \"Title\": \"string\",\n    \"Commission\": 9305.502585952929,\n    \"Engine\": \"string\",\n    \"Keywords\": \"string\",\n    \"AdTypes\": [\n      7197,\n      3804\n    ]\n  },\n  {\n    \"Id\": 2864,\n    \"Title\": \"string\",\n    \"Commission\": 6724.567255224799,\n    \"Engine\": \"string\",\n    \"Keywords\": \"string\",\n    \"AdTypes\": [\n      3749,\n      3028\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b36f77ba-5188-4213-8094-77617b52de2e",
+          "name": "Create a channel",
+          "request": {
+            "name": "Create a channel",
+            "description": {},
+            "url": {
+              "path": [
+                "channel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"Commission\": \"<number>\",\n  \"Engine\": \"<string>\",\n  \"Keywords\": \"<string>\",\n  \"AdTypes\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "417b2a3a-79ec-4d46-848c-7c3df07431ea",
+              "name": "Created channel.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"Commission\": \"<number>\",\n  \"Engine\": \"<string>\",\n  \"Keywords\": \"<string>\",\n  \"AdTypes\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "43b9e23e-6484-486e-9cb2-8dd60b6d4056",
+      "name": "Reporting",
+      "description": {
+        "content": "Queue and retrieve performance reports.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a0cfe66f-59ab-4167-ae5e-6a863f79e502",
+          "name": "Queue an asynchronous report",
+          "request": {
+            "name": "Queue an asynchronous report",
+            "description": {},
+            "url": {
+              "path": [
+                "report",
+                "queue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"StartDate\": \"<date>\",\n  \"EndDate\": \"<date>\",\n  \"GroupBy\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Parameters\": [\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e096d55e-adf4-4c88-b673-8d4397729509",
+              "name": "Queued. Returns a report ID to poll.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report",
+                    "queue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"StartDate\": \"<date>\",\n  \"EndDate\": \"<date>\",\n  \"GroupBy\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Parameters\": [\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "00f63849-8eb6-4dc9-a4f4-56ec5140702b",
+          "name": "Get a queued report",
+          "request": {
+            "name": "Get a queued report",
+            "description": {},
+            "url": {
+              "path": [
+                "report",
+                ":reportId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "reportId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b79dd3d4-4fb1-43d6-96a5-f5d69fd6ea0c",
+              "name": "Report status and result data when ready.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report",
+                    ":reportId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reportId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": \"string\",\n  \"Status\": 5355,\n  \"Result\": {\n    \"key_0\": true,\n    \"key_1\": 7902\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kevel.co/v1",
+      "key": "baseUrl"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "1",
+      "key": "networkId"
+    },
+    {
+      "type": "string",
+      "value": "https://e-{{networkId}}.adzerk.net",
+      "key": "api-v2-Url"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Adzerk-ApiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2b960861-cf70-4c2f-b969-d51ee08f8187",
+    "name": "Kevel APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering\nthe Decision API for ad requests, the Management API for advertisers,\ncampaigns, flights, ads, creatives, sites, and zones, and the Reporting API\nfor performance analytics. Endpoint shapes are derived from Kevel's public\ndeveloper docs at https://dev.kevel.com/ and the published API index at\nhttp://dev.kevel.com/llms.txt.\n\n\nContact Support:\n Name: Kevel",
+      "type": "text/plain"
+    }
+  }
+}
