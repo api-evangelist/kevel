@@ -111,7 +111,7 @@ common:
   - type: Pricing
     url: https://www.kevel.com/pricing
     name: Kevel Pricing
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://dev.kevel.com/llms.txt
 maintainers:
   - FN: Kin Lane
