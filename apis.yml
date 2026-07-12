@@ -85,6 +85,12 @@ apis:
       - type: Documentation
         url: https://dev.kevel.com/reference/userdb-overview
 common:
+  - type: TrustCenter
+    url: security/kevel-trust-center.yml
+  - type: DomainSecurity
+    url: security/kevel-domain-security.yml
+  - type: Authentication
+    url: authentication/kevel-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/kevelapi
   - type: Website
