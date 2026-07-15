@@ -85,6 +85,8 @@ apis:
       - type: Documentation
         url: https://dev.kevel.com/reference/userdb-overview
 common:
+  - type: AgenticAccess
+    url: agentic-access/kevel-agentic-access.yml
   - type: TrustCenter
     url: security/kevel-trust-center.yml
   - type: DomainSecurity
