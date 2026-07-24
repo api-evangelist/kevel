@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: Kevel APIs Ads Flights API
+  description: 'OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
+
+    the Decision API for ad requests, the Management API for advertisers,
+
+    campaigns, flights, ads, creatives, sites, and zones, and the Reporting API
+
+    for performance analytics. Endpoint shapes are derived from Kevel''s public
+
+    developer docs at https://dev.kevel.com/ and the published API index at
+
+    http://dev.kevel.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Kevel
+    url: https://www.kevel.com/
+servers:
+- url: https://api.kevel.co/v1
+  description: Kevel Management API.
+- url: https://e-{networkId}.adzerk.net
+  description: Kevel Decision API (per network host).
+  variables:
+    networkId:
+      default: '1'
+      description: Your Kevel network ID.
+security:
+- ApiKeyAuth: []
+tags:
+- name: Flights
+  description: Manage flights (line items).
+paths:
+  /flight:
+    get:
+      tags:
+      - Flights
+      summary: List flights
+      operationId: listFlights
+      responses:
+        '200':
+          description: A list of flights.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Flight'
+    post:
+      tags:
+      - Flights
+      summary: Create a flight
+      operationId: createFlight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Flight'
+      responses:
+        '200':
+          description: Created flight.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+  /flight/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+      - Flights
+      summary: Get a flight
+      operationId: getFlight
+      responses:
+        '200':
+          description: A flight.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+    put:
+      tags:
+      - Flights
+      summary: Update a flight
+      operationId: updateFlight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Flight'
+      responses:
+        '200':
+          description: Updated flight.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Flight:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+        CampaignId:
+          type: integer
+        PriorityId:
+          type: integer
+        StartDate:
+          type: string
+          format: date-time
+        EndDate:
+          type: string
+          format: date-time
+        Impressions:
+          type: integer
+        IsActive:
+          type: boolean
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Adzerk-ApiKey
+      description: Management/Reporting API key issued from the Kevel UI.

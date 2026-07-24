@@ -1,0 +1,117 @@
+openapi: 3.1.0
+info:
+  title: Kevel APIs Ads Reporting API
+  description: 'OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
+
+    the Decision API for ad requests, the Management API for advertisers,
+
+    campaigns, flights, ads, creatives, sites, and zones, and the Reporting API
+
+    for performance analytics. Endpoint shapes are derived from Kevel''s public
+
+    developer docs at https://dev.kevel.com/ and the published API index at
+
+    http://dev.kevel.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Kevel
+    url: https://www.kevel.com/
+servers:
+- url: https://api.kevel.co/v1
+  description: Kevel Management API.
+- url: https://e-{networkId}.adzerk.net
+  description: Kevel Decision API (per network host).
+  variables:
+    networkId:
+      default: '1'
+      description: Your Kevel network ID.
+security:
+- ApiKeyAuth: []
+tags:
+- name: Reporting
+  description: Queue and retrieve performance reports.
+paths:
+  /report/queue:
+    post:
+      tags:
+      - Reporting
+      summary: Queue an asynchronous report
+      operationId: queueReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportRequest'
+      responses:
+        '200':
+          description: Queued. Returns a report ID to poll.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: string
+  /report/{reportId}:
+    parameters:
+    - name: reportId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Reporting
+      summary: Get a queued report
+      operationId: getReport
+      responses:
+        '200':
+          description: Report status and result data when ready.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResult'
+components:
+  schemas:
+    ReportResult:
+      type: object
+      properties:
+        Id:
+          type: string
+        Status:
+          type: integer
+          description: 1 = pending, 2 = complete, 3 = error.
+        Result:
+          type: object
+          additionalProperties: true
+    ReportRequest:
+      type: object
+      properties:
+        StartDate:
+          type: string
+          format: date
+        EndDate:
+          type: string
+          format: date
+        GroupBy:
+          type: array
+          items:
+            type: string
+        Parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              ParameterType:
+                type: string
+              Value:
+                type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Adzerk-ApiKey
+      description: Management/Reporting API key issued from the Kevel UI.

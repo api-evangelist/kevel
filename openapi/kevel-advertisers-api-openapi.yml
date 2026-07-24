@@ -1,0 +1,162 @@
+openapi: 3.1.0
+info:
+  title: Kevel APIs Ads Advertisers API
+  description: 'OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
+
+    the Decision API for ad requests, the Management API for advertisers,
+
+    campaigns, flights, ads, creatives, sites, and zones, and the Reporting API
+
+    for performance analytics. Endpoint shapes are derived from Kevel''s public
+
+    developer docs at https://dev.kevel.com/ and the published API index at
+
+    http://dev.kevel.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Kevel
+    url: https://www.kevel.com/
+servers:
+- url: https://api.kevel.co/v1
+  description: Kevel Management API.
+- url: https://e-{networkId}.adzerk.net
+  description: Kevel Decision API (per network host).
+  variables:
+    networkId:
+      default: '1'
+      description: Your Kevel network ID.
+security:
+- ApiKeyAuth: []
+tags:
+- name: Advertisers
+  description: Manage advertiser accounts.
+paths:
+  /advertiser:
+    get:
+      tags:
+      - Advertisers
+      summary: List advertisers
+      operationId: listAdvertisers
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A page of advertisers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvertiserList'
+    post:
+      tags:
+      - Advertisers
+      summary: Create an advertiser
+      operationId: createAdvertiser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advertiser'
+      responses:
+        '200':
+          description: Created advertiser.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertiser'
+  /advertiser/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+      - Advertisers
+      summary: Get an advertiser
+      operationId: getAdvertiser
+      responses:
+        '200':
+          description: An advertiser.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertiser'
+    put:
+      tags:
+      - Advertisers
+      summary: Update an advertiser
+      operationId: updateAdvertiser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advertiser'
+      responses:
+        '200':
+          description: Updated advertiser.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertiser'
+    delete:
+      tags:
+      - Advertisers
+      summary: Delete an advertiser
+      operationId: deleteAdvertiser
+      responses:
+        '204':
+          description: Deleted.
+components:
+  schemas:
+    AdvertiserList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Advertiser'
+        totalCount:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
+    Advertiser:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Title:
+          type: string
+        IsActive:
+          type: boolean
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    PageSize:
+      name: pageSize
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 100
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Adzerk-ApiKey
+      description: Management/Reporting API key issued from the Kevel UI.

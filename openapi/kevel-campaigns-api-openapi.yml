@@ -1,0 +1,140 @@
+openapi: 3.1.0
+info:
+  title: Kevel APIs Ads Campaigns API
+  description: 'OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
+
+    the Decision API for ad requests, the Management API for advertisers,
+
+    campaigns, flights, ads, creatives, sites, and zones, and the Reporting API
+
+    for performance analytics. Endpoint shapes are derived from Kevel''s public
+
+    developer docs at https://dev.kevel.com/ and the published API index at
+
+    http://dev.kevel.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Kevel
+    url: https://www.kevel.com/
+servers:
+- url: https://api.kevel.co/v1
+  description: Kevel Management API.
+- url: https://e-{networkId}.adzerk.net
+  description: Kevel Decision API (per network host).
+  variables:
+    networkId:
+      default: '1'
+      description: Your Kevel network ID.
+security:
+- ApiKeyAuth: []
+tags:
+- name: Campaigns
+  description: Manage campaigns.
+paths:
+  /campaign:
+    get:
+      tags:
+      - Campaigns
+      summary: List campaigns
+      operationId: listCampaigns
+      responses:
+        '200':
+          description: A list of campaigns.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignList'
+    post:
+      tags:
+      - Campaigns
+      summary: Create a campaign
+      operationId: createCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+      responses:
+        '200':
+          description: Created campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+  /campaign/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+      - Campaigns
+      summary: Get a campaign
+      operationId: getCampaign
+      responses:
+        '200':
+          description: A campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+    put:
+      tags:
+      - Campaigns
+      summary: Update a campaign
+      operationId: updateCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+      responses:
+        '200':
+          description: Updated campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+components:
+  schemas:
+    Campaign:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+        AdvertiserId:
+          type: integer
+        StartDate:
+          type: string
+          format: date-time
+        EndDate:
+          type: string
+          format: date-time
+        IsActive:
+          type: boolean
+    CampaignList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Campaign'
+        totalCount:
+          type: integer
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Adzerk-ApiKey
+      description: Management/Reporting API key issued from the Kevel UI.

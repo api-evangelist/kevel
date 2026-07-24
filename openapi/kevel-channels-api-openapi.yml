@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: Kevel APIs Ads Channels API
+  description: 'OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
+
+    the Decision API for ad requests, the Management API for advertisers,
+
+    campaigns, flights, ads, creatives, sites, and zones, and the Reporting API
+
+    for performance analytics. Endpoint shapes are derived from Kevel''s public
+
+    developer docs at https://dev.kevel.com/ and the published API index at
+
+    http://dev.kevel.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Kevel
+    url: https://www.kevel.com/
+servers:
+- url: https://api.kevel.co/v1
+  description: Kevel Management API.
+- url: https://e-{networkId}.adzerk.net
+  description: Kevel Decision API (per network host).
+  variables:
+    networkId:
+      default: '1'
+      description: Your Kevel network ID.
+security:
+- ApiKeyAuth: []
+tags:
+- name: Channels
+  description: Manage channels.
+paths:
+  /channel:
+    get:
+      tags:
+      - Channels
+      summary: List channels
+      operationId: listChannels
+      responses:
+        '200':
+          description: A list of channels.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Channel'
+    post:
+      tags:
+      - Channels
+      summary: Create a channel
+      operationId: createChannel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Channel'
+      responses:
+        '200':
+          description: Created channel.
+components:
+  schemas:
+    Channel:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Title:
+          type: string
+        Commission:
+          type: number
+        Engine:
+          type: string
+        Keywords:
+          type: string
+        AdTypes:
+          type: array
+          items:
+            type: integer
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Adzerk-ApiKey
+      description: Management/Reporting API key issued from the Kevel UI.

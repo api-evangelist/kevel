@@ -1,0 +1,121 @@
+openapi: 3.1.0
+info:
+  title: Kevel APIs Ads API
+  description: 'OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
+
+    the Decision API for ad requests, the Management API for advertisers,
+
+    campaigns, flights, ads, creatives, sites, and zones, and the Reporting API
+
+    for performance analytics. Endpoint shapes are derived from Kevel''s public
+
+    developer docs at https://dev.kevel.com/ and the published API index at
+
+    http://dev.kevel.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Kevel
+    url: https://www.kevel.com/
+servers:
+- url: https://api.kevel.co/v1
+  description: Kevel Management API.
+- url: https://e-{networkId}.adzerk.net
+  description: Kevel Decision API (per network host).
+  variables:
+    networkId:
+      default: '1'
+      description: Your Kevel network ID.
+security:
+- ApiKeyAuth: []
+tags:
+- name: Ads
+  description: Manage ads.
+paths:
+  /ad:
+    get:
+      tags:
+      - Ads
+      summary: List ads
+      operationId: listAds
+      responses:
+        '200':
+          description: A list of ads.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ad'
+    post:
+      tags:
+      - Ads
+      summary: Create an ad
+      operationId: createAd
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+      responses:
+        '200':
+          description: Created ad.
+  /ad/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+      - Ads
+      summary: Get an ad
+      operationId: getAd
+      responses:
+        '200':
+          description: An ad.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ad'
+    put:
+      tags:
+      - Ads
+      summary: Update an ad
+      operationId: updateAd
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+      responses:
+        '200':
+          description: Updated ad.
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Ad:
+      type: object
+      properties:
+        Id:
+          type: integer
+        FlightId:
+          type: integer
+        CreativeId:
+          type: integer
+        IsActive:
+          type: boolean
+        IsDeleted:
+          type: boolean
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Adzerk-ApiKey
+      description: Management/Reporting API key issued from the Kevel UI.
