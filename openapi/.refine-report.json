@@ -1,0 +1,32 @@
+{
+  "provider": "kevel",
+  "sources": [
+    "kevel-ads-api-openapi.yml",
+    "kevel-advertisers-api-openapi.yml",
+    "kevel-campaigns-api-openapi.yml",
+    "kevel-channels-api-openapi.yml",
+    "kevel-creatives-api-openapi.yml",
+    "kevel-decision-api-openapi.yml",
+    "kevel-flights-api-openapi.yml",
+    "kevel-reporting-api-openapi.yml",
+    "kevel-sites-api-openapi.yml",
+    "kevel-zones-api-openapi.yml"
+  ],
+  "outputs": [
+    "kevel-ads-api-openapi.yml",
+    "kevel-advertisers-api-openapi.yml",
+    "kevel-campaigns-api-openapi.yml",
+    "kevel-channels-api-openapi.yml",
+    "kevel-creatives-api-openapi.yml",
+    "kevel-decision-api-openapi.yml",
+    "kevel-flights-api-openapi.yml",
+    "kevel-reporting-api-openapi.yml",
+    "kevel-sites-api-openapi.yml",
+    "kevel-zones-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
