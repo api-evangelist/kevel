@@ -5,7 +5,7 @@
       "source": "https://www.kevel.com/blog/rss.xml",
       "feed_url": "https://www.kevel.com/blog/rss.xml",
       "title": "",
-      "saved": 0,
+      "saved": 3,
       "method": "feed"
     },
     {
@@ -13,6 +13,6 @@
       "error": "HTTPError"
     }
   ],
-  "post_count": 94,
-  "fetched": "2026-08-06T14:08:46Z"
+  "post_count": 97,
+  "fetched": "2026-08-15T12:11:08Z"
 }
