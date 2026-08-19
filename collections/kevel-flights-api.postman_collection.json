@@ -1,0 +1,427 @@
+{
+  "item": [
+    {
+      "id": "b0976d45-27ef-46c8-9be7-26871109b1b9",
+      "name": "Flights",
+      "description": {
+        "content": "Manage flights (line items).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1ee82dde-4031-4fe0-b39c-b7ddabf90545",
+          "name": "List flights",
+          "request": {
+            "name": "List flights",
+            "description": {},
+            "url": {
+              "path": [
+                "flight"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5555ff55-1a6f-4a1a-856b-d0514a9e791a",
+              "name": "A list of flights.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 813,\n    \"Name\": \"string\",\n    \"CampaignId\": 1008,\n    \"PriorityId\": 2432,\n    \"StartDate\": \"2014-08-08T06:08:51.367Z\",\n    \"EndDate\": \"1955-01-28T09:32:49.127Z\",\n    \"Impressions\": 962,\n    \"IsActive\": false\n  },\n  {\n    \"Id\": 1762,\n    \"Name\": \"string\",\n    \"CampaignId\": 9389,\n    \"PriorityId\": 8127,\n    \"StartDate\": \"1993-05-15T15:42:29.722Z\",\n    \"EndDate\": \"1964-09-09T11:13:54.853Z\",\n    \"Impressions\": 2162,\n    \"IsActive\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee6de80a-5fab-4ebb-ad66-44d83c73a756",
+          "name": "Create a flight",
+          "request": {
+            "name": "Create a flight",
+            "description": {},
+            "url": {
+              "path": [
+                "flight"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "51c559b9-ccb7-4175-a36b-61ec4182f40d",
+              "name": "Created flight.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 7500,\n  \"Name\": \"string\",\n  \"CampaignId\": 7081,\n  \"PriorityId\": 2869,\n  \"StartDate\": \"1979-03-28T16:32:49.099Z\",\n  \"EndDate\": \"1998-06-12T15:37:58.635Z\",\n  \"Impressions\": 6869,\n  \"IsActive\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1965643b-9ee0-49e5-8a18-046cb9622fd5",
+          "name": "Get a flight",
+          "request": {
+            "name": "Get a flight",
+            "description": {},
+            "url": {
+              "path": [
+                "flight",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9a0e75fd-5696-411d-beab-27b7d7a579ab",
+              "name": "A flight.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 7500,\n  \"Name\": \"string\",\n  \"CampaignId\": 7081,\n  \"PriorityId\": 2869,\n  \"StartDate\": \"1979-03-28T16:32:49.099Z\",\n  \"EndDate\": \"1998-06-12T15:37:58.635Z\",\n  \"Impressions\": 6869,\n  \"IsActive\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d9b8c52c-1213-4d5d-b1c7-fc6e8ae68601",
+          "name": "Update a flight",
+          "request": {
+            "name": "Update a flight",
+            "description": {},
+            "url": {
+              "path": [
+                "flight",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6472698b-9ee3-4997-8e56-cdf2e26ad5bf",
+              "name": "Updated flight.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flight",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Name\": \"<string>\",\n  \"CampaignId\": \"<integer>\",\n  \"PriorityId\": \"<integer>\",\n  \"StartDate\": \"<dateTime>\",\n  \"EndDate\": \"<dateTime>\",\n  \"Impressions\": \"<integer>\",\n  \"IsActive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 7500,\n  \"Name\": \"string\",\n  \"CampaignId\": 7081,\n  \"PriorityId\": 2869,\n  \"StartDate\": \"1979-03-28T16:32:49.099Z\",\n  \"EndDate\": \"1998-06-12T15:37:58.635Z\",\n  \"Impressions\": 6869,\n  \"IsActive\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kevel.co/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Adzerk-ApiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "311f1f90-05a6-4588-8bf2-8f1bb1abb95f",
+    "name": "Kevel APIs Ads Flights API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering\nthe Decision API for ad requests, the Management API for advertisers,\ncampaigns, flights, ads, creatives, sites, and zones, and the Reporting API\nfor performance analytics. Endpoint shapes are derived from Kevel's public\ndeveloper docs at https://dev.kevel.com/ and the published API index at\nhttp://dev.kevel.com/llms.txt.\n\n\nContact Support:\n Name: Kevel",
+      "type": "text/plain"
+    }
+  }
+}

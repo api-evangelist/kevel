@@ -1,0 +1,446 @@
+# Kevel Documentation
+
+> Kevel offers the infrastructure APIs needed to quickly build custom ad platforms for retail media, sponsored listings, internal promotions, native ads, and more.
+
+## Guides
+- [Welcome](https://dev.kevel.com/docs/welcome.md)
+- [Getting Started Guide](https://dev.kevel.com/docs/general-set-up-guide.md)
+- [Introduction to Kevel](https://dev.kevel.com/docs/understanding-kevel.md)
+- [Considerations For Launching An Ad Platform](https://dev.kevel.com/docs/considerations-for-getting-started-with-kevel.md)
+- [Decision API Quickstart](https://dev.kevel.com/docs/decision-api-quickstart.md)
+- [Decision Ads API (Advanced)](https://dev.kevel.com/docs/decision-api-advanced.md)
+- [Management API Tutorial](https://dev.kevel.com/docs/management-api-tutorial.md)
+- [UserDB Tutorial (Interests)](https://dev.kevel.com/docs/userdb-tutorial.md)
+- [Retail Media Guide](https://dev.kevel.com/docs/retail-media.md)
+- [Native Ad Units](https://dev.kevel.com/docs/native-ad-units.md)
+- [Promoted Posts](https://dev.kevel.com/docs/promoted-posts.md)
+- [Sponsored Profiles](https://dev.kevel.com/docs/sponsored-profiles.md)
+- [Sponsored Locations](https://dev.kevel.com/docs/sponsored-locations.md)
+- [Sponsored Recipes/Ingredients](https://dev.kevel.com/docs/sponsored-recipes.md)
+- [Sponsored Listings](https://dev.kevel.com/docs/sponsored-listings.md)
+- [Sponsored Brands](https://dev.kevel.com/docs/sponsored-brands.md)
+- [Email Ads](https://dev.kevel.com/docs/email-ads.md)
+- [Modifying Email Codes](https://dev.kevel.com/docs/modifying-email-codes.md)
+- [Sales Models](https://dev.kevel.com/docs/sales-models.md)
+- [Direct Sold](https://dev.kevel.com/docs/direct-sold.md)
+- [Self-Serve](https://dev.kevel.com/docs/self-serve.md)
+- [Programmatic Fill](https://dev.kevel.com/docs/programmatic-fill.md)
+- [Ad Decision Engine Overview](https://dev.kevel.com/docs/delivery-basics.md)
+- [Ad Pacing (Goals)](https://dev.kevel.com/docs/ad-pacing-goals.md)
+- [How Pacing and Balancing Work](https://dev.kevel.com/docs/how-pacing-and-balancing-work.md): How Kevel calculates ad weights, runs lotteries, and paces ads in auction priorities.
+- [Ad Capping](https://dev.kevel.com/docs/ad-capping.md)
+- [Priorities / Waterfall](https://dev.kevel.com/docs/priorities.md)
+- [Auctions / eCPM Optimization](https://dev.kevel.com/docs/optimization.md)
+- [Setting Up an Auction](https://dev.kevel.com/docs/auction-general-settings.md)
+- [Second Price Auctions](https://dev.kevel.com/docs/second-price-auctions.md)
+- [Relevancy Score](https://dev.kevel.com/docs/relevancy-score.md)
+- [eCPM Partitions](https://dev.kevel.com/docs/ecpm-partitions.md)
+- [Per-ID eCTR + eCPM Overrides](https://dev.kevel.com/docs/per-id-ectr-ecpm-overrides.md): Fine-tune campaign performance from the very first impression
+- [Autobid](https://dev.kevel.com/docs/autobid.md): Autobid automatically adjusts an ad's bid to work towards a target return on ad spend.
+- [Advertiser Placement Limits](https://dev.kevel.com/docs/advertiser-placement-limits.md)
+- [Time Zones](https://dev.kevel.com/docs/time-zones-1.md)
+- [AdQuery](https://dev.kevel.com/docs/adquery.md)
+- [Decision Explainer](https://dev.kevel.com/docs/decision-explainer.md)
+- [Per-ID Bid Modifiers in ADRs](https://dev.kevel.com/docs/per-id-bid-overrides.md)
+- [Auction-as-a-Service: Using AdQuery to Run Ads Against Your Own Candidate Sets](https://dev.kevel.com/docs/auction-as-a-service.md)
+- [skipFilters: Bypassing Targeting Filters in the Decision API](https://dev.kevel.com/docs/skipfilters.md)
+- [Tracking impressions and clicks](https://dev.kevel.com/docs/tracking-overview.md)
+- [Proxying events through your own server](https://dev.kevel.com/docs/proxying-impressions-through-your-own-server.md)
+- [Metadata on impressions and clicks](https://dev.kevel.com/docs/metadata-on-impressions-and-clicks.md): This page explains how to append different types of data to impression and click URLs in order to provide additional reportable parameters or amend certain data parameters.
+- [Conversion Tracking](https://dev.kevel.com/docs/conversion-tracking.md): Kevel supports three approaches to conversion tracking. This page explains what each one does and how to choose between them.
+- [Kevel Attribution](https://dev.kevel.com/docs/attribution-overview.md)
+- [Sending conversions directly](https://dev.kevel.com/docs/sending-conversions-directly.md): Run your own attribution and tell Kevel which ad to credit by firing the conversion event URLs returned in the Decision API response.
+- [Tracking conversions on 3p sites](https://dev.kevel.com/docs/server-to-server-conversion-tracking2.md): Credit conversions that happen on an advertiser's own site by passing a conversion ID through the click URL.
+- [Custom Event Tracking](https://dev.kevel.com/docs/custom-event-tracking.md)
+- [3rd Party Tracking](https://dev.kevel.com/docs/ad-trafficking.md)
+- [Click Tracking for 3rd-Party Ads](https://dev.kevel.com/docs/3rd-party-click-tracking2.md)
+- [3rd-Party Pixel Tracking](https://dev.kevel.com/docs/adding-a-third-party-tracking-pixel-to-a-creative.md)
+- [GDPR Compliance and Consent Settings](https://dev.kevel.com/docs/gdpr-compliance-and-consent-settings.md)
+- [Targeting Overview](https://dev.kevel.com/docs/targeting-overview.md)
+- [User Segment Targeting](https://dev.kevel.com/docs/segment-targeting.md): Deliver more relevant ads and boost CPM by targeting or boosting for predefined user groups with your first-party data
+- [Geo-Targeting](https://dev.kevel.com/docs/geo-location.md)
+- [Keyword Targeting](https://dev.kevel.com/docs/keyword-targeting.md)
+- [Setting Up Keyword Targeting](https://dev.kevel.com/docs/enabling-keyword-targeting.md)
+- [Passing Keywords](https://dev.kevel.com/docs/passing-keywords-in-requests.md)
+- [Keyword Logic](https://dev.kevel.com/docs/keyword-logic.md)
+- [Custom Targeting](https://dev.kevel.com/docs/custom-targeting.md)
+- [Setting Up Custom Targeting](https://dev.kevel.com/docs/enabling-custom-targeting.md)
+- [Passing Custom Targeting Data](https://dev.kevel.com/docs/passing-custom-targeting.md)
+- [Zerkel Queries](https://dev.kevel.com/docs/zerkel-queries.md)
+- [Reserved Keys](https://dev.kevel.com/docs/reserved-keys.md)
+- [Category Targeting](https://dev.kevel.com/docs/category.md)
+- [Frequency Capping](https://dev.kevel.com/docs/frequency-capping-1.md)
+- [Advertiser Frequency Capping](https://dev.kevel.com/docs/advertiser-frequency-capping-1.md)
+- [Campaign Frequency Capping](https://dev.kevel.com/docs/campaign-frequency-capping-1.md)
+- [Flight Frequency Capping](https://dev.kevel.com/docs/flight-frequency-capping.md)
+- [Ad Frequency Capping](https://dev.kevel.com/docs/ad-frequency-capping.md)
+- [Day & Hour Parting](https://dev.kevel.com/docs/day-hour-parting.md)
+- [User-Level Targeting](https://dev.kevel.com/docs/user-level.md)
+- [Interest / Behavioral Targeting](https://dev.kevel.com/docs/interest-targeting.md)
+- [Demographic / Custom Properties](https://dev.kevel.com/docs/demographic.md)
+- [Excluding Ads Based on Behavior](https://dev.kevel.com/docs/behavioral.md)
+- [Additional Display Rules](https://dev.kevel.com/docs/additional-display-rules.md)
+- [Distance Targeting](https://dev.kevel.com/docs/distance-targeting.md)
+- [Campaigns Overview](https://dev.kevel.com/docs/overview.md)
+- [Advertisers](https://dev.kevel.com/docs/advertisers.md)
+- [Campaigns](https://dev.kevel.com/docs/campaigns.md)
+- [Flights](https://dev.kevel.com/docs/flights.md)
+- [Flight List Columns](https://dev.kevel.com/docs/flight-list-columns.md)
+- [Bid Modifiers](https://dev.kevel.com/docs/bid-modifiers.md): Maximize ad revenue through premium bidding
+- [Ads](https://dev.kevel.com/docs/ads.md)
+- [Create Ads from CSV](https://dev.kevel.com/docs/create-ads-from-csv.md)
+- [Creatives](https://dev.kevel.com/docs/creatives.md)
+- [Creative Templates](https://dev.kevel.com/docs/creative-templates.md)
+- [Macros/Tokens](https://dev.kevel.com/docs/macrostokens.md)
+- [Creatives (VAST)](https://dev.kevel.com/docs/vast-creatives.md)
+- [Creative Template Field Validation FAQ](https://dev.kevel.com/docs/creative-template-field-validation-faq.md)
+- [Assets](https://dev.kevel.com/docs/assets.md)
+- [Video Ads FAQ](https://dev.kevel.com/docs/video-ads-faq.md)
+- [Get Thumbnails and Images from Video Assets](https://dev.kevel.com/docs/get-thumbnails-and-images-from-video-assets.md): Learn how to get images from a video to show a preview thumbnail or poster image.
+- [Custom Reports](https://dev.kevel.com/docs/custom-reports.md)
+- [Report Runs](https://dev.kevel.com/docs/report-runs.md)
+- [Scheduled Reporting](https://dev.kevel.com/docs/scheduled-reporting.md)
+- [Request Reporting](https://dev.kevel.com/docs/request-reporting.md)
+- [Click Bucketing](https://dev.kevel.com/docs/click-bucketing.md)
+- [Datashipping](https://dev.kevel.com/docs/datashipping.md): Overview
+- [Data Models (V3)](https://dev.kevel.com/docs/datashipping-log-types-v3.md): V3 data models with incremental, de-duplicated transfers
+- [What changed from V2](https://dev.kevel.com/docs/whats-changed-in-v3.md): A summary of the differences between the V2 and V3 data shipping models
+- [Impression](https://dev.kevel.com/docs/impression-log-v3.md): An impression log is generated when the Impression URL is fired. Note that the ID can be repeated if the same Impression URL is fired again. Use ImpressionId if a unique identifier is required.
+- [Click](https://dev.kevel.com/docs/click-log-v3.md): A click log is generated when the Click URL is fired.
+- [Conversion](https://dev.kevel.com/docs/conversion-log-v3.md): A conversion log is generated when event ID 1 (view), 2 (click), or 3 (server-to-server) from Custom Events, Purchase Event API as well as Conversion API is sent.
+- [Custom Event](https://dev.kevel.com/docs/custom-event-log-v3.md): A custom event log is generated when a Custom Event URL is fired.
+- [Request](https://dev.kevel.com/docs/request-log-v3.md): A request log is generated for each Ad Decision Request and it contains data from the fields outside of the Placement object.
+- [Decision](https://dev.kevel.com/docs/decision-log-v3.md): A decision log is generated for each placement object in an Ad Decision Request.
+- [Selection](https://dev.kevel.com/docs/selection-log-v3.md): A selection log is generated for every ad that was returned in an Ad Decision Request.
+- [Auction](https://dev.kevel.com/docs/auction-log-v3.md): An auction log is generated for each decision. The auction log contains all the ads that are entered into the bidding process.
+- [UserDB](https://dev.kevel.com/docs/userdb-log-v3.md): A UserDB log is generated for each action performed on a UserDB record, such as Read, Add Interests etc.
+- [Data Models (V2)](https://dev.kevel.com/docs/datashipping-log-types.md): Providing end-to-end transparency
+- [Impression](https://dev.kevel.com/docs/impression-log.md): An impression log is generated when the Impression URL is fired. Note that the ID can be repeated if the same Impression URL is fired again. Use ImpressionId if a unique identifier is required.
+- [Click](https://dev.kevel.com/docs/click-log.md): A click log is generated when the Click URL is fired.
+- [Conversion](https://dev.kevel.com/docs/conversion-log.md): A conversion log is generated when event ID 1 (view), 2 (click), or 3 (server-to-server) from Custom Events, Purchase Event API as well as Conversion API is sent.
+- [Custom Event](https://dev.kevel.com/docs/custom-event-log.md): A custom event log is generated when a Custom Event URL is fired.
+- [Request](https://dev.kevel.com/docs/request-log.md): A request log is generated for each Ad Decision Request and it contains data from the fields outside of the Placement object.
+- [Decision](https://dev.kevel.com/docs/decision-log.md): A decision log is generated for each placement object in an Ad Decision Request.
+- [Selection](https://dev.kevel.com/docs/selection-log.md): A selection log is generated for every ad that was returned in an Ad Decision Request.
+- [Auction](https://dev.kevel.com/docs/auction-log.md): An auction log is generated for each decision. The auction log contains all the ads that are entered into the bidding process.
+- [UserDB](https://dev.kevel.com/docs/userdb-log.md): A UserDB log is generated for each action performed on a UserDB record, such as Read, Add Interests etc.
+- [Data Models (V1)](https://dev.kevel.com/docs/data-shipping.md)
+- [Standard Logs](https://dev.kevel.com/docs/standard-logs-1.md)
+- [Beta Logs](https://dev.kevel.com/docs/beta-logs.md)
+- [Custom Data Shipping Properties](https://dev.kevel.com/docs/custom-data-shipping-properties.md)
+- [Auction Logs](https://dev.kevel.com/docs/auction-logs.md)
+- [Snowflake Destination](https://dev.kevel.com/docs/snowflake-destination.md): Configuring your Snowflake destination.
+- [AWS S3 Destination](https://dev.kevel.com/docs/aws-s3-destination.md): Configuring your AWS S3 destination.
+- [Databricks](https://dev.kevel.com/docs/databricks-destination.md): Configuring your Databricks destination for Data Shipping.
+- [BigQuery Destination](https://dev.kevel.com/docs/bigquery-destination.md): Configuring your BigQuery destination.
+- [Azure Blob Storage Destination](https://dev.kevel.com/docs/azure-blob-storage-bucket.md)
+- [SFTP Destination](https://dev.kevel.com/docs/sftp-destination.md)
+- [Google Cloud Storage Destination](https://dev.kevel.com/docs/google-cloud-storage-destination.md)
+- [GMV and ROAS](https://dev.kevel.com/docs/gmv-and-roas.md)
+- [Reporting Discrepancies](https://dev.kevel.com/docs/reporting-discrepancies.md)
+- [Ad Program Insights](https://dev.kevel.com/docs/ad-program-insights.md): The Ad Program Insights area is a purpose-built dashboard, data explorer and AI-powered analytics to help media owners understand, grow, and optimize their advertising business
+- [Inventory Overview](https://dev.kevel.com/docs/inventory-overview.md)
+- [Channels](https://dev.kevel.com/docs/channels.md)
+- [Sites](https://dev.kevel.com/docs/sites.md)
+- [Zones](https://dev.kevel.com/docs/zones-overview.md)
+- [Ad Sizes / Types](https://dev.kevel.com/docs/ad-sizes.md)
+- [Kevel Forecast](https://dev.kevel.com/docs/forecast-overview.md): How to check inventory availability and forecast campaign delivery with Kevel
+- [Forecast availability widget](https://dev.kevel.com/docs/forecast-availability-widget.md): Forecast for availability at the click of a button in the Flights booking page
+- [Yield Forecast](https://dev.kevel.com/docs/yield-forecast.md): Empower ad sales and operations with a tailored view of your future inventory
+- [How to Set Up Your Own Yield Forecast Dashboard](https://dev.kevel.com/docs/how-to-use-yield-forecasts-apis-to-build-your-own-dashboards.md): This guide walks you through setting up a Yield Forecast dashboard using Kevel's Forecast API
+- [Forecast Explorer](https://dev.kevel.com/docs/forecast-explorer.md): Run ad-hoc explorations on your future inventory
+- [Introduction to Kevel Console](https://dev.kevel.com/docs/introduction-to-kevel-console.md)
+- [Supported platforms in Console](https://dev.kevel.com/docs/console-supported-platforms.md)
+- [Custom branding in Console](https://dev.kevel.com/docs/custom-branding-in-console.md)
+- [User and Access Management](https://dev.kevel.com/docs/publisher-user-guide.md): Set up, organize, and maintain access to your Console Business Manager for media owners and advertisers
+- [Accessing Console as a Media Owner](https://dev.kevel.com/docs/accessing-console-as-a-publisher.md)
+- [Managing advertisers](https://dev.kevel.com/docs/managing-advertisers-1.md)
+- [Managing advertiser users](https://dev.kevel.com/docs/managing-advertiser-users-1.md)
+- [Invite User to Console](https://dev.kevel.com/docs/invite-user-to-console.md): The Invite User to Console feature allows Admins to easily invite collaborators to their Console Business Manager by sending an email invitation to activate their account.
+- [Read-only Role for Console](https://dev.kevel.com/docs/read-only-role-for-console-tbd.md): Give advertisers visibility without giving them control.
+- [Switch between business managers](https://dev.kevel.com/docs/switch-between-business-managers.md): Move between business managers without logging out
+- [Dashboards & Reporting](https://dev.kevel.com/docs/console-dashboards-reporting.md)
+- [Ad Status in Campaign List](https://dev.kevel.com/docs/ad-health-indicators-in-campaign-list.md): See campaign ad health directly in the campaign list.
+- [Campaign-level product performance reporting](https://dev.kevel.com/docs/product-stats-on-campaign-level.md): Self-service reporting on products promoted within sponsored product and native product ad campaigns
+- [Creating Console Campaigns](https://dev.kevel.com/docs/creating-a-campaign.md)
+- [Editing campaigns and drafts in Console](https://dev.kevel.com/docs/editing-campaigns-and-drafts-in-console.md)
+- [Targeting](https://dev.kevel.com/docs/targeting.md)
+- [User Segment Targeting in Console](https://dev.kevel.com/docs/user-segment-targeting-in-console.md): A guide on how it works and how to enable it.
+- [Advertiser Specific Segments](https://dev.kevel.com/docs/advertiser-specific-segments-in-console.md): Advertiser-specific audience segments let media owners control which audience segments each advertiser can target during campaign creation in Console. These advertiser-based permissions helps protect brand exclusivity while enabling rich 1st party data targeting.
+- [Advertiser-built segments](https://dev.kevel.com/docs/advertiser-built-segments.md)
+- [Google Search Keywords with AI Assistant](https://dev.kevel.com/docs/google-search-keywords-with-ai-assistant.md): > The **Google Search Keywords with AI Assistant** feature helps advertisers quickly create, refine, and manage keywords using templates, manual input, CSV uploads, or AI-powered suggestions.
+- [Optional location targeting](https://dev.kevel.com/docs/optional-location-targeting.md)
+- [Supported onsite ad formats](https://dev.kevel.com/docs/supported-ad-formats.md)
+- [Native Product Ads](https://dev.kevel.com/docs/native-product-ads-in-console-business-manager.md)
+- [Onsite display ads](https://dev.kevel.com/docs/console-onsite-display-ads.md)
+- [Product ads](https://dev.kevel.com/docs/console-product-ads.md)
+- [Using Catalog with Console](https://dev.kevel.com/docs/using-catalog-with-console.md)
+- [Bulk Ads Scheduling in Console](https://dev.kevel.com/docs/bulk-ads-scheduling-in-console.md)
+- [MCP Server](https://dev.kevel.com/docs/mcp-server.md): Connect AI agents to Kevel through a secure MCP server for read and write access to campaign, inventory, reporting, and forecasting data.
+- [Custom Fields](https://dev.kevel.com/docs/custom-fields.md)
+- [Single Sign On](https://dev.kevel.com/docs/single-sign-on.md)
+- [SSO Integration Steps](https://dev.kevel.com/docs/sso-integration-steps.md)
+- [Kevel Catalog](https://dev.kevel.com/docs/catalog.md)
+- [Creating Catalogs](https://dev.kevel.com/docs/creating-catalogs.md)
+- [Creating Ads from Products](https://dev.kevel.com/docs/creating-ads-from-products.md)
+- [Kevel Attribution FAQ](https://dev.kevel.com/docs/attribution-faq.md): Attribution reporting is an opt-in feature that is part of Kevel's Retail Media feature set.
+- [Creating Product Ads via API](https://dev.kevel.com/docs/creating-ads-from-products-via-api.md)
+- [Audit Log](https://dev.kevel.com/docs/audit-log.md): Kevel's Audit Log records operations for all changes made to campaign management entities.
+- [Studio Overview](https://dev.kevel.com/docs/studio-overview.md)
+- [User Management](https://dev.kevel.com/docs/user-management-new.md)
+- [User Permissions](https://dev.kevel.com/docs/user-permissions-new.md)
+- [Ad Codes](https://dev.kevel.com/docs/ad-code.md)
+- [Modifying the Ad Code](https://dev.kevel.com/docs/modifying-the-ad-code.md)
+- [Generating Ad Code](https://dev.kevel.com/docs/generating-ad-code-1.md)
+- [VAST Ad Code](https://dev.kevel.com/docs/vast-ad-code.md)
+- [Registering Callbacks From the JavaScript Ad Code](https://dev.kevel.com/docs/registering-callbacks-from-the-javascript-ad-code.md)
+- [Developer Tools Overview](https://dev.kevel.com/docs/developer-tools-overview.md)
+- [Decision SDKs](https://dev.kevel.com/docs/decision-sdks.md)
+- [Java Decision SDK](https://dev.kevel.com/docs/java-decision-sdk.md)
+- [JavaScript Decision SDK](https://dev.kevel.com/docs/javascript-decision-sdk.md)
+- [Python Decision SDK](https://dev.kevel.com/docs/python-decision-sdk.md)
+- [Ruby Decision SDK](https://dev.kevel.com/docs/ruby-decision-sdk.md)
+- [Clojure Decision SDK](https://dev.kevel.com/docs/clojure-decision-sdk.md)
+- [iOS Swift SDK](https://dev.kevel.com/docs/ios-swift-sdk.md)
+- [Android SDK](https://dev.kevel.com/docs/android-sdk.md)
+- [Management SDKs](https://dev.kevel.com/docs/management-sdks.md)
+- [JavaScript Management SDK](https://dev.kevel.com/docs/javascript-management-sdk.md)
+- [Ruby Management SDK](https://dev.kevel.com/docs/ruby-management-sdk.md)
+- [Decision Explainer UI](https://dev.kevel.com/docs/decision-explainer-ui.md)
+- [Kevel Glossary](https://dev.kevel.com/docs/kevel-glossary.md)
+- [Ad Blocking](https://dev.kevel.com/docs/ad-blocking.md)
+- [Legal](https://dev.kevel.com/docs/legal.md)
+- [Master Services Agreement](https://dev.kevel.com/docs/terms-of-service.md)
+- [Kevel Data Processing Agreement](https://dev.kevel.com/docs/kevel-data-processing-agreement.md)
+- [Service Level Agreement](https://dev.kevel.com/docs/service-level-agreement.md)
+- [GDPR & Kevel](https://dev.kevel.com/docs/gdpr-kevel.md)
+- [Programmatic Concepts and Terminology](https://dev.kevel.com/docs/programmatic-concepts-and-terminology.md)
+- [Real-Time Bidding](https://dev.kevel.com/docs/real-time-bidding.md)
+- [Real Time Bidding (RTB) in Kevel](https://dev.kevel.com/docs/rtb-in-kevel.md)
+- [Get Started](https://dev.kevel.com/docs/relay-onboarding-in-kevel-core.md)
+- [Demand Partners](https://dev.kevel.com/docs/demand-partner-specific-fields.md): The following page contains all of Relay's demand partners and their configuration fields organized alphabetically. To find your specific partner quickly, use command + F to search the document.
+- [Deals](https://dev.kevel.com/docs/deals-in-kevel.md)
+- [Blocks and Filtering](https://dev.kevel.com/docs/filtering.md)
+- [GDPR Consent](https://dev.kevel.com/docs/gdpr-consent-in-rtb.md)
+- [SupplyChain (schain) object](https://dev.kevel.com/docs/schain-configuration.md)
+- [Using the Relay UserSync Script](https://dev.kevel.com/docs/using-the-relay-usersync-script.md)
+- [Ados.js & Header Bidding](https://dev.kevel.com/docs/adosjs.md)
+- [Ados.js Overrides](https://dev.kevel.com/docs/adosjs-overrides.md)
+- [Header Bidding with Prebid.js](https://dev.kevel.com/docs/header-bidding-with-prebidjs.md)
+
+## API Reference
+- [Getting Started with Kevel](https://dev.kevel.com/reference/getting-started-with-kevel.md)
+- [Decision API](https://dev.kevel.com/reference/request.md): The Decision API enables you to make ad requests without using ad code. By posting to a RESTful endpoint, Kevel's ad engine will return decision data and creative contents that can be used to serve ads in your application.You'll want to set the Content-Type in the header as application/json. The API will also accept text/plain to support applications that cannot change the content type
+- [Response Parameters](https://dev.kevel.com/reference/response.md)
+- [Multi-Winner Placements](https://dev.kevel.com/reference/multi-winner-placements.md)
+- [Client-Side Requests and CORS](https://dev.kevel.com/reference/client-side-requests-and-cors.md)
+- [Reporting API Overview](https://dev.kevel.com/reference/reporting-api-overview.md)
+- [Reporting API](https://dev.kevel.com/reference/reporting-api-1.md)
+- [Create Queued Report](https://dev.kevel.com/reference/create-queued-report.md): This endpoint makes a request in the Kevel database for the criteria passed in the parameters, and then returns a GUID that can be used to pull the finished report. Criteria can be specified for the report using an object titled "criteria". Report IDs will persist for 10 days.
+- [Poll for Queued Report Result](https://dev.kevel.com/reference/poll-for-queued-report-result.md): After a GUID has been generated by the Create Queued Report endpoint, append the GUID to retrieve the finished report. Some reports may take longer periods to finish, so the report will also contain a status code.
+- [Create Scheduled Report](https://dev.kevel.com/reference/create-scheduled-report.md): This creates a Scheduled Report. This endpoint uses the same body params as a queued report for the `Criteria` field.
+- [Get Scheduled Report](https://dev.kevel.com/reference/get-scheduled-report.md): This returns the properties of a scheduled report given a `ScheduledReportId` (the `id` from the Create Scheduled Reports Response).
+- [Report Runs](https://dev.kevel.com/reference/queued-reports-copy-1.md)
+- [Get Report Runs](https://dev.kevel.com/reference/get-report-runs.md): Every time a report is executed (UI, API or scheduled), a new Report Run record is generated and can be access via the UI or this API endpoint with the help of filters and pagination. Report Runs are persisted for 10 days, after which they are deleted as report results are only stored for up to 10 days.
+- [Real Time Reporting API](https://dev.kevel.com/reference/real-time-reporting-api.md): The Real Time Reporting API delivers reporting data about advertisers, campaigns, flights and ads within minutes of events after being recorded in our system. While this data is not as comprehensive as Kevel Reporting or Data Shipping, it enables near-instant feedback on the performance of your ads. Data is delivered as a JSON object.
+- [Management API Overview](https://dev.kevel.com/reference/campaign-api-overview.md)
+- [List Pagination](https://dev.kevel.com/reference/list-pagination.md)
+- [Advertisers](https://dev.kevel.com/reference/advertiser.md)
+- [Create Advertisers](https://dev.kevel.com/reference/create-advertisers.md)
+- [Update Advertisers](https://dev.kevel.com/reference/update-advertisers.md)
+- [List Advertisers](https://dev.kevel.com/reference/list-advertisers.md): This returns a JSON object of all your advertisers. For the explorer, just use your API Key.
+- [Get Advertiser](https://dev.kevel.com/reference/get-advertisers.md)
+- [Search Advertisers](https://dev.kevel.com/reference/search-advertisers.md)
+- [Get Conversion Tracking Pixel](https://dev.kevel.com/reference/get-conversion-tracking-pixel.md)
+- [Delete Advertisers](https://dev.kevel.com/reference/delete-advertisers.md)
+- [Create Campaigns](https://dev.kevel.com/reference/create-campaigns.md)
+- [Create Campaign V2](https://dev.kevel.com/reference/create-campaign-v2.md): Create a Campaign and nested Flights/Creatives/Ads
+- [Update Campaigns](https://dev.kevel.com/reference/update-campaigns.md)
+- [List Campaigns](https://dev.kevel.com/reference/list-campaigns.md)
+- [Get Campaign](https://dev.kevel.com/reference/get-campaigns.md)
+- [Search Campaigns](https://dev.kevel.com/reference/search-campaigns.md)
+- [Create Flight](https://dev.kevel.com/reference/create-flight.md): This API call adds a new flight to a campaign.
+- [Update Flights](https://dev.kevel.com/reference/update-flights.md): This lets you update flights.
+- [List Flights](https://dev.kevel.com/reference/list-flights.md): Lists all the flights in the network. For the explorer, use the API Key.
+- [List Flights for Campaign](https://dev.kevel.com/reference/list-flights-for-campaign-id.md): Lists all flights for a particular campaign.
+- [List Flights for Advertiser](https://dev.kevel.com/reference/list-flights-for-advertiser-id.md): Lists all flights for a particular advertiser.
+- [Get Flight](https://dev.kevel.com/reference/get-flight.md): This returns the parameters for a specific flight
+- [Flight Filtering](https://dev.kevel.com/reference/flight-category.md)
+- [Create Creative](https://dev.kevel.com/reference/create-creative.md): This creates a new creative under an advertiser.
+- [Update Creative](https://dev.kevel.com/reference/update-creative.md)
+- [List Creatives For Advertiser](https://dev.kevel.com/reference/list-creatives.md): This returns properties of all the creatives for a given advertiser based on the advertiser `id`.
+- [List Creatives For Network](https://dev.kevel.com/reference/list-creatives-for-network.md)
+- [Create Ads](https://dev.kevel.com/reference/create-ads.md)
+- [Update Ad](https://dev.kevel.com/reference/update-ad.md)
+- [List Ads for Flight](https://dev.kevel.com/reference/list-ads.md)
+- [List Ads For Network](https://dev.kevel.com/reference/list-ads-for-network.md)
+- [User Segments](https://dev.kevel.com/reference/segments.md)
+- [Create Segment](https://dev.kevel.com/reference/create-segment.md)
+- [Update Segment](https://dev.kevel.com/reference/update-segment.md)
+- [Get Segment](https://dev.kevel.com/reference/get-segment.md)
+- [List Segments](https://dev.kevel.com/reference/list-segments.md)
+- [Delete Segment](https://dev.kevel.com/reference/delete-segment.md)
+- [Flight Segment Targeting Rules](https://dev.kevel.com/reference/segment-targeting-rules-flight.md)
+- [Create Flight Segment Targeting Rule](https://dev.kevel.com/reference/create-flight-segment.md): Create a Flight to Segment targeting rule
+- [Update Flight Segment Targeting Rule](https://dev.kevel.com/reference/update-flight-segment.md): Update a Flight to Segment targeting rule
+- [Get Flight Segment Targeting Rule](https://dev.kevel.com/reference/get-flight-segment.md): Get a Flight Segment targeting rule
+- [List Flight Segment Targeting Rules](https://dev.kevel.com/reference/list-flight-segments.md): List all Segment targeting rules for a Flight
+- [Delete Flight Segment Targeting Rule](https://dev.kevel.com/reference/delete-flight-segment.md): Delete a Flight Segment targeting rule
+- [Ad Segment Targeting Rules](https://dev.kevel.com/reference/segment-targeting-rules-ad.md)
+- [Create Ad Segment Targeting Rule](https://dev.kevel.com/reference/create-ad-segment.md): Create an Ad to Segment targeting rule
+- [Update Ad Segment Targeting Rule](https://dev.kevel.com/reference/update-ad-segment.md): Update an Ad to Segment targeting rule
+- [Get Ad Segment Targeting Rule](https://dev.kevel.com/reference/get-ad-segment.md): Get an Ad Segment targeting rule
+- [List Ad Segment Targeting Rules](https://dev.kevel.com/reference/list-ad-segments.md): List all Segment targeting rules for an Ad
+- [Delete Ad Segment Targeting Rule](https://dev.kevel.com/reference/delete-ad-segment.md): Delete an Ad Segment targeting rule
+- [Advertiser Segment](https://dev.kevel.com/reference/advertiser-segment.md)
+- [Create Advertiser Segment](https://dev.kevel.com/reference/create-advertiser-segment.md): Maps an existing Segment to the Advertiser.
+- [List Advertiser Segments](https://dev.kevel.com/reference/list-advertiser-segments.md): Returns all Segments for the Advertiser.
+- [Delete Advertiser Segment](https://dev.kevel.com/reference/delete-advertiser-segment.md): Removes a Segment mapping from the Advertiser.
+- [Create Flight Categories](https://dev.kevel.com/reference/create-flight-categories.md)
+- [List Flight Categories](https://dev.kevel.com/reference/flight-categories-list.md)
+- [List Network Categories](https://dev.kevel.com/reference/list-network-categories.md)
+- [Delete Flight Category](https://dev.kevel.com/reference/delete-category.md)
+- [Create Site/Zone Targeting](https://dev.kevel.com/reference/create-sitezone-targeting.md)
+- [Update Site/Zone Targeting](https://dev.kevel.com/reference/update-sitezone-targeting.md)
+- [Get Site/Zone Targeting](https://dev.kevel.com/reference/get-sitezone-targeting.md)
+- [Delete Site/Zone Targeting](https://dev.kevel.com/reference/delete-sitezone-targeting.md): This removes site/zone targeting from a flight.
+- [Create Geo-Targeting](https://dev.kevel.com/reference/create-geo-targeting.md)
+- [Update Geo-Targeting](https://dev.kevel.com/reference/update-geo-targeting.md)
+- [Get Geo-Targeting](https://dev.kevel.com/reference/get-geo-targeting.md)
+- [Delete Geo-Targeting](https://dev.kevel.com/reference/delete-geo-targeting.md)
+- [List Countries](https://dev.kevel.com/reference/list-geo-codes.md)
+- [List Regions in Country](https://dev.kevel.com/reference/list-regions-in-country.md)
+- [List Metro Codes in Region](https://dev.kevel.com/reference/list-metro-codes-in-region.md)
+- [List Cities in Region](https://dev.kevel.com/reference/list-cities-in-region.md): Returns the cities within a specific region, sorted by name. Requires a `CountryCode` and `RegionCode`
+- [Create Distance Targeting Geometry](https://dev.kevel.com/reference/create-geodistance-targeting-geometry.md)
+- [Batch Upload Distance Targeting Geometries](https://dev.kevel.com/reference/batch-upload-geodistance-targeting-geometries.md)
+- [Update Distance Targeting Geometry](https://dev.kevel.com/reference/updates-geodistance-targeting-geometry.md)
+- [Get Distance Targeting Geometry](https://dev.kevel.com/reference/get-geodistance-targeting-geometry.md)
+- [List Distance Targeting Geometries](https://dev.kevel.com/reference/list-geodistance-targeting-geometries.md)
+- [Delete Distance Targeting Geometry](https://dev.kevel.com/reference/delete-geodistance-targeting-geometry.md)
+- [Create Day Part](https://dev.kevel.com/reference/create-day-part.md)
+- [Get Day Part](https://dev.kevel.com/reference/get-day-part.md)
+- [List Day Parts](https://dev.kevel.com/reference/list-day-parts.md)
+- [Delete Day Part](https://dev.kevel.com/reference/delete-time-part.md): Deletes a time part entity associated with a flight.
+- [Priorities](https://dev.kevel.com/reference/priority.md)
+- [Create Priority](https://dev.kevel.com/reference/create-priorities.md): This API call adds a new priority to a specific channel.
+- [Update Priority](https://dev.kevel.com/reference/update-priorities.md): This API call updates an existing priority using the Priority ID. The user is unable to update the PriorityID or the SelectionAlgorithm.
+- [List Priorities](https://dev.kevel.com/reference/list-priorities-1.md): This API call returns a list of all the priorities in the network, along with a list of priorities that belong to the "Channel ID."
+- [Create Creative Template](https://dev.kevel.com/reference/create-creative-template.md)
+- [Update Creative Template](https://dev.kevel.com/reference/update-creative-template-1.md): This updates a new creative template for your network and for all associated creatives. This endpoint is also used for archiving a creative template.  You can either update individual parameters on the creative template or you can send a whole template to be updated.
+- [Get Creative Template](https://dev.kevel.com/reference/get-creative-template-1.md): This endpoint returns a creative template object by `Id`.
+- [List Creative Templates](https://dev.kevel.com/reference/list-creative-templates-1.md): This endpoint lists the creative templates in your network.
+- [Assets](https://dev.kevel.com/reference/assets-1.md)
+- [Create Asset](https://dev.kevel.com/reference/create-asset.md): Create a new Asset to get a direct Upload URL.
+- [List Advertiser Assets](https://dev.kevel.com/reference/list-advertiser-assets.md): Returns a list of assets for a given advertiser.
+- [List Network Assets](https://dev.kevel.com/reference/list-network-assets.md): Returns a list of assets in your network.
+- [Get Asset](https://dev.kevel.com/reference/get-asset.md): Returns a single asset.
+- [Delete Asset](https://dev.kevel.com/reference/delete-asset.md): Deletes a single asset.
+- [Upload Asset Image](https://dev.kevel.com/reference/upload-asset-image.md)
+- [Create Channels](https://dev.kevel.com/reference/create-channels-1.md)
+- [Update Channels](https://dev.kevel.com/reference/update-channels.md)
+- [List Channels](https://dev.kevel.com/reference/list-channels.md)
+- [List Channels for a Site](https://dev.kevel.com/reference/list-channels-for-a-site.md): This API call returns all "Channel IDs" associated with a given Site.
+- [Get Channel](https://dev.kevel.com/reference/get-channels.md)
+- [Create Site](https://dev.kevel.com/reference/create-site.md): This API call adds a new site to the network. The result includes the unique "Site ID" that can be used to update or remove the site.  By default, all new sites are mapped to the All Sites channel. If the All Sites channel is deleted or the site is removed from that channel, the site must be mapped to another channel to be used in ad requests.
+- [Update Sites](https://dev.kevel.com/reference/update-sites.md): This API call updates a site with a new URL and/or title, using the "Site ID". Please note that the "Site ID cannot be changed.
+- [List Sites](https://dev.kevel.com/reference/list-sites.md): This API call returns a list of all the sites in the network. For the explorer, use the assigned API Key.
+- [List Sites for a Channel](https://dev.kevel.com/reference/list-sites-for-channel.md): List Sites within a given Channel.
+- [Update Channel Site Map](https://dev.kevel.com/reference/update-channel-site-map.md): This API call updates a Site's channel mapping.
+- [List Channel Site Maps](https://dev.kevel.com/reference/list-channel-sites.md): This API call returns a list of all channel site maps (associations between a site and channels) in a user's account. For the explorer, use the assigned API Key.
+- [Update Zone](https://dev.kevel.com/reference/update-zone.md): This API call updates the name of the zone or the SiteId that has an associated target.
+- [List Zones](https://dev.kevel.com/reference/list-zones.md): This API call returns a list of all the zones in the network. For the API Explorer, use the assigned API Key.
+- [List Ad Types](https://dev.kevel.com/reference/list-ad-types.md): This API call returns a list of all ad types available in the network.
+- [List Ad Types for Channel](https://dev.kevel.com/reference/list-ad-types-channel.md): This API call returns a list of all Ad Types enabled for a specific channel.
+- [Getting Started with Kevel Forecast](https://dev.kevel.com/reference/kevel-forecast-overview.md): How to check inventory availability and forecast campaign delivery with Kevel
+- [Available forecast](https://dev.kevel.com/reference/availability-forecast.md): Shows availability for targeting criteria or supplied ads
+- [Deliverable forecast](https://dev.kevel.com/reference/deliverable-forecast.md): Forecast for a new set of ads taking into account the impact of ads already running
+- [Existing forecast](https://dev.kevel.com/reference/existing-forecast.md): Predict impressions and unique users for the ads running in your network
+- [Traffic Modifiers](https://dev.kevel.com/reference/traffic-modifiers.md): Manual season adjustments
+- [Static Audiences](https://dev.kevel.com/reference/static-audiences.md): Enable immediate forecasts for static audience segments
+- [Auto Seasonality](https://dev.kevel.com/reference/auto-seasonality.md): Learn how to use the Forecast Seasonality API to manage traffic patterns and enable auto seasonality in your forecasts.
+- [Reserved Campaigns](https://dev.kevel.com/reference/reserved-campaigns-1.md): Reserved campaigns allow you to remove availability from forecasts for prospective campaigns that are reserved but not yet booked, such as when waiting for creative assets before fully booking the campaign.
+- [Static-audience upload status](https://dev.kevel.com/reference/get_forecaster-udb-ingest-status.md): Returns the current state of a single static-audience upload (custom-properties or segments file). You receive the full URL for this endpoint as the `status` field on the response of the corresponding ingest-url endpoint. You can also build the URL yourself with the `type` and `file` query parameters described below.  The `status` field of the response reports where the upload is in its lifecycle. When it is `completed`, the `ingestedAt` field carries the timestamp of completion. To know whether a specific forecast already includes this upload, compare `ingestedAt` against `forecastEnvironment.staticAudiencesSyncDateTime` on the forecast response. When `staticAudiencesSyncDateTime >= ingestedAt`, the snapshot the forecast used was sampled after the upload was persisted, so the upload is reflected.
+- [Auto-seasonality upload status](https://dev.kevel.com/reference/get_forecaster-auto-seasonality-ingest-status.md): Returns the current state of a single seasonality CSV upload. You receive the full URL for this endpoint as the `status` field on the response of `/forecaster/auto-seasonality/ingest-url`. You can also build the URL yourself with the `file` query parameter described below.
+- [List forecasts](https://dev.kevel.com/reference/get_forecaster.md): List information about enqueued and running forecasts.
+- [Request forecast](https://dev.kevel.com/reference/post_forecaster.md): Request a forecast to be started.
+- [Get forecast](https://dev.kevel.com/reference/get_forecaster-id.md): Get the status and potential results of a running forecast.
+- [Deletes a forecast](https://dev.kevel.com/reference/delete_forecaster-id.md): Deletes a forecast that was previously executed or cancels a forecast that is running or queued.
+- [List traffic modifiers](https://dev.kevel.com/reference/get_forecaster-modifiers-traffic.md): List all existing Forecast Traffic Modifiers.
+- [Create traffic modifier](https://dev.kevel.com/reference/post_forecaster-modifiers-traffic.md): Create a Forecast Traffic Modifier
+- [Get traffic modifier](https://dev.kevel.com/reference/get_forecaster-modifiers-traffic-trafficmodifierid.md): Returns a Forecast Traffic Modifier based on its ID.
+- [Replace traffic modifier](https://dev.kevel.com/reference/put_forecaster-modifiers-traffic-trafficmodifierid.md): Replace the existing Forecast Traffic Modifier with the one received from this request.
+- [Delete traffic modifier](https://dev.kevel.com/reference/delete_forecaster-modifiers-traffic-trafficmodifierid.md): Delete a traffic modifier.
+- [Get network settings](https://dev.kevel.com/reference/get_forecaster-network-settings.md): Get the Yield Forecast settings of a network. Returns default values if none exists.
+- [Update network settings](https://dev.kevel.com/reference/post_forecaster-network-settings.md): Update the Yield Forecast settings of a network.
+- [List ad products](https://dev.kevel.com/reference/get_forecaster-ad-products.md): List existing Yield Forecast Ad Products.
+- [Create ad product](https://dev.kevel.com/reference/post_forecaster-ad-products.md): Create a Yield Forecast Ad Product in the network. Any passed targeting sets will be created for the ad product as well.
+- [Get ad product](https://dev.kevel.com/reference/get_forecaster-ad-products-adproductid.md): Returns a Yield Forecast Ad Product.
+- [Update ad product](https://dev.kevel.com/reference/put_forecaster-ad-products-adproductid.md): Update a Yield Forecast Ad Product. The defined targeting sets will be updated or created. Targeting sets not present will remain unchanged.
+- [Patch ad product](https://dev.kevel.com/reference/patch_forecaster-ad-products-adproductid.md): Update one or more fields of a Yield Forecast Ad Product.
+- [Delete ad product](https://dev.kevel.com/reference/delete_forecaster-ad-products-adproductid.md): Delete a Yield Forecast Ad Product and its targeting sets, if any exist.
+- [List targeting sets](https://dev.kevel.com/reference/get_forecaster-ad-products-adproductid-targeting-sets.md): List existing Targeting Sets of a Yield Forecast Ad Product.
+- [Create targeting set](https://dev.kevel.com/reference/post_forecaster-ad-products-adproductid-targeting-sets.md): Create a Targeting Set in a Yield Forecast Ad Product.
+- [Get targeting set](https://dev.kevel.com/reference/get_forecaster-ad-products-adproductid-targeting-sets-targetingsetid.md): Get a Targeting Set in a Yield Forecast Ad Product.
+- [Update targeting set](https://dev.kevel.com/reference/put_forecaster-ad-products-adproductid-targeting-sets-targetingsetid.md): Update a Targeting Set in a Yield Forecast Ad Product.
+- [Patch targeting set](https://dev.kevel.com/reference/patch_forecaster-ad-products-adproductid-targeting-sets-targetingsetid.md): Update one or more fields of a Targeting Set in a Yield Forecast Ad Product.
+- [Delete targeting set](https://dev.kevel.com/reference/delete_forecaster-ad-products-adproductid-targeting-sets-targetingsetid.md): Delete a Targeting Set in a Yield Forecast Ad Product.
+- [Trigger forecasts for ad products](https://dev.kevel.com/reference/post_forecaster-trigger-ad-products-forecasts.md): Triggers forecast requests for all enabled ad products in the network. Grouping and filtering of group by results is defined in the forecast settings.
+- [Trigger a forecast of all available inventory](https://dev.kevel.com/reference/post_forecaster-trigger-inventory-forecast.md): Triggers a forecast request of all available inventory, using the inventory priorities defined in the forecast settings. Results are grouped by three different date aggregation levels: daily, weekly, and monthly.
+- [List reserved campaigns](https://dev.kevel.com/reference/get_forecaster-reserved-campaign.md): List all reserved campaigns.
+- [Create reserved campaign](https://dev.kevel.com/reference/post_forecaster-reserved-campaign.md): Create a new reserved campaign. Reserved campaigns are used to forecast inventory for campaigns that are reserved but not yet fully booked.
+- [Get reserved campaign](https://dev.kevel.com/reference/get_forecaster-reserved-campaign-reservedcampaignid.md): Returns a reserved campaign by its ID.
+- [Update reserved campaign](https://dev.kevel.com/reference/put_forecaster-reserved-campaign-reservedcampaignid.md): Fully replace an existing reserved campaign with the provided data. All required fields must be provided.  **Important: ID handling for flights and ads**  - The campaign `id` is required and must match the path parameter. - Flights and ads **with an `id`**: Will be updated in-place if the ID exists. - Flights and ads **without an `id`**: Will be created as new entities with auto-generated IDs. - Existing flights and ads **not included** in the request: Will be **deleted**.  This means the PUT operation performs a full replacement of the reserved campaign structure. To preserve existing flights or ads, you must include them in the request with their respective IDs.
+- [Patch reserved campaign](https://dev.kevel.com/reference/patch_forecaster-reserved-campaign-reservedcampaignid.md): Partially update one or more fields of a reserved campaign. Only the provided fields will be updated; other fields remain unchanged. Note: Array fields (like flights) are not supported in patch operations.
+- [Delete reserved campaign](https://dev.kevel.com/reference/delete_forecaster-reserved-campaign-reservedcampaignid.md): Delete a reserved campaign by its ID.
+- [Static user custom properties ingest URL](https://dev.kevel.com/reference/post_forecaster-udb-custom-properties-ingest-url.md): This endpoint allows you to push static audiences, represented by user custom properties, directly to Kevel Forecast. When you create a new ingest URL, we'll give you back a signed URL for an Amazon S3 bucket.  The file needs to be in [JSON Lines](https://jsonlines.org/) format, containing an entry per user with the following format:  ```{"userKey": <user-key>, "customProperties": <json-object>}```  For example:  ```{"userKey": "1234", "customProperties": {"favoriteColor": "blue"}}```  To reduce the size of file transfers, Kevel recommends delivering the file gzipped. With this compression, the file extension must end in `gz` or `gzip`, e.g., `static-audiences.jsonl.gz`.  All user custom properties found in the file will be considered and saved as static. See the [Configure user custom properties endpoint](ref:post_forecaster-udb-custom-properties-settings) for more details on how to manage the set of static audiences and [Static Audiences page](ref:static-audiences) for more details on this feature.
+- [Configure user custom properties](https://dev.kevel.com/reference/post_forecaster-udb-custom-properties-settings.md): Modify how user custom properties are considered by Kevel Forecast by associating a forecast type. Currently, the only type of user custom properties that can be defined is "static".  Typically, Kevel Forecast considers the value of each user custom property as it existed at the time of the historical Ad Request. Setting a user custom property as static will cause Kevel Forecast to consider its value as the result of the ingested files. These properties can be targeted by custom targeting rules (Zerkel query) such as `$user.custom.<static_property> = 1` (head to [Custom Targeting](doc:custom-targeting) for more details).  Note that this endpoint fully replaces the existing set, so to remove all types association send an empty JSON object. See [Static Audiences](ref:static-audiences) for more details on this feature.
+- [List configured user custom properties](https://dev.kevel.com/reference/get_forecaster-udb-custom-properties-settings.md): Read back the user custom properties currently configured as static.  The response is the same JSON object shape accepted by the corresponding `POST` endpoint, so the body returned here can be sent straight back to reconfigure the set. Keys are the custom-property names and values are always `"static"`.
+- [Static user segments ingest URL](https://dev.kevel.com/reference/post_forecaster-udb-segments-ingest-url.md): This endpoint allows you to push static audiences, represented by user segments, directly to Kevel Forecast. When you create a new ingest URL, we'll give you back a signed URL for an Amazon S3 bucket.  The file needs to be in [JSON Lines](https://jsonlines.org/) format, containing an entry per user with the following format:  ```{"userKey": <user-key>, "segments": <array-of-segment-ids>}```  For example:  ```{"userKey": "1234", "segments": [10, 42]}```  To reduce the size of file transfers, Kevel recommends delivering the file gzipped. With this compression, the file extension must end in `gz` or `gzip`, e.g., `static-audiences.jsonl.gz`.  All user segments found in the file will be considered and saved as static. See the [Configure user segments endpoint](ref:post_forecaster-udb-segments-settings) for more details on how to manage the set of static audiences and [Static Audiences page](ref:static-audiences) for more details on this feature.
+- [Configure user segments](https://dev.kevel.com/reference/post_forecaster-udb-segments-settings.md): Modify how user segments are considered by Kevel Forecast by associating a forecast type. Currently, the only type of user segments that can be defined is "static".  Typically, Kevel Forecast considers the user's segment membership as it existed at the time of the historical Ad Request. Setting a user segment as static will cause Kevel Forecast to consider its membership as the result of the ingested files. These segments can be targeted by user segment targeting rules.  The keys of the JSON object must be the numeric segment IDs (as strings). Entries with non-numeric keys are rejected.  Note that this endpoint fully replaces the existing set, so to remove all types association send an empty JSON object. See [Static Audiences](ref:static-audiences) for more details on this feature.
+- [List configured user segments](https://dev.kevel.com/reference/get_forecaster-udb-segments-settings.md): Read back the user segments currently configured as static.  The response is the same JSON object shape accepted by the corresponding `POST` endpoint, so the body returned here can be sent straight back to reconfigure the set. Keys are the numeric segment IDs (as strings) and values are always `"static"`.
+- [Boostrap Seasonality URL](https://dev.kevel.com/reference/post_forecaster-auto-seasonality-ingest-url.md): This endpoint allows you to bootstrap auto seasonality, by uploading a `*.csv` file directly to Kevel Forecast. When you create a new ingest URL, we'll give you back a signed URL to upload the file to.  The file needs to be in CSV format, containing the total events per day with the following format, where:  * `events`: the total number of events for a given day. * `site:<ID>`: the total number of events for a specific site where `<ID>` is the the Kevel's Site identifier.  ```csv date,events,site:4572,site:7643 2025-01-01,236632,206845,29787 2025-01-02,690062,288547,401515 ```  Kevel Forecast requires 13 months of data for the boostrap.  See [Auto Seasonality](ref:auto-seasonality) for more details on this feature.
+- [Preview Seasonality](https://dev.kevel.com/reference/get_forecaster-auto-seasonality-preview.md): Shows the derived seasonality event count.  See [Auto Seasonality](ref:auto-seasonality) for more details on this feature.
+- [Get auto seasonality settings](https://dev.kevel.com/reference/get_forecaster-auto-seasonality-settings.md): Show the current seasonality settings.  See [Auto Seasonality](ref:auto-seasonality) for more details on this feature.
+- [Update auto seasonality settings](https://dev.kevel.com/reference/put_forecaster-auto-seasonality-settings.md): Updates the seasonality settings. Any change to these settings will take up to 24h be effective.  See [Auto Seasonality](ref:auto-seasonality) for more details on this feature.
+- [Catalog File Ingest](https://dev.kevel.com/reference/itemdb.md)
+- [Create Ingest URL](https://dev.kevel.com/reference/create-ingest-url.md)
+- [Ingest Status](https://dev.kevel.com/reference/ingest-status.md)
+- [Get Catalog](https://dev.kevel.com/reference/getcatalog.md): Retrieve the specified catalog. This will include the alias configuration, how the item parameters should be represented in a GUI, as well as read-only information about how brands, categories and merchants have been setup in the catalog system.
+- [List Catalogs](https://dev.kevel.com/reference/listcatalogs.md): Retrieve a summarized list of catalogs.
+- [Get Catalog Item](https://dev.kevel.com/reference/getitem.md): Retrieve the specified Item from the given catalog.
+- [List Catalog Items](https://dev.kevel.com/reference/listitem.md): Retrieve list of Items from specified catalog.
+- [Upsert Multiple Catalog Items](https://dev.kevel.com/reference/upsertitembatch.md): Upsert a batch of Items to the specified catalog, where if the Item id(s) don't exist they will be created and if they exist the Item will be updated.
+- [Partially Update Multiple Catalog Items](https://dev.kevel.com/reference/partialupdateitembatch.md): Partially updates a batch of Items in the specified catalog. This will update only the given parameters for any Item ids that exist in the catalog.
+- [Delete Multiple Catalog Items](https://dev.kevel.com/reference/deleteitembatch.md): Delete a batch of Items from the specified catalog, where any Item ids that don't exist will be silently ignored.
+- [UserDB](https://dev.kevel.com/reference/userdb.md): UserDB is your first-party data store that enables you to activate on user-level targeting, such as targeting by demographics, interests, etc, as well as do retargeting and frequency capping.
+- [Read User Record](https://dev.kevel.com/reference/read-a-users-record.md): This endpoint returns all data about a specific user record in UserDB.
+- [Set Custom Properties](https://dev.kevel.com/reference/set-custom-properties-to-user.md): With this you can tie Custom Properties to a specific UserKey using key/value pairs. For instance, `{"Key":"Value"}` could be `{"favoriteColor": "blue"}`.  Note that each call to set custom properties will replace any existing custom properties.
+- [Set Custom Properties (REST)](https://dev.kevel.com/reference/set-custom-properties-alternative.md)
+- [Add Interest To A User](https://dev.kevel.com/reference/add-interest-to-user.md): This pixel endpoint adds an Interest to a specific UserKey via query params. Calling this endpoint multiple times will add multiple Interests.
+- [Get Segments for a User](https://dev.kevel.com/reference/get-segments-for-a-user.md): This endpoint returns all segments for a specific user record in UserDB.
+- [Add Segments To A User](https://dev.kevel.com/reference/add-segments-to-a-user.md): This endpoint adds a Segment to a specific UserKey via query params.  Calling this endpoint multiple times will add multiple Segments.
+- [Replace Segments for a User](https://dev.kevel.com/reference/replace-segments-for-a-user.md): Replace the full list of segments
+- [Remove one or more Segments](https://dev.kevel.com/reference/remove-a-segment.md): Remove a specific segment form a user
+- [Read User Group](https://dev.kevel.com/reference/read-user-group.md)
+- [Set User Group](https://dev.kevel.com/reference/set-user-group.md)
+- [Update Login](https://dev.kevel.com/reference/update-login.md): This updates the name or time zone of a user. This will NOT update the password or email address.
+- [List Logins](https://dev.kevel.com/reference/list-logins.md): This returns a list of all users in your account.
+- [Jobs Service](https://dev.kevel.com/reference/jobs-service.md)
+- [Submit Job](https://dev.kevel.com/reference/submit-jobs.md): Create Ads from Products via API
+- [Get Job](https://dev.kevel.com/reference/get-job.md): Get information about a batch job
+- [List Jobs](https://dev.kevel.com/reference/list-jobs.md): List batch jobs for a network
+- [Purchase Events](https://dev.kevel.com/reference/purchase-event.md): Send sales transaction data to Kevel for attribution processing.
+- [Relay API Overview](https://dev.kevel.com/reference/relay-overview.md)
+
+## Changelog
+- [Release notes: March 6, 2026](https://dev.kevel.com/changelog/release-notes-march-06-2026.md)
+- [Upcoming changes to login and user management](https://dev.kevel.com/changelog/upcoming-changes-to-login-and-user-management.md)
+- [Release notes: January 31, 2026](https://dev.kevel.com/changelog/release-notes-january-2026.md)
+- [Release notes: November 30, 2025](https://dev.kevel.com/changelog/release-notes-november-30-2025.md)
+- [Release notes: October 31, 2025](https://dev.kevel.com/changelog/release-notes-october-31-2025.md)
+- [Release notes: September 30, 2025](https://dev.kevel.com/changelog/release-notes-september-30-2025.md)
+- [Release Notes: August 31, 2025](https://dev.kevel.com/changelog/release-notes-august-31-2025.md)
+- [Release notes: July 31, 2025](https://dev.kevel.com/changelog/release-notes-july-31-2025.md)
+- [Release Notes: June 30, 2025](https://dev.kevel.com/changelog/june-30-2025.md)
+- [Release Notes: May 30, 2025](https://dev.kevel.com/changelog/release-notes-may-30-2025.md)

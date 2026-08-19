@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kevel APIs Ads Decision API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Adzerk-ApiKey",
+      "value": "{{X-Adzerk-ApiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Decision",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Make an ad decision",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/api/v2",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Make an ad decision"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

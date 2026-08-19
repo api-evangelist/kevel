@@ -1,0 +1,240 @@
+{
+  "item": [
+    {
+      "id": "9ff566ab-024f-418d-9df5-ae8cfc9a9cb3",
+      "name": "Reporting",
+      "description": {
+        "content": "Queue and retrieve performance reports.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3f5cfcfe-d854-4f79-9154-749f7ed72079",
+          "name": "Queue an asynchronous report",
+          "request": {
+            "name": "Queue an asynchronous report",
+            "description": {},
+            "url": {
+              "path": [
+                "report",
+                "queue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"StartDate\": \"<date>\",\n  \"EndDate\": \"<date>\",\n  \"GroupBy\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Parameters\": [\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3db5b17a-12a8-45c6-858f-3233ec5f976a",
+              "name": "Queued. Returns a report ID to poll.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report",
+                    "queue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"StartDate\": \"<date>\",\n  \"EndDate\": \"<date>\",\n  \"GroupBy\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Parameters\": [\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"ParameterType\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2f49c89e-b20c-4ea5-ba57-e1c398ddf82e",
+          "name": "Get a queued report",
+          "request": {
+            "name": "Get a queued report",
+            "description": {},
+            "url": {
+              "path": [
+                "report",
+                ":reportId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "reportId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2f31014f-b34c-4674-942c-4bdca45e1fee",
+              "name": "Report status and result data when ready.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report",
+                    ":reportId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reportId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": \"string\",\n  \"Status\": 3209,\n  \"Result\": {\n    \"key_0\": 325\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kevel.co/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Adzerk-ApiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6b1f9f44-b4e3-46e9-ad00-7037374b6a9e",
+    "name": "Kevel APIs Ads Reporting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering\nthe Decision API for ad requests, the Management API for advertisers,\ncampaigns, flights, ads, creatives, sites, and zones, and the Reporting API\nfor performance analytics. Endpoint shapes are derived from Kevel's public\ndeveloper docs at https://dev.kevel.com/ and the published API index at\nhttp://dev.kevel.com/llms.txt.\n\n\nContact Support:\n Name: Kevel",
+      "type": "text/plain"
+    }
+  }
+}

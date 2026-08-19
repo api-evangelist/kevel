@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kevel APIs Ads API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Adzerk-ApiKey",
+      "value": "{{X-Adzerk-ApiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List ads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/ad"
+          },
+          "docs": "List ads"
+        },
+        {
+          "info": {
+            "name": "Create an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/ad",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an ad"
+        },
+        {
+          "info": {
+            "name": "Get an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/ad/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an ad"
+        },
+        {
+          "info": {
+            "name": "Update an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/ad/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an ad"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

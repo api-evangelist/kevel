@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kevel APIs Ads Reporting API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Adzerk-ApiKey",
+      "value": "{{X-Adzerk-ApiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Queue an asynchronous report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/report/queue",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Queue an asynchronous report"
+        },
+        {
+          "info": {
+            "name": "Get a queued report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/report/:reportId",
+            "params": [
+              {
+                "name": "reportId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a queued report"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,411 @@
+{
+  "item": [
+    {
+      "id": "deb60423-a8b8-457c-a907-9ae5cef06c8f",
+      "name": "Ads",
+      "description": {
+        "content": "Manage ads.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e5cdf0bb-57fb-4231-bf5a-6206c2ff49c8",
+          "name": "List ads",
+          "request": {
+            "name": "List ads",
+            "description": {},
+            "url": {
+              "path": [
+                "ad"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d4daf2d2-93b2-41e0-a1c0-6080ddddb708",
+              "name": "A list of ads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 3901,\n    \"FlightId\": 1868,\n    \"CreativeId\": 91,\n    \"IsActive\": false,\n    \"IsDeleted\": false\n  },\n  {\n    \"Id\": 9818,\n    \"FlightId\": 5649,\n    \"CreativeId\": 4348,\n    \"IsActive\": true,\n    \"IsDeleted\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3fc00ef3-ffc2-43bb-8627-434683c417ce",
+          "name": "Create an ad",
+          "request": {
+            "name": "Create an ad",
+            "description": {},
+            "url": {
+              "path": [
+                "ad"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "44602487-23b0-471d-97c3-67b6f6291995",
+              "name": "Created ad.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d2c850cc-ae03-4ab8-98cd-64616a251ff6",
+          "name": "Get an ad",
+          "request": {
+            "name": "Get an ad",
+            "description": {},
+            "url": {
+              "path": [
+                "ad",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "09ae8192-f618-42ec-8320-ca3576f30b62",
+              "name": "An ad.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 327,\n  \"FlightId\": 1750,\n  \"CreativeId\": 1365,\n  \"IsActive\": true,\n  \"IsDeleted\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0194064d-5d7f-4374-93c9-1a74df0ba377",
+          "name": "Update an ad",
+          "request": {
+            "name": "Update an ad",
+            "description": {},
+            "url": {
+              "path": [
+                "ad",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "38595c2d-d6c5-4a60-a003-dff0943198a8",
+              "name": "Updated ad.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ad",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"FlightId\": \"<integer>\",\n  \"CreativeId\": \"<integer>\",\n  \"IsActive\": \"<boolean>\",\n  \"IsDeleted\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kevel.co/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Adzerk-ApiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "71a72122-796f-463e-a335-bc3b29886963",
+    "name": "Kevel APIs Ads API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering\nthe Decision API for ad requests, the Management API for advertisers,\ncampaigns, flights, ads, creatives, sites, and zones, and the Reporting API\nfor performance analytics. Endpoint shapes are derived from Kevel's public\ndeveloper docs at https://dev.kevel.com/ and the published API index at\nhttp://dev.kevel.com/llms.txt.\n\n\nContact Support:\n Name: Kevel",
+      "type": "text/plain"
+    }
+  }
+}

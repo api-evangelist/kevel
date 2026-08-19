@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kevel APIs Ads Flights API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Adzerk-ApiKey",
+      "value": "{{X-Adzerk-ApiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Flights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List flights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/flight"
+          },
+          "docs": "List flights"
+        },
+        {
+          "info": {
+            "name": "Create a flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/flight",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a flight"
+        },
+        {
+          "info": {
+            "name": "Get a flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/flight/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a flight"
+        },
+        {
+          "info": {
+            "name": "Update a flight",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/flight/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a flight"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

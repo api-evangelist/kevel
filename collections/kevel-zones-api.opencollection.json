@@ -1,0 +1,77 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kevel APIs Ads Zones API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Adzerk-ApiKey",
+      "value": "{{X-Adzerk-ApiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Zones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/zone"
+          },
+          "docs": "List zones"
+        },
+        {
+          "info": {
+            "name": "Get a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/zone/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a zone"
+        },
+        {
+          "info": {
+            "name": "Update a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/zone/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a zone"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

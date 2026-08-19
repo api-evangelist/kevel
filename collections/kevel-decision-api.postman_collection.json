@@ -1,0 +1,161 @@
+{
+  "item": [
+    {
+      "id": "cddd26f3-7207-4116-b3b0-fb9b59fcfa57",
+      "name": "Decision",
+      "description": {
+        "content": "Request ad decisions and creatives.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d7f7d045-8fad-42ce-a82f-9f834e92da19",
+          "name": "Make an ad decision",
+          "request": {
+            "name": "Make an ad decision",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v2"
+              ],
+              "host": [
+                "{{api-v2-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"placements\": [\n    {\n      \"networkId\": \"<integer>\",\n      \"siteId\": \"<integer>\",\n      \"adTypes\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"divName\": \"<string>\",\n      \"zoneIds\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"count\": \"<integer>\",\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"networkId\": \"<integer>\",\n      \"siteId\": \"<integer>\",\n      \"adTypes\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"divName\": \"<string>\",\n      \"zoneIds\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"count\": \"<integer>\",\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"user\": {\n    \"key\": \"<string>\"\n  },\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<string>\",\n  \"referrer\": \"<string>\",\n  \"ip\": \"<string>\",\n  \"consent\": {\n    \"key_0\": 2541\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c13be554-b790-42b1-9082-35e176918370",
+              "name": "Decision response with selected ads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{api-v2-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"placements\": [\n    {\n      \"networkId\": 5631,\n      \"siteId\": 5879,\n      \"adTypes\": [\n        4727,\n        5037\n      ],\n      \"divName\": \"string\",\n      \"zoneIds\": [\n        382,\n        9923\n      ],\n      \"count\": 16,\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"networkId\": 691,\n      \"siteId\": 1090,\n      \"adTypes\": [\n        5155,\n        258\n      ],\n      \"divName\": \"string\",\n      \"zoneIds\": [\n        5009,\n        4111\n      ],\n      \"count\": 7,\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"user\": {\n    \"key\": \"<string>\"\n  },\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<string>\",\n  \"referrer\": \"<string>\",\n  \"ip\": \"<string>\",\n  \"consent\": {\n    \"key_0\": 3908,\n    \"key_1\": 9656,\n    \"key_2\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user\": {\n    \"key\": \"string\"\n  },\n  \"decisions\": {\n    \"key_0\": [\n      {\n        \"adId\": 7005,\n        \"creativeId\": 4785,\n        \"flightId\": 9235,\n        \"campaignId\": 7595,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": 7831.993274191168\n          },\n          {\n            \"key_0\": false,\n            \"key_1\": 2291\n          }\n        ]\n      },\n      {\n        \"adId\": 1217,\n        \"creativeId\": 3799,\n        \"flightId\": 8472,\n        \"campaignId\": 8837,\n        \"clickUrl\": \"string\",\n        \"impressionUrl\": \"string\",\n        \"contents\": [\n          {\n            \"key_0\": 177.34282834305782,\n            \"key_1\": 807.1789908439019,\n            \"key_2\": 6634.555850222804\n          },\n          {\n            \"key_0\": \"string\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kevel.co/v1",
+      "key": "baseUrl"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "1",
+      "key": "networkId"
+    },
+    {
+      "type": "string",
+      "value": "https://e-{{networkId}}.adzerk.net",
+      "key": "api-v2-Url"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Adzerk-ApiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "324438e0-7006-46c8-92be-69afb96a1035",
+    "name": "Kevel APIs Ads Decision API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering\nthe Decision API for ad requests, the Management API for advertisers,\ncampaigns, flights, ads, creatives, sites, and zones, and the Reporting API\nfor performance analytics. Endpoint shapes are derived from Kevel's public\ndeveloper docs at https://dev.kevel.com/ and the published API index at\nhttp://dev.kevel.com/llms.txt.\n\n\nContact Support:\n Name: Kevel",
+      "type": "text/plain"
+    }
+  }
+}

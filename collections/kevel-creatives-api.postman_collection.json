@@ -1,0 +1,411 @@
+{
+  "item": [
+    {
+      "id": "43e85ac0-814d-407a-8cbf-4702a60b8bae",
+      "name": "Creatives",
+      "description": {
+        "content": "Manage creatives.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cecf4ef2-9888-4c37-9ca4-8ccbbba30ba3",
+          "name": "List creatives",
+          "request": {
+            "name": "List creatives",
+            "description": {},
+            "url": {
+              "path": [
+                "creative"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "758cac2c-f90a-4e88-b580-4b12aea247ec",
+              "name": "A list of creatives.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"Id\": 2303,\n    \"Title\": \"string\",\n    \"AdvertiserId\": 7714,\n    \"AdTypeId\": 7428,\n    \"ImageName\": \"string\",\n    \"Url\": \"string\",\n    \"Body\": \"string\"\n  },\n  {\n    \"Id\": 2633,\n    \"Title\": \"string\",\n    \"AdvertiserId\": 8924,\n    \"AdTypeId\": 3969,\n    \"ImageName\": \"string\",\n    \"Url\": \"string\",\n    \"Body\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "966501a1-33f3-40a8-b92d-9b5d39e0cf02",
+          "name": "Create a creative",
+          "request": {
+            "name": "Create a creative",
+            "description": {},
+            "url": {
+              "path": [
+                "creative"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c06ccac5-2d34-43a8-beab-7e8b27a1da46",
+              "name": "Created creative.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f7851c2b-7800-4a21-9cae-177c8bbafad8",
+          "name": "Get a creative",
+          "request": {
+            "name": "Get a creative",
+            "description": {},
+            "url": {
+              "path": [
+                "creative",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d4b42b8d-c71c-4939-9f75-d06a368fdfb9",
+              "name": "A creative.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": 3395,\n  \"Title\": \"string\",\n  \"AdvertiserId\": 8128,\n  \"AdTypeId\": 8094,\n  \"ImageName\": \"string\",\n  \"Url\": \"string\",\n  \"Body\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ba6ef0ca-9099-4dfc-995c-0c6d30d4214c",
+          "name": "Update a creative",
+          "request": {
+            "name": "Update a creative",
+            "description": {},
+            "url": {
+              "path": [
+                "creative",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "46cf2f62-3abd-4144-b754-f8a8b63d211a",
+              "name": "Updated creative.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creative",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Adzerk-ApiKey",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Id\": \"<integer>\",\n  \"Title\": \"<string>\",\n  \"AdvertiserId\": \"<integer>\",\n  \"AdTypeId\": \"<integer>\",\n  \"ImageName\": \"<string>\",\n  \"Url\": \"<string>\",\n  \"Body\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kevel.co/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Adzerk-ApiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7565bdcc-e419-49db-b04e-a048f1b8ee34",
+    "name": "Kevel APIs Ads Creatives API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering\nthe Decision API for ad requests, the Management API for advertisers,\ncampaigns, flights, ads, creatives, sites, and zones, and the Reporting API\nfor performance analytics. Endpoint shapes are derived from Kevel's public\ndeveloper docs at https://dev.kevel.com/ and the published API index at\nhttp://dev.kevel.com/llms.txt.\n\n\nContact Support:\n Name: Kevel",
+      "type": "text/plain"
+    }
+  }
+}

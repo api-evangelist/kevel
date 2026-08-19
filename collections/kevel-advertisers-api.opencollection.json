@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kevel APIs Ads Advertisers API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Adzerk-ApiKey",
+      "value": "{{X-Adzerk-ApiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Advertisers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List advertisers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/advertiser",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List advertisers"
+        },
+        {
+          "info": {
+            "name": "Create an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kevel.co/v1/advertiser",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an advertiser"
+        },
+        {
+          "info": {
+            "name": "Get an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kevel.co/v1/advertiser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an advertiser"
+        },
+        {
+          "info": {
+            "name": "Update an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.kevel.co/v1/advertiser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an advertiser"
+        },
+        {
+          "info": {
+            "name": "Delete an advertiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.kevel.co/v1/advertiser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an advertiser"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
