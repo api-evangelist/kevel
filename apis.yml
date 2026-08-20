@@ -45,6 +45,10 @@ apis:
   humanURL: https://dev.kevel.com/reference/request
   tags:
   - Ad Serving
+  - Decisions
+  - Native Ads
+  tags_raw:
+  - Ad Serving
   - Decision
   - Native Ads
   properties:
@@ -145,6 +149,8 @@ apis:
   description: Request ad decisions and creatives.
   humanURL: https://dev.kevel.com/reference/request
   tags:
+  - Decisions
+  tags_raw:
   - Decision
   properties:
   - type: OpenAPI
