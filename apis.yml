@@ -40,6 +40,13 @@ tags:
   - Ad Serving
   - Advertising
   - API-First
+  - Audiences
+  - Monetization
+  - Reporting
+tags_raw:
+  - Ad Serving
+  - Advertising
+  - API-First
   - Audience
   - Monetization
   - Reporting
@@ -78,6 +85,10 @@ apis:
   humanURL: https://dev.kevel.com/docs/management-api-tutorial
   tags:
   - Campaigns
+  - Creative
+  - Management
+  tags_raw:
+  - Campaigns
   - Creatives
   - Management
   properties:
@@ -106,6 +117,10 @@ apis:
     the Decision API.
   humanURL: https://dev.kevel.com/reference/userdb-overview
   tags:
+  - Audiences
+  - Targeting
+  - UserDB
+  tags_raw:
   - Audience
   - Targeting
   - UserDB
@@ -153,6 +168,8 @@ apis:
   description: Manage creatives.
   humanURL: https://dev.kevel.com/reference/request
   tags:
+  - Creative
+  tags_raw:
   - Creatives
   properties:
   - type: OpenAPI
