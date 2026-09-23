@@ -1,16 +1,7 @@
 {
   "provider": "kevel",
   "sources": [
-    "kevel-ads-api-openapi.yml",
-    "kevel-advertisers-api-openapi.yml",
-    "kevel-campaigns-api-openapi.yml",
-    "kevel-channels-api-openapi.yml",
-    "kevel-creatives-api-openapi.yml",
-    "kevel-decision-api-openapi.yml",
-    "kevel-flights-api-openapi.yml",
-    "kevel-reporting-api-openapi.yml",
-    "kevel-sites-api-openapi.yml",
-    "kevel-zones-api-openapi.yml"
+    "_original/kevel-openapi.yml"
   ],
   "outputs": [
     "kevel-ads-api-openapi.yml",
@@ -27,6 +18,21 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "kevel-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "kevel-ads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-advertisers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-channels-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-creatives-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-decision-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-flights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-reporting-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-sites-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kevel-zones-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

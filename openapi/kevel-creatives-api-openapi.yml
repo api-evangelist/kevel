@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Kevel APIs Ads Creatives API
+  title: Kevel Creatives API
   description: 'OpenAPI 3.1 description of the public Kevel ad-tech platform APIs covering
 
     the Decision API for ad requests, the Management API for advertisers,
@@ -11,9 +11,7 @@ info:
 
     developer docs at https://dev.kevel.com/ and the published API index at
 
-    http://dev.kevel.com/llms.txt.
-
-    '
+    http://dev.kevel.com/llms.txt.'
   version: 1.0.0
   contact:
     name: Kevel
