@@ -58,6 +58,33 @@ paths:
                 $ref: '#/components/schemas/DecisionResponse'
 components:
   schemas:
+    DecisionRequest:
+      type: object
+      required:
+      - placements
+      properties:
+        placements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Placement'
+        user:
+          type: object
+          properties:
+            key:
+              type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+        referrer:
+          type: string
+        ip:
+          type: string
+        consent:
+          type: object
+          additionalProperties: true
     DecisionResponse:
       type: object
       properties:
@@ -90,33 +117,6 @@ components:
                   items:
                     type: object
                     additionalProperties: true
-    DecisionRequest:
-      type: object
-      required:
-      - placements
-      properties:
-        placements:
-          type: array
-          items:
-            $ref: '#/components/schemas/Placement'
-        user:
-          type: object
-          properties:
-            key:
-              type: string
-        keywords:
-          type: array
-          items:
-            type: string
-        url:
-          type: string
-        referrer:
-          type: string
-        ip:
-          type: string
-        consent:
-          type: object
-          additionalProperties: true
     Placement:
       type: object
       required:

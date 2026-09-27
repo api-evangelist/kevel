@@ -90,6 +90,13 @@ paths:
         '200':
           description: Updated site.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
     Site:
       type: object
@@ -102,13 +109,6 @@ components:
           type: string
         IsDeleted:
           type: boolean
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
