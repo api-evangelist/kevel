@@ -108,12 +108,6 @@ paths:
           description: Deleted.
 components:
   parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
     PageSize:
       name: pageSize
       in: query
@@ -129,6 +123,12 @@ components:
         type: integer
         minimum: 1
         default: 1
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
     AdvertiserList:
       type: object

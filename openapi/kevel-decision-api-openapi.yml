@@ -58,6 +58,35 @@ paths:
                 $ref: '#/components/schemas/DecisionResponse'
 components:
   schemas:
+    Placement:
+      type: object
+      required:
+      - networkId
+      - siteId
+      - adTypes
+      properties:
+        divName:
+          type: string
+        networkId:
+          type: integer
+        siteId:
+          type: integer
+        adTypes:
+          type: array
+          items:
+            type: integer
+        zoneIds:
+          type: array
+          items:
+            type: integer
+        count:
+          type: integer
+          minimum: 1
+          maximum: 20
+        keywords:
+          type: array
+          items:
+            type: string
     DecisionRequest:
       type: object
       required:
@@ -117,35 +146,6 @@ components:
                   items:
                     type: object
                     additionalProperties: true
-    Placement:
-      type: object
-      required:
-      - networkId
-      - siteId
-      - adTypes
-      properties:
-        divName:
-          type: string
-        networkId:
-          type: integer
-        siteId:
-          type: integer
-        adTypes:
-          type: array
-          items:
-            type: integer
-        zoneIds:
-          type: array
-          items:
-            type: integer
-        count:
-          type: integer
-          minimum: 1
-          maximum: 20
-        keywords:
-          type: array
-          items:
-            type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -74,17 +74,6 @@ paths:
                 $ref: '#/components/schemas/ReportResult'
 components:
   schemas:
-    ReportResult:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: integer
-          description: 1 = pending, 2 = complete, 3 = error.
-        Result:
-          type: object
-          additionalProperties: true
     ReportRequest:
       type: object
       properties:
@@ -107,6 +96,17 @@ components:
                 type: string
               Value:
                 type: string
+    ReportResult:
+      type: object
+      properties:
+        Id:
+          type: string
+        Status:
+          type: integer
+          description: 1 = pending, 2 = complete, 3 = error.
+        Result:
+          type: object
+          additionalProperties: true
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

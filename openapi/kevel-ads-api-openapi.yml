@@ -90,6 +90,13 @@ paths:
         '200':
           description: Updated ad.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
     Ad:
       type: object
@@ -104,13 +111,6 @@ components:
           type: boolean
         IsDeleted:
           type: boolean
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
