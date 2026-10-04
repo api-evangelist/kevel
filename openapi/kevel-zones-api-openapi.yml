@@ -76,6 +76,13 @@ paths:
         '200':
           description: Updated zone.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
     Zone:
       type: object
@@ -88,13 +95,6 @@ components:
           type: integer
         IsDeleted:
           type: boolean
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

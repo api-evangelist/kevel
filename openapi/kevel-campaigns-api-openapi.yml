@@ -97,15 +97,6 @@ paths:
                 $ref: '#/components/schemas/Campaign'
 components:
   schemas:
-    CampaignList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Campaign'
-        totalCount:
-          type: integer
     Campaign:
       type: object
       properties:
@@ -123,6 +114,15 @@ components:
           format: date-time
         IsActive:
           type: boolean
+    CampaignList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Campaign'
+        totalCount:
+          type: integer
   parameters:
     Id:
       name: id
