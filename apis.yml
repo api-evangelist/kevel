@@ -36,6 +36,9 @@ accessModel:
 position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/kevel.png
+x-docs-platform: readme
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
 tags:
   - Ad Serving
   - Advertising
@@ -222,6 +225,9 @@ apis:
   - type: OpenAPI
     url: openapi/kevel-zones-api-openapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/kevel-capability-edges.yml
+    name: Kevel Business Capability Map
   - type: AgenticAccess
     url: agentic-access/kevel-agentic-access.yml
   - type: TrustCenter
