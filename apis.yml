@@ -225,6 +225,12 @@ apis:
   - type: OpenAPI
     url: openapi/kevel-zones-api-openapi.yml
 common:
+  - type: Plans
+    url: plans/kevel-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/kevel-rate-limits.yml
+  - type: FinOps
+    url: finops/kevel-finops.yml
   - type: CapabilityMap
     url: capabilities/kevel-capability-edges.yml
     name: Kevel Business Capability Map
