@@ -90,13 +90,6 @@ paths:
         '200':
           description: Updated creative.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
   schemas:
     Creative:
       type: object
@@ -115,6 +108,13 @@ components:
           type: string
         Body:
           type: string
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
