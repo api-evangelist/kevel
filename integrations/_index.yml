@@ -51,5 +51,5 @@
     - connectors/applications/kevel
     vendor_link: https://www.kevel.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
