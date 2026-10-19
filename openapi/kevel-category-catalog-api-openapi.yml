@@ -1,0 +1,73 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Category Catalog API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Category Catalog
+paths:
+  /v1/category-catalog:
+    get:
+      summary: List Category Catalog
+      description: 'Returns the categories you can choose from when you set up category targeting: the categories in your network''s `kevel/targetable-categories` table. It returns the first 10,000 categories in ascending `Id` order, and does not say if there are more.'
+      operationId: list-category-catalog
+      parameters:
+      - name: search
+        in: query
+        description: Returns only the categories whose `Id` or `Name` contains this text, ignoring case.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n    \"Id\": \"Grocery\",\n    \"Name\": \"Grocery\",\n    \"ParentId\": null\n  },\n  {\n    \"Id\": \"Grocery > Dairy\",\n    \"Name\": \"Dairy\",\n    \"ParentId\": \"Grocery\"\n  }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Id:
+                      type: string
+                      description: The category ID. This is the value to send in `placements[].category` and the value saved in `CategoryTargeting`.
+                    Name:
+                      type: string
+                      description: The category name, or null.
+                      nullable: true
+                    ParentId:
+                      type: string
+                      description: The ID of the parent category, or null.
+                      nullable: true
+        '400':
+          description: Your network has no `kevel/targetable-categories` table, or has more than one.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Category Catalog
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

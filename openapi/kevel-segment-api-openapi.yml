@@ -1,0 +1,433 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Segment API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Segment
+paths:
+  /v1/segment/:
+    post:
+      summary: Create Segment
+      description: ''
+      operationId: create-segment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Name
+              properties:
+                Name:
+                  type: string
+                  description: The human-friendly name of the segment.
+                Source:
+                  type: string
+                  description: Where the segment came from.
+                Reach:
+                  type: object
+                  description: The estimated reach of the segment for all time and the last 4 weeks.
+                  properties:
+                    all_time:
+                      type: integer
+                      format: int32
+                    28d:
+                      type: integer
+                      format: int32
+                Description:
+                  type: string
+                  description: An extended human-friendly description of the segment.
+                Category:
+                  type: string
+                  description: The category a segment belongs to.
+                Advertisers:
+                  type: array
+                  items:
+                    properties:
+                      AdvertiserId:
+                        type: integer
+                        format: int32
+                    type: object
+                  description: A list of Advertisers that have access to the Segment.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 123456,\n  \"Source\": \"audience\",\n  \"Name\": \"best customers\",\n  \"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \"Description\": \"top 1% spenders in the last 30 days.\",\n  \"Category\": \"CRM\",\n  \"IsDeleted\": false\n}\n"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  Source:
+                    type: string
+                    example: audience
+                  Name:
+                    type: string
+                    example: best customers
+                  Reach:
+                    type: object
+                    properties:
+                      all_time:
+                        type: integer
+                        example: 3187463
+                        default: 0
+                      28d:
+                        type: integer
+                        example: 387434
+                        default: 0
+                  Description:
+                    type: string
+                    example: top 1% spenders in the last 30 days.
+                  Category:
+                    type: string
+                    example: CRM
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X POST -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" https://api.kevel.co/v1/segment --data-binary ''{"Category":"CRM","Source":"audience","Description":"top 1% spenders in the last 30 days.","Reach":"{"all_time":3187463, "28d":387434}","Name":"best customers"}'' '
+        - language: javascript
+          code: "// coming soon to @adzerk-management-sdk\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let segment = await client.run(\"segment\", \"create\", {\n    name: \"best customers\",\n    source: \"audience\",\n    description: \"top 1% spenders in the last 30 days.\",\n  });\n\n  console.log(segment);\n}\n\ncreateSegment();"
+        - language: ruby
+          code: "## coming soon to @adzerk-management-sdk\nrequire \"adzerk\"\n\ndef create_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.segment.create(name: \"best customers\", source: \"audience\", description: \"top 1% spenders in the last 30 days.\")\nend\ncreate_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Segment
+  /v1/segment/{SegmentId}:
+    put:
+      summary: Update Segment
+      description: ''
+      operationId: update-segment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                  description: The human-friendly name of the segment.
+                Source:
+                  type: string
+                  description: Where the segment came from.
+                Reach:
+                  type: object
+                  description: The estimated reach of the segment for all time and the last 4 weeks.
+                  properties:
+                    all_time:
+                      type: integer
+                      format: int32
+                    28d:
+                      type: integer
+                      format: int32
+                Description:
+                  type: string
+                  description: An extended human-friendly description of the segment.
+                Category:
+                  type: string
+                  description: The category a segment belongs to.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 123456,\n  \"Source\": \"audience\",\n  \"Name\": \"Updated Name\",\n  \"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \"Description\": \"top 1% spenders in the last 30 days.\",\n  \"Category\": \"CRM\",\n  \"IsDeleted\": false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  Source:
+                    type: string
+                    example: audience
+                  Name:
+                    type: string
+                    example: Updated Name
+                  Reach:
+                    type: object
+                    properties:
+                      all_time:
+                        type: integer
+                        example: 3187463
+                        default: 0
+                      28d:
+                        type: integer
+                        example: 387434
+                        default: 0
+                  Description:
+                    type: string
+                    example: top 1% spenders in the last 30 days.
+                  Category:
+                    type: string
+                    example: CRM
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" https://api.kevel.co/v1/segment/{SegmentId} --data-binary '{"Category":"CRM","Source":"audience","Description":"top 1% spenders in the last 30 days.","Reach":"{"all_time":3187463, "28d":387434}","Name":"Updated Name","Id":123456}'
+        - language: javascript
+          code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\nlet segment = await client.run(\"segment\", \"update\", {\n\t\tid:123456,\n    name: \"updated name\",\n    source: \"audience,\n    description: \"top 1% spenders in the last 30 days.\",\n  });\n\n  console.log(segment);\n}\n\nupdateSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.segment.update(id: 123456, name: \"Updated Name\", source: \"audience\", description: \"top 1% spenders in the last 30 days.\")\nend\nupdate_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Segment
+    get:
+      summary: Get Segment
+      description: ''
+      operationId: get-segment
+      parameters:
+      - name: SegmentId
+        in: path
+        description: Id of the Segment
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 123456,\n  \"Source\": \"audience\",\n  \"Name\": \"best customers\",\n  \"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \"Description\": \"top 1% spenders in the last 30 days.\",\n  \"Category\": \"CRM\",\n  \"IsDeleted\": false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  Source:
+                    type: string
+                    example: audience
+                  Name:
+                    type: string
+                    example: best customers
+                  Reach:
+                    type: object
+                    properties:
+                      all_time:
+                        type: integer
+                        example: 3187463
+                        default: 0
+                      28d:
+                        type: integer
+                        example: 387434
+                        default: 0
+                  Description:
+                    type: string
+                    example: top 1% spenders in the last 30 days.
+                  Category:
+                    type: string
+                    example: CRM
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>"  "https://api.kevel.co/v1/segment/{SegmentId}"
+        - language: javascript
+          code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let segment = await client.run('segment', 'get', {id: 12345});\n  console.log(segment);\n}\n\ngetSegment();"
+        - language: ruby
+          code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef get_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    segment_id = 12345\n    pp client.segments.get(segment_id)\nend\nget_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Segment
+    delete:
+      summary: Delete Segment
+      description: ''
+      operationId: delete-segment
+      parameters:
+      - name: SegmentId
+        in: path
+        description: The Id of the Segment to delete
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully deleted."'
+              schema:
+                type: string
+                example: Successfully deleted.
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X DELETE -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/segment/{SegmentId}"
+        - language: javascript
+          code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let segment = await client.run('segment', 'delete', {\n    id: 12345\n  });\n  console.log(segment);\n}\n\ndeleteSegment();"
+        - language: ruby
+          code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef delete_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    segment_id = 12345\n    pp client.segments.delete(segment_id)\nend\ndelete_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Segment
+  /v1/segment:
+    get:
+      summary: List Segments
+      description: ''
+      operationId: list-segments
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 123456,\n  \"Source\": \"audience\",\n  \"Name\": \"best customers\",\n  \"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \"Description\": \"top 1% spenders in the last 30 days.\",\n  \"Category\": \"CRM\",\n  \"IsDeleted\": false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  Source:
+                    type: string
+                    example: audience
+                  Name:
+                    type: string
+                    example: best customers
+                  Reach:
+                    type: object
+                    properties:
+                      all_time:
+                        type: integer
+                        example: 3187463
+                        default: 0
+                      28d:
+                        type: integer
+                        example: 387434
+                        default: 0
+                  Description:
+                    type: string
+                    example: top 1% spenders in the last 30 days.
+                  Category:
+                    type: string
+                    example: CRM
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/segment"
+        - language: javascript
+          code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let segment = await client.run('segment', 'list');\n  console.log(segment);\n}\n\nlistSegment();"
+        - language: ruby
+          code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef list_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.segments.list()\nend\nlist_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Segment
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

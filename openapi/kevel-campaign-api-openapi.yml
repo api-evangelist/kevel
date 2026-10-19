@@ -1,0 +1,957 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Campaign API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Campaign
+paths:
+  /v1/campaign:
+    post:
+      summary: Create Campaigns
+      description: ''
+      operationId: create-campaigns
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - AdvertiserId
+              - Name
+              properties:
+                AdvertiserId:
+                  type: integer
+                  description: The advertiser's ID for the campaign.
+                  format: int32
+                Name:
+                  type: string
+                  description: The campaign name.
+                Flights:
+                  type: array
+                  description: You can pass an array of flights, a blank array, or not include. See [Create Flight](ref:create-flight) endpoint.
+                  items:
+                    type: integer
+                    format: int32
+                IsActive:
+                  type: boolean
+                  description: Specifies whether campaign should be active (serving ads). Defaults to `false`.
+                  default: false
+                IsDeleted:
+                  type: boolean
+                  description: Specifies whether campaign should be deleted. Do not use when creating a campaign.
+                IsArchived:
+                  type: boolean
+                  description: Specifies whether campaign should be archived. Do not use when creating a campaign.
+                FreqCap:
+                  type: integer
+                  description: The number of times the frequency cap should occur.
+                  format: int32
+                FreqCapDuration:
+                  type: integer
+                  description: Specifies how often the frequency cap should occur.
+                  format: int32
+                FreqCapType:
+                  type: integer
+                  description: The enum value for how often frequency capping should occur. `1 = Hour 2 = Day 3 = Minute`.
+                  format: int32
+                DontAffectParentFreqCap:
+                  type: boolean
+                  description: '"Opts-out" campaign from advertiser-level frequency cap settings.'
+                CapType:
+                  type: integer
+                  description: Set to `CapType = 4`. Campaigns can only budget cap on revenue metric. Do not set to `0` - if removing, set to `null`.
+                  format: int32
+                DailyCapAmount:
+                  type: integer
+                  description: The max daily revenue.
+                  format: int32
+                LifetimeCapAmount:
+                  type: integer
+                  description: The max lifetime revenue.
+                  format: int32
+            examples:
+              JSON:
+                value:
+                  AdvertiserId: 12345
+                  Name: Nike Q4 Campaign
+                  IsActive: true
+                  FreqCap: 2
+                  FreqCapDuration: 10
+                  FreqCapType: 1
+                  DontAffectParentFreqCap: true
+                  CapType: 4
+                  DailyCapAmount: 5000
+                  LifetimeCapAmount: 50000
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"IsActive\": false,\n  \"DontAffectParentFreqCap\": null,\n  \"Flights\": [],\n  \"DailyCapAmount\": null,\n  \"FreqCapType\": 0,\n  \"EndDate\": null,\n  \"CapType\": null,\n  \"IsFreqCap\": false,\n  \"IsDeleted\": false,\n  \"EndDateISO\": null,\n  \"Price\": 0,\n  \"IsArchived\": false,\n  \"LifetimeCapAmount\": null,\n  \"FreqCapDuration\": null,\n  \"FreqCap\": null,\n  \"SalespersonId\": null,\n  \"AdvertiserId\": 12345,\n  \"Name\": \"Nike Q4 Campaign\",\n  \"Id\": 123456,\n  \"CustomFieldsJson\": null,\n  \"StartDateISO\": \"2017-01-01T00:00:00.0000000\"\n}"
+              schema:
+                type: object
+                properties:
+                  IsActive:
+                    type: boolean
+                    example: false
+                    default: true
+                  DontAffectParentFreqCap: {}
+                  Flights:
+                    type: array
+                  DailyCapAmount: {}
+                  FreqCapType:
+                    type: integer
+                    example: 0
+                    default: 0
+                  EndDate: {}
+                  CapType: {}
+                  IsFreqCap:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  EndDateISO: {}
+                  Price:
+                    type: integer
+                    example: 0
+                    default: 0
+                  IsArchived:
+                    type: boolean
+                    example: false
+                    default: true
+                  LifetimeCapAmount: {}
+                  FreqCapDuration: {}
+                  FreqCap: {}
+                  SalespersonId: {}
+                  AdvertiserId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Name:
+                    type: string
+                    example: Nike Q4 Campaign
+                  Id:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  CustomFieldsJson: {}
+                  StartDateISO:
+                    type: string
+                    example: '2017-01-01T00:00:00.0000000'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "## The example below is a minimally viable campaign: \ncurl -X POST -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/campaign\" --data-binary '{\"Name\":\"Nike Q4 Campaign\",\"AdvertiserId\":12345,\"IsActive\":true}'"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createCampaign() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let campaign = await client.run(\"campaign\", \"create\", {\n    name: \"Nike Q4 Campaign\",\n    advertiserId: 12345,\n    isActive: false, // TIP: create inactive so nothing serves until ready!\n  });\n\n  console.log(campaign);\n}\n\ncreateCampaign();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_campaign()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        name: \"Campaign Name\",\n        advertiser_id: 12345,\n        is_active: false # TIP: campaign should start inactive so nothing serves until ready!\n    }\n    pp client.campaigns.create(data)\nend\ncreate_campaign()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Campaign
+    get:
+      summary: List Campaigns
+      description: ''
+      operationId: list-campaigns
+      parameters:
+      - name: isArchived
+        in: query
+        description: If true, returns only archived flights
+        schema:
+          type: boolean
+      - name: AdvertiserId
+        in: query
+        description: Returns only campaigns that belong to that advertiser ID.
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"page\": 1,\n    \"items\": [\n      {\n        \"IsActive\": false,\n        \"Flights\": [],\n        \"FreqCapType\": 0,\n        \"IsDeleted\": false,\n        \"Price\": 0,\n        \"IsArchived\": false,\n        \"AdvertiserId\": 12345,\n        \"Name\": \"Exploding Kittens\",\n        \"Id\": 123456,\n        \"StartDateISO\": \"2017-03-11T00:00:00.0000000\"\n      }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        IsActive:
+                          type: boolean
+                          example: false
+                          default: true
+                        Flights:
+                          type: array
+                        FreqCapType:
+                          type: integer
+                          example: 0
+                          default: 0
+                        IsDeleted:
+                          type: boolean
+                          example: false
+                          default: true
+                        Price:
+                          type: integer
+                          example: 0
+                          default: 0
+                        IsArchived:
+                          type: boolean
+                          example: false
+                          default: true
+                        AdvertiserId:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        Name:
+                          type: string
+                          example: Exploding Kittens
+                        Id:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        StartDateISO:
+                          type: string
+                          example: '2017-03-11T00:00:00.0000000'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -X GET \\\n     -H \"X-Adzerk-ApiKey:<APIKEY>\" \\\n     https://api.kevel.co/v1/campaign\n\n## To show archived campaigns:\ncurl -X GET \\\n     -H \"X-Adzerk-ApiKey:<APIKEY>\" \\\n     https://api.kevel.co/v1/campaign?isArchived=true\n     \n## To return campaigns from a specific advertiser:\ncurl -X GET \\\n     -H \"X-Adzerk-ApiKey:<APIKEY>\" \\\n     https://api.kevel.co/v1/campaign?AdvertiserId=12345"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listCampaigns() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let campaigns = await client.run(\"campaign\", \"list\");\n  console.log(campaigns);\n\n  let names = campaigns.items.map(a => a.name)\n  console.log(names);\n}\n\nlistCampaigns();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_campaign()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.campaigns.list()\nend\nlist_campaign()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Campaign
+  /v2/campaign:
+    post:
+      summary: Create Campaign V2
+      description: Create a Campaign and nested Flights/Creatives/Ads
+      operationId: create-campaign-v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - AdvertiserId
+              - Name
+              properties:
+                AdvertiserId:
+                  type: integer
+                  description: The advertiser's ID for the campaign.
+                  format: int32
+                Name:
+                  type: string
+                  description: The campaign name. Max 200 characters.
+                Flights:
+                  type: array
+                  description: You can pass an array of flights, a blank array, or not include. See [Create Flight](ref:create-flight) endpoint.
+                  items:
+                    properties:
+                      Ads:
+                        type: array
+                        items:
+                          properties:
+                            Creative:
+                              type: object
+                              description: An object containing the attributes of the Creative which should be created.
+                              required:
+                              - AdTypeId
+                              - IsActive
+                              properties:
+                                AdTypeId:
+                                  type: integer
+                                  description: The ad size's ID. More info [here](https://dev.kevel.com/docs/ad-sizes).
+                                  format: int32
+                                IsActive:
+                                  type: boolean
+                                  description: Specifies whether creative is eligible to serve.
+                                Title:
+                                  type: string
+                                  description: A short description of creative (in UI, it is called 'Friendly Name'). Max 500 characters.
+                                ImageName:
+                                  type: string
+                                  description: The file name as it is stored in our database. It is not needed to create a creative, but it will be passed back in the result view. If the string is manually entered, it will result in a null string.
+                                Body:
+                                  type: string
+                                  description: 'This is the body text associated with AdType 1 (in UI it''s called "Text"). If AdType1 is not being used, pass an empty string: `""`.'
+                                Url:
+                                  type: string
+                                  description: The click URL. Max length is 2000 characters. Must not contain leading or trailing spaces.
+                                Alt:
+                                  type: string
+                                  description: Alt text.
+                                IsHTMLJS:
+                                  type: boolean
+                                  description: Specifies whether to override image with HTML or JavaScript ad. If `true` = the `ScriptBody` field should have value.
+                                ScriptBody:
+                                  type: string
+                                  description: If `IsHTMLJS` = `true`, then this field needs to be filled with a HTML/JavaScript ad.
+                                Metadata:
+                                  type: string
+                                  description: 'Adds custom [metadata](doc:creatives#metadata-field) to your creative. Note that this should be a JSON **object** in a string, for example:  `{   ...   "Metadata": "{ \"foo\":1234 }" }`  The entire Metadata string must be url encoded to support URLs and special characters that can break the JSON object. Maximum character limit of 1000 characters.'
+                                ImageLink:
+                                  type: string
+                                  description: The URL of an image hosted remotely. Use if you are serving an image file without uploading it to Kevel's CDN or calling it in the `ScriptBody`
+                                SaveEmptyCreative:
+                                  type: boolean
+                                  description: If set to `true`, this allows you to save or update a creative that contains no `ScriptBody` or `Metadata`. Note that `SaveEmptyCreative` is not a database field on the creative object, but is instead an option when creating or updating creatives. This means that the `SaveEmptyCreative` parameter will always be returned as `null` once a creative has been created.
+                                IsNoTrack:
+                                  type: boolean
+                                  description: Indicates that a creative originating from a third-party (i.e. it uses third-party ad tags) is EFF Do Not Track compliant. Can only be used if DNT is enabled for your account.
+                                IsNetworkAd:
+                                  type: boolean
+                                  description: Indicates that a creative originates from a third-party source (such as an ad network) that will serve multiple ads. (BETA)
+                                TemplateId:
+                                  type: integer
+                                  description: If you are using a creative template, specifies which template to use. IDs can be retrieved from the Creative Template API.
+                                  format: int32
+                                TemplateValues:
+                                  type: string
+                                  description: 'If you are using a creative template, sets the values for the fields in the creative. Fields must match the TemplateId and the object must be wrapped in a string. For example:  `"{\"ctString\":\"A string goes here\",\"ctExternalFile\":\"http://cdn.com/ad.gif\"}"`'
+                            IsActive:
+                              type: boolean
+                              description: Whether ad should be eligible to serve. Defaults to `false`
+                              default: false
+                            ExternalMetadata:
+                              type: object
+                              description: Object containing key/value pairs for customer's use. Max length when serialized of 512 characters.
+                            FreqCapType:
+                              type: integer
+                              description: The enum value for how often frequency capping should occur. 1 = Hour 2 = Day 3 = Minute.
+                              format: int32
+                            FreqCap:
+                              type: integer
+                              description: The number of times the frequency cap should occur.
+                              format: int32
+                            FreqCapDuration:
+                              type: integer
+                              description: Specifies how often the frequency cap should occur.
+                              format: int32
+                            DontAffectParentFreqCap:
+                              type: boolean
+                              description: '"Opts-out" campaign from advertiser-level frequency cap settings.'
+                          type: object
+                      Jobs:
+                        type: array
+                        description: Optional list of objects, each representing a `create-ads-from-products` Job. The jobs will be performed asynchronously and the resulting Ads will be added to this Flight. See [Submit Job](ref:submit-jobs) for more details.
+                        items:
+                          properties:
+                            TaskId:
+                              type: string
+                              description: The type of task you are submitting.
+                              enum:
+                              - create-ads-from-products
+                              - create-ads-from-product-query
+                              - create-native-product-ad
+                            TaskArgs:
+                              type: object
+                              description: Arguments specific to your TaskId
+                          required:
+                          - TaskId
+                          type: object
+                      Name:
+                        type: string
+                        description: The flight name. Max length is 300 characters.
+                      StartDateISO:
+                        type: string
+                        description: 'UTC start date in ISO 8601 format: YYYY-MM-DDTHH:MM:SS.SSSSSSS. This can also be sent in the format of YYYY-MM-DD.'
+                      PriorityId:
+                        type: integer
+                        description: The ID of the [Priority](doc:priorities). Here are the [Priority API endpoints](ref:priority).
+                        format: int32
+                      GoalType:
+                        type: integer
+                        description: 'This is the metric that Kevel uses to pace the ads so it hits the desired goal by the end date.  Key follows: `1 = Impressions 2 = Percentage 3 = Click 7 = Conversion 8 = Revenue 9 = Daily Revenue  10 = Monthly Revenue`. Instructions are [here](doc:flights#goals)'
+                        format: int32
+                      Impressions:
+                        type: integer
+                        description: 'The goal amount - specifies the number of GoalTypes to aim for during the life of the campaign. The upper limit is 2147483647. Instructions are [here](doc:flights#goals). Note: the field is named Impressions even if Goal Type is not set to Impressions.'
+                        format: int32
+                      IsActive:
+                        type: boolean
+                        description: Specifies whether campaigns should be active or inactive. Defaults to `false`.
+                        default: false
+                      RateType:
+                        type: string
+                        description: 'The Rate value - instructions [here](doc:flights#rateprice). Key: `1 = Flat 2 = CPM 3 = CPC 4 = CPA View 5 = CPA Click 6 = CPA View & Click`.'
+                        enum:
+                        - '1'
+                        - '2'
+                        - '3'
+                        - '4'
+                        - '5'
+                        - '6'
+                      EndDateISO:
+                        type: string
+                        description: 'UTC end date in ISO 8601 format: ``YYYY-MM-DDTHH:MM:SS.SSSSSSS`. You can also send in a standard date of `YYYY-MM-DD`. **Required** if `GoalType` is not `2`, `9` or `10`.'
+                      Price:
+                        type: number
+                        description: The Price value - instructions [here](doc:flights#rateprice).
+                        format: float
+                      CapType:
+                        type: string
+                        description: 'The cap type metric. Instructions [here](doc:flights#caps). Key: `1 = Impressions 2 = Clicks 3 = Conversions 4 = Revenue`. Do not set to `0` - if removing, set to `null`.'
+                        enum:
+                        - '1'
+                        - '2'
+                        - '3'
+                        - '4'
+                      DailyCapAmount:
+                        type: integer
+                        description: 'The maximum # of `CapType` per day. Instructions [here](doc:flights#caps).'
+                        format: int32
+                      LifetimeCapAmount:
+                        type: integer
+                        description: 'The maximum # of `CapType` per lifetime.  Instructions [here](doc:flights#caps).'
+                        format: int32
+                      Keywords:
+                        type: string
+                        description: Keywords used for targeting. Instructions [here](https://dev.kevel.com/docs/keyword-targeting).
+                      CustomTargeting:
+                        type: string
+                        description: Zerkel string for Custom targeting. Instructions [here](https://dev.kevel.com/docs/custom-targeting). The maximum string length for `CustomTargeting` is 1000 characters.
+                      CustomFieldsJSON:
+                        type: string
+                        description: Sets the value of custom fields based on a custom fields schema. Must contact support before use. More info [here](doc:custom-fields).
+                      IsFreqCap:
+                        type: boolean
+                        description: Set to `true` if doing capping. If false or null, then the other Freq fields are ignored. Learn more about FC [here](https://dev.kevel.com/docs/flight-frequency-capping). If not already enabled, you'll need your account manager to enable it.
+                      FreqCap:
+                        type: integer
+                        description: The number of times the frequency cap should occur. Cannot be 0 unless `FreqCapType` is None (0).
+                        format: int32
+                      FreqCapDuration:
+                        type: integer
+                        description: Specifies how often the frequency cap should occur. Cannot be 0 unless `FreqCapType` is None (0).
+                        format: int32
+                      FreqCapType:
+                        type: integer
+                        description: 'Specifies which unit of time you would like frequency capping to occur. Key: `1 = Hour 2 = Day 3 = Minute`.'
+                        format: int32
+                      DontAffectParentFreqCap:
+                        type: boolean
+                        description: If true, opts-it out of frequency cap settings imposed at advertiser or campaign level.
+                      IsCompanion:
+                        type: boolean
+                        description: If `true`, enables companion ads. `IsCompanion` must be set to `false` when `IsNoDuplicates` is `true`, and vice versa. Learn more [here](doc:additional-display-rules#companion-ads).
+                      IsNoDuplicates:
+                        type: boolean
+                        description: If `true`, enables no duplicates. `IsCompanion` must be set to `false` when `IsNoDuplicates` is true, and vice versa.
+                      DuplicateMode:
+                        type: integer
+                        description: 'Indicates which level no duplicates should be enforced on. Key follows: `1: Flight 2: Campaign 3: Advertiser 4: Creative`.'
+                        format: int32
+                      IsTrackingConversions:
+                        type: boolean
+                        description: If `true`, enables conversion tracking endpoints/pixels.
+                      CanPassback:
+                        type: string
+                        description: Sets whether a flight in an adChained-enabled priority can pass back to the next flight in the adChain.
+                      PassbackSortOrder:
+                        type: integer
+                        description: Sets the order of a flight in the adChain. `PassbackSortOrder` is a transient value that can be modified by internal processes in the UI. Although the value may change, the actual sort order of flights in the adChain will remain consistent. Setting two flights to the same `PassbackSortOrder` will cause the flights to be chosen randomly. Setting `PassbackSortOrder` to `0` will cause the flight to appear as `"--"` in the UI, but the flight will still be part of the adChain. This is not recommended.
+                        format: int32
+                      IsECPMOptimized:
+                        type: boolean
+                        description: Specifies whether `ECPM Optimization` is enabled.
+                      ECPMOptimizePeriod:
+                        type: integer
+                        description: Timeframe to optimize for [1 - 90 days].
+                        format: int32
+                      ECPMMultiplier:
+                        type: number
+                        description: The final eCPM will be multiplied by this amount. Must be at least 0.01.
+                        format: float
+                      FloorECPM:
+                        type: number
+                        description: Minimum eCPM. Must be at least 0.01.
+                        format: float
+                      CeilingECPM:
+                        type: number
+                        description: Maximum eCPM. Must be at least 0.01.
+                        format: float
+                      DefaultECPM:
+                        type: number
+                        description: This is the eCPM an ad starts at when the Flight begins serving. During burn-in the eCPM moves from this value towards the ad's calculated eCPM as impressions accrue. Must be at least 0.01.
+                        format: float
+                      ECPMBurnInImpressions:
+                        type: integer
+                        description: Impressions per creative over which the eCPM moves from the default eCPM to the calculated eCPM [1 - 2147483648].
+                        format: int32
+                      EffectiveCPMOverride:
+                        type: number
+                        description: Sets a manual override to a flight's CPM, e.g. so a Flat Rate flight can compete in an auction priority.
+                        format: float
+                      RequireStrictLocation:
+                        type: boolean
+                        description: If true, the ad request needs exact longitude and latitude in order to use GeoDistance targeting settings.
+                      TimeZone:
+                        type: string
+                        description: Sets a [supported IANA time zone string](https://dev.kevel.com/reference/queued-reports#available-time-zone-strings-beta) to be used for the flight's daily caps, daily goals, and day parting. Note that even if a non-UTC  `TimeZone` is set, start and end dates will still be in UTC.
+                        default: '"UTC"'
+                      TargetROAS:
+                        type: number
+                        description: For CPC auctions, a target return can be selected on ad spend (ROAS) goal and the decision engine will automatically adjust the CPC bid to try to achieve the goal set. Acceptable values are expressed as a decimal between 0.01–99.99. This is equivalent to 1%–9,999%.
+                        format: float
+                      SiteZoneTargeting:
+                        type: array
+                        items:
+                          properties:
+                            SiteID:
+                              type: integer
+                              description: ID of targeted site
+                              format: int32
+                            ZoneID:
+                              type: integer
+                              description: ID of targeted zone
+                              format: int32
+                            IsExclude:
+                              type: boolean
+                              description: Whether or not the site is included or excluded
+                          type: object
+                      Geotargeting:
+                        type: array
+                        items:
+                          properties:
+                            CountryCode:
+                              type: string
+                              description: The 2-3 character string that denotes the country you want to target
+                            Region:
+                              type: string
+                              description: The 2-3 character string that denotes the region (or state) that you want to target
+                            MetroCode:
+                              type: integer
+                              description: The 3 digit number that denotes the metropolitan area you want to target. US only.
+                              format: int32
+                            City:
+                              type: string
+                              description: The name of the city you want to target
+                            CityGeonameId:
+                              type: integer
+                              description: The numeric geoname ID that denotes the city you want to target. This is the value matched for city targeting. Retrieve valid IDs from the List Cities in Region endpoint.
+                              format: int32
+                            IsExclude:
+                              type: boolean
+                              description: If leave blank, this will default to `false/null` and target the country. If you want to exclude it instead, use `true`
+                              default: false
+                          type: object
+                    required:
+                    - Name
+                    - StartDateISO
+                    - PriorityId
+                    - GoalType
+                    - Impressions
+                    - IsActive
+                    - RateType
+                    type: object
+                IsActive:
+                  type: boolean
+                  description: Specifies whether campaign should be active (serving ads). Defaults to `false`.
+                  default: false
+                FreqCapType:
+                  type: integer
+                  description: The enum value for how often frequency capping should occur. `1 = Hour 2 = Day 3 = Minute`.
+                  format: int32
+                FreqCap:
+                  type: integer
+                  description: The number of times the frequency cap should occur.
+                  format: int32
+                FreqCapDuration:
+                  type: integer
+                  description: Specifies how often the frequency cap should occur.
+                  format: int32
+                DontAffectParentFreqCap:
+                  type: boolean
+                  description: '"Opts-out" campaign from advertiser-level frequency cap settings.'
+                CapType:
+                  type: integer
+                  description: Set to `CapType = 4`. Campaigns can only budget cap on revenue metric. Do not set to `0` - if removing, set to `null`.
+                  format: int32
+                DailyCapAmount:
+                  type: integer
+                  description: The max daily revenue.
+                  format: int32
+                LifetimeCapAmount:
+                  type: integer
+                  description: The max lifetime revenue.
+                  format: int32
+                CustomFieldsJson:
+                  type: string
+                  description: Stringified JSON value containing Custom Fields. See https://dev.kevel.com/docs/custom-fields
+                SalespersonId:
+                  type: integer
+                  description: Network-level login Id of salesperson
+                  format: int32
+            examples:
+              JSON:
+                value:
+                  AdvertiserId: 12345
+                  Name: Nike Q4 Campaign
+                  IsActive: true
+                  Flights:
+                  - Name: Nike Flight 1
+                    PriorityId: 234
+                    GoalType: 2
+                    Impressions: 100
+                    RateType: 1
+                    StartDateISO: '2023-10-17 00:00:00'
+                    Ads:
+                    - IsActive: true
+                      Creative:
+                        Title: Creative 1
+                        AdTypeId: 5
+                  - Name: Nike Flight 2
+                    PriorityId: 345
+                    RateType: 1
+                    GoalType: 8
+                    Impressions: 42
+                    StartDateISO: '2023-10-17 00:00:00'
+                    EndDateISO: '2023-10-18 00:00:00'
+                    Ads:
+                    - IsActive: true
+                      Creative:
+                        Title: Creative 2
+                        AdTypeId: 5
+                    - IsActive: true
+                      Creative:
+                        Title: Creative 3
+                        AdTypeId: 5
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 1000069242\n  \"Flights\": [\n    {\n      \"Id\": 1003195679,\n      \"Ads\": [\n        {\n          \"Id\": 1001151589,\n          \"Creative\": {\n            \"Id\": 1000039937\n          }\n        }\n      ]\n    },\n    {\n      \"Id\": 1003195680,\n      \"Ads\": [\n        {\n          \"Id\": 1001151590,\n          \"Creative\": {\n            \"Id\": 1000039938\n          }\n        },\n        {\n          \"Creative\": {\n            \"Id\": 1000039939\n          },\n          \"Id\": 1001151591\n        }\n      ]\n    }\n  ]\n}\n"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "## The example below is a minimally viable campaign: \ncurl -X POST -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v2/campaign\" --data-binary '{\"Name\":\"Nike Q4 Campaign\",\"AdvertiserId\":12345,\"IsActive\":true}'"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createCampaign() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let campaign = await client.run(\"campaign\", \"create\", {\n    name: \"Nike Q4 Campaign\",\n    advertiserId: 12345,\n    isActive: false, // TIP: create inactive so nothing serves until ready!\n  });\n\n  console.log(campaign);\n}\n\ncreateCampaign();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_campaign()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        name: \"Campaign Name\",\n        advertiser_id: 12345,\n        is_active: false # TIP: campaign should start inactive so nothing serves until ready!\n    }\n    pp client.campaigns.create(data)\nend\ncreate_campaign()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Campaign
+  /v1/campaign/{CampaignID}:
+    put:
+      summary: Update Campaigns
+      description: ''
+      operationId: update-campaigns
+      parameters:
+      - name: CampaignID
+        in: path
+        description: ID of the Campaign
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Id
+              - AdvertiserId
+              - Name
+              - IsActive
+              properties:
+                Id:
+                  type: integer
+                  description: The ID of the Campaign
+                  format: int32
+                AdvertiserId:
+                  type: integer
+                  description: The ID of the Advertiser
+                  format: int32
+                Name:
+                  type: string
+                  description: The name of the Campaign
+                IsActive:
+                  type: boolean
+                  description: Whether campaign is active or not
+                isDeleted:
+                  type: boolean
+                  description: If want to delete, set to `true`
+            examples:
+              JSON:
+                value:
+                  Id: 56789
+                  AdvertiserId: 12345
+                  Name: Nike Q4 Campaign
+                  IsActive: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"IsActive\": true,\n  \"DontAffectParentFreqCap\": null,\n  \"Flights\": [],\n  \"DailyCapAmount\": null,\n  \"FreqCapType\": 0,\n  \"CapType\": null,\n  \"IsFreqCap\": false,\n  \"IsDeleted\": false,\n  \"EndDateISO\": null,\n  \"Price\": 0,\n  \"IsArchived\": false,\n  \"LifetimeCapAmount\": null,\n  \"FreqCapDuration\": null,\n  \"FreqCap\": null,\n  \"SalespersonId\": null,\n  \"AdvertiserId\": 123456,\n  \"Name\": \"Nike Q4 Campaign\",\n  \"Id\": 56789,\n  \"CustomFieldsJson\": null,\n  \"StartDateISO\": \"2018-11-11T00:00:00.0000000\"\n}"
+              schema:
+                type: object
+                properties:
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  DontAffectParentFreqCap: {}
+                  Flights:
+                    type: array
+                  DailyCapAmount: {}
+                  FreqCapType:
+                    type: integer
+                    example: 0
+                    default: 0
+                  CapType: {}
+                  IsFreqCap:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  EndDateISO: {}
+                  Price:
+                    type: integer
+                    example: 0
+                    default: 0
+                  IsArchived:
+                    type: boolean
+                    example: false
+                    default: true
+                  LifetimeCapAmount: {}
+                  FreqCapDuration: {}
+                  FreqCap: {}
+                  SalespersonId: {}
+                  AdvertiserId:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  Name:
+                    type: string
+                    example: Nike Q4 Campaign
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  CustomFieldsJson: {}
+                  StartDateISO:
+                    type: string
+                    example: '2018-11-11T00:00:00.0000000'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" "https://api.kevel.co/v1/campaign/123456" --data-binary '{"Name":"Nike Q4 Campaign","Id":56789,"AdvertiserId":12345,"IsActive":true}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateCampaign() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let campaign = await client.run(\"campaign\", \"update\", {id: 12345, isActive: true});\n  console.log(campaign);\n}\n\nupdateCampaign();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_campaign()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    campaign_id = 12345\n    opts = client.campaigns.get(campaign_id)\n    opts[:name] = \"New Campaign Name\"\n    pp client.campaigns.update(opts)\nend\nupdate_campaign()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Campaign
+    get:
+      summary: Get Campaign
+      description: ''
+      operationId: get-campaigns
+      parameters:
+      - name: CampaignID
+        in: path
+        description: The ID of the Campaign
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: excludeFlights
+        in: query
+        description: If true, returns only campaign metadata without flight objects. Defaults to `false`
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"IsActive\": false,\n  \"DontAffectParentFreqCap\": null,\n  \"Flights\": [],\n  \"DailyCapAmount\": null,\n  \"FreqCapType\": 0,\n  \"CapType\": null,\n  \"IsFreqCap\": null,\n  \"IsDeleted\": false,\n  \"EndDateISO\": null,\n  \"Price\": 0.00,\n  \"IsArchived\": true,\n  \"LifetimeCapAmount\": null,\n  \"FreqCapDuration\": null,\n  \"FreqCap\": null,\n  \"SalespersonId\": null,\n  \"AdvertiserId\": 12345,\n  \"Name\": \"Nike Q4 Campaign\",\n  \"Id\": 56789,\n  \"CustomFieldsJson\": null,\n  \"StartDateISO\": \"2017-03-11T00:00:00.0000000\"\n}"
+              schema:
+                type: object
+                properties:
+                  IsActive:
+                    type: boolean
+                    example: false
+                    default: true
+                  DontAffectParentFreqCap: {}
+                  Flights:
+                    type: array
+                  DailyCapAmount: {}
+                  FreqCapType:
+                    type: integer
+                    example: 0
+                    default: 0
+                  CapType: {}
+                  IsFreqCap: {}
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  EndDateISO: {}
+                  Price:
+                    type: integer
+                    example: 0
+                    default: 0
+                  IsArchived:
+                    type: boolean
+                    example: true
+                    default: true
+                  LifetimeCapAmount: {}
+                  FreqCapDuration: {}
+                  FreqCap: {}
+                  SalespersonId: {}
+                  AdvertiserId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Name:
+                    type: string
+                    example: Nike Q4 Campaign
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  CustomFieldsJson: {}
+                  StartDateISO:
+                    type: string
+                    example: '2017-03-11T00:00:00.0000000'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X GET -H ''X-Adzerk-ApiKey:<APIKEY>'' https://api.kevel.co/v1/campaign/56789
+
+
+            # Exclude Flights (returns faster with less data)
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<APIKEY>'' https://api.kevel.co/v1/campaign/56789?excludeFlights=true'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getCampaign() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let campaign = await client.run(\"campaign\", \"get\", {id: 12345});\n  console.log(campaign);\n}\n\ngetCampaign();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_campaign()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    campaign_id = 12345\n    pp client.campaigns.get(campaign_id)\nend\nget_campaign()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Campaign
+  /v1/campaign/{CampaignID}/flight:
+    get:
+      summary: List Flights for Campaign
+      description: Lists all flights for a particular campaign.
+      operationId: list-flights-for-campaign-id
+      parameters:
+      - name: CampaignID
+        in: path
+        description: ID of the Campaign
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: filter
+        in: query
+        description: Limit the set of returned flights. Omission is equivalent to not-archived. See [List Flights](#list-flights) for details.
+        schema:
+          type: string
+          enum:
+          - not-archived
+          - archived
+          - active
+          - inactive
+      - name: isActive
+        in: query
+        description: 'DEPRECATED. If true, returns only active flights. Deprecated: will be removed in the future. Use filter in preference.'
+        schema:
+          type: boolean
+      - in: query
+        name: excludeAds
+        schema:
+          type: boolean
+          default: 'false'
+        description: If true, the endpoint returns only the flight data without ad objects
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n    \"items\":[  \n        {  \n            \"Id\":12345,\n            \"NoEndDate\":null,\n            \"Price\":0.000,\n            \"Impressions\":100,\n            \"IsNoDuplicates\":true,\n            \"DuplicateMode\":4,\n            \"Keywords\":\"\",\n            \"Name\":\"The Great API Flight\",\n            \"WeightOverride\":null,\n            \"IsFreqCap\":null,\n            \"IsCompanion\":false,\n            \"CampaignId\":1234,\n            \"PriorityId\":1234,\n            \"IsDeleted\":false,\n            \"IsActive\":true,\n            \"GeoTargeting\":null,\n            \"SiteZoneTargeting\":null,\n            \"CustomTargeting\":\"\",\n            \"GoalType\":2,\n            \"RateType\":1,\n            \"IsECPMOptimized\":null,\n            \"ECPMOptimizePeriod\":null,\n            \"ECPMMultiplier\":null,\n            \"FloorECPM\":null,\n            \"CeilingECPM\":null,\n            \"DefaultECPM\":null,\n            \"ECPMBurnInImpressions\":null,\n            \"EffectiveCPMOverride\":null,\n            \"DatePartingStartTimeISO\":null,\n            \"DatePartingEndTimeISO\":null,\n            \"IsSunday\":true,\n            \"IsMonday\":true,\n            \"IsTuesday\":true,\n            \"IsWednesday\":true,\n            \"IsThursday\":true,\n            \"IsFriday\":true,\n            \"IsSaturday\":true,\n            \"FreqCap\":0,\n            \"FreqCapDuration\":0,\n            \"FreqCapType\":0,\n            \"CapType\":1,\n            \"DailyCapAmount\":null,\n            \"LifetimeCapAmount\":null,\n            \"DeliveryStatus\":1,\n            \"CustomFieldsJson\":null,\n            \"BehavioralTargeting\":null,\n            \"IsTargetingOptimization\":null,\n            \"TargetingOptimizationType\":null,\n            \"TargetingOptimizationTargetType\":null,\n            \"TargetingOptimizationTarget\":null,\n            \"TargetingOptimizationBurnIn\":null,\n            \"TargetingOptimizationCanMiss\":null,\n            \"IsArchived\":null,\n            \"CanPassback\":true,\n            \"PassbackSortOrder\":1,\n            \"StartDateISO\":\"2017-06-08T00:00:00.0000000\",\n            \"EndDateISO\":\"2017-12-08T00:00:00.0000000\",\n            \"Created\":\"2022-03-08T12:34:56.123Z\",\n            \"LastModified\":\"2022-03-08T12:34:56.123Z\",\n            \"Version\":4\n        }...\n\t\"page\": 1\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -X GET \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     \"https://api.kevel.co/v1/campaign/1234/flight\""
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listFlightsForCampaign() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flights = await client.run(\"flight\", \"listForCampaign\", {campaignId: 12345});\n  console.log(flights);\n\n  let names = flights.items.map(a => a.name)\n  console.log(names);\n}\n\nlistFlightsForCampaign();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_flights_for_campaign()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    campaign_id = 12345\n    pp client.flights.list_for_campaign(campaign_id)\nend\nlist_flights_for_campaign()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Campaign
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

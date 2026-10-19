@@ -1,0 +1,255 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Fast API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Fast
+paths:
+  /v1/fast/flight:
+    get:
+      summary: Flight Filtering
+      description: ''
+      operationId: flight-category
+      parameters:
+      - name: isActive
+        in: query
+        description: Only return flights where `IsActive` is [true/false]. Default is `true`.
+        schema:
+          type: boolean
+          default: false
+      - name: isArchived
+        in: query
+        description: Only return flights where `IsArchived` is [true/false]. Default is `false`.
+        schema:
+          type: boolean
+          default: false
+      - name: beforeStartDate
+        in: query
+        description: 'Only return flights where `StartDate` is before the provided date. Format: `YYYY-MM-DD HH:MM:SS`; `HH:MM:SS` optional'
+        schema:
+          type: string
+      - name: afterStartDate
+        in: query
+        description: 'Only return flights where `StartDate` is after the provided date. Format: `YYYY-MM-DD HH:MM:SS`; `HH:MM:SS` optional'
+        schema:
+          type: string
+      - name: beforeEndDate
+        in: query
+        description: 'Only return flights where `EndDate` is before the provided date. Format: `YYYY-MM-DD HH:MM:SS`; `HH:MM:SS` optional'
+        schema:
+          type: string
+      - name: afterEndDate
+        in: query
+        description: 'Only return flights where `EndDate` is after the provided date. Format: `YYYY-MM-DD HH:MM:SS`; `HH:MM:SS` optional'
+        schema:
+          type: string
+      - name: noEndDate
+        in: query
+        description: Only return flights where `EndDate` is null
+        schema:
+          type: boolean
+      - name: name
+        in: query
+        description: Only return flights where `Name` is an exact match of the query.
+        schema:
+          type: string
+      - name: nameContains
+        in: query
+        description: Only return flights where the given string is a substring of the `Name`. No wildcard characters are supported.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"LastModifiedDate\": \"2016-12-08T21:34:32Z\",\n  \"CustomFieldsJson\": \"{\\\"Currency\\\":\\\"USD: US Dollars\\\"}\",\n  \"StartDate\": \"2016-12-08T00:00:00Z\",\n  \"PriorityId\": 1234,\n  \"IsDeleted\": false,\n  \"Id\": 1234567,\n  \"IsNoDuplicates\": false,\n  \"IsArchived\": null,\n  \"RateType\": 1,\n  \"FreqCap\": 0,\n  \"IsCompanion\": false,\n  \"CanPassback\": false,\n  \"CapType\": 1,\n  \"Price\": 0,\n  \"IsActive\": true,\n  \"FreqCapType\": 0,\n  \"CustomTargeting\": \"\",\n  \"IsTrackingConversions\": false,\n  \"FreqCapDuration\": 0,\n  \"PassbackSortOrder\": null,\n  \"GoalType\": 2,\n  \"DailyCapAmount\": null,\n  \"Name\": \"There's a Flight\",\n  \"LifetimeCapAmount\": null,\n  \"AdvertiserId\": 12345,\n  \"Keywords\": \"\",\n  \"EndDate\": null,\n  \"AdIds\": [\n    1234567\n  ],\n  \"Impressions\": 100,\n  \"CampaignId\": 123456\n}"
+              schema:
+                type: object
+                properties:
+                  LastModifiedDate:
+                    type: string
+                    example: '2016-12-08T21:34:32Z'
+                  CustomFieldsJson:
+                    type: string
+                    example: '{"Currency":"USD: US Dollars"}'
+                  StartDate:
+                    type: string
+                    example: '2016-12-08T00:00:00Z'
+                  PriorityId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  Id:
+                    type: integer
+                    example: 1234567
+                    default: 0
+                  IsNoDuplicates:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsArchived: {}
+                  RateType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  FreqCap:
+                    type: integer
+                    example: 0
+                    default: 0
+                  IsCompanion:
+                    type: boolean
+                    example: false
+                    default: true
+                  CanPassback:
+                    type: boolean
+                    example: false
+                    default: true
+                  CapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Price:
+                    type: integer
+                    example: 0
+                    default: 0
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  FreqCapType:
+                    type: integer
+                    example: 0
+                    default: 0
+                  CustomTargeting:
+                    type: string
+                    example: ''
+                  IsTrackingConversions:
+                    type: boolean
+                    example: false
+                    default: true
+                  FreqCapDuration:
+                    type: integer
+                    example: 0
+                    default: 0
+                  PassbackSortOrder: {}
+                  GoalType:
+                    type: integer
+                    example: 2
+                    default: 0
+                  DailyCapAmount: {}
+                  Name:
+                    type: string
+                    example: There's a Flight
+                  LifetimeCapAmount: {}
+                  AdvertiserId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Keywords:
+                    type: string
+                    example: ''
+                  EndDate: {}
+                  AdIds:
+                    type: array
+                    items:
+                      type: integer
+                      example: 1234567
+                      default: 0
+                  Impressions:
+                    type: integer
+                    example: 100
+                    default: 0
+                  CampaignId:
+                    type: integer
+                    example: 123456
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -N "https://api.kevel.co/v1/fast/flight" -H "X-Adzerk-ApiKey:<API-KEY>"
+
+
+            # With multiple arguments
+
+            curl -N "https://api.kevel.co/v1/fast/flight?beforeStartDate=2014-01-01&noEndDate=true&isActive=false&nameContains=shoe" -H "X-Adzerk-ApiKey:<API-KEY>"'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function filterFlights() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flights = await client.run(\"flight\", \"filter\", {nameContains: \"of\"});\n  console.log(flights);\n\n  let summaries = flights.map(a => `${a.id} - ${a.name} - ${a.campaignId}`);\n  console.log(summaries);\n}\n\nfilterFlights();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef filter_flights()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_data = {\n        is_active: true,\n        name_contains: \"of\"\n    }\n    pp client.flights.filter_flights(flight_data)\nend\nfilter_flights()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Fast
+  /v1/fast/site:
+    get:
+      summary: Site Filtering
+      description: This API call returns a stream of line-delimited JSON where each line of output is a single JSON object representing one site. The site object contains the site ID, its title, `IsDeleted`, the Pub Account ID, and the URL. By default, the endpoint returns all *non-deleted* sites saved in an account.
+      operationId: site-filtering
+      parameters:
+      - name: titleLike
+        in: query
+        description: 'Filters the stream of sites based on the Title. This is a simple match - if the string provided in the query parameter is present anywhere in a site''s Title, that site will be returned in the results. Example: `?titleLike=adzerk`'
+        schema:
+          type: string
+      - name: urlLike
+        in: query
+        description: 'Filters the stream of sites based on the Url. This is a simple match - if the string provided in the query parameter is present anywhere in a site''s Url, that site will be returned in the results. Example: `?urlLike=adzerk.com`'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 1234,\n  \"Title\": \"A Site Name\",\n  \"IsDeleted\": false,\n  \"NetworkMargin\":null,\n  \"Url\": \"http://www.example.com\"\n}\n{\n  \"Id\": 1235,\n  \"Title\": \"Another Site Name\",\n  \"IsDeleted\": false,\n  \"NetworkMargin\":null,\n  \"Url\": \"http://www.example2.com\"\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '## Return all sites
+
+            curl -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -N "https://api.kevel.co/v1/fast/site"
+
+
+            ## Filter based on title & URL
+
+            curl -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -N "https://api.kevel.co/v1/fast/site?titleLike=site&urlLike=.com"'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function filterSites() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let sitesByTitle = await client.run(\"site\", \"filter\", {titleLike: \"site\"});\n  console.log(\"Sites with 'Site' in title:\", sitesByTitle);\n\n  let sitesByUrl = await client.run(\"site\", \"filter\", {urlLike: \".com\"});\n  console.log(\"Sites with 'example' in URL:\", sitesByUrl);\n}\n\nfilterSites();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef filter_sites()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    site_data = {\n        title_like: \"site\",\n        url_like: \".com\"\n    }\n    pp client.sites.filter_sites(site_data)\nend\nfilter_sites()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Fast
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

@@ -1,0 +1,52 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Categories API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Categories
+paths:
+  /v1/categories:
+    get:
+      summary: List Network Categories
+      description: ''
+      operationId: list-network-categories
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"page\": 1,\n    \"items\": [\n        {\n            \"Id\": 123,\n            \"Name\": \"Sports\"\n        },..."
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/categories"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listNetworkFlightCategories() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flightCategories = await client.run(\"flightCategory\", \"list\");\n  console.log(flightCategories);\n\n  let names = flightCategories.items.map(a => a.name)\n  console.log(names);\n}\n\nlistNetworkFlightCategories();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_network_flight_categories()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.categories.listAll()\nend\nlist_network_flight_categories()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Categories
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

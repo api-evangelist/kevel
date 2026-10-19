@@ -1,0 +1,4006 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Flight API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Flight
+paths:
+  /v1/flight:
+    post:
+      summary: Create Flight
+      description: This API call adds a new flight to a campaign.
+      operationId: create-flight
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Name
+              - StartDateISO
+              - CampaignId
+              - PriorityId
+              - GoalType
+              - Impressions
+              - IsActive
+              - RateType
+              properties:
+                Name:
+                  type: string
+                  description: The flight name. Max length is 300 characters.
+                StartDateISO:
+                  type: string
+                  description: 'UTC start date in ISO 8601 format:  `YYYY-MM-DDTHH:MM:SS.SSSSSSS`. This can also be sent in the format of `YYYY-MM-DD`.'
+                CampaignId:
+                  type: integer
+                  description: The ID of the campaign.
+                  format: int32
+                PriorityId:
+                  type: integer
+                  description: The ID of the [Priority](doc:priorities). Here are the [Priority API endpoints](ref:priority).
+                  format: int32
+                GoalType:
+                  type: integer
+                  description: 'This is the metric that Kevel uses to pace the ads so it hits the desired goal by the end date.  Key follows: `1 = Impressions 2 = Percentage 3 = Click 7 = Conversion 8 = Revenue 9 = Daily Revenue  10 = Monthly Revenue`. Instructions are [here](doc:flights#goals)'
+                  format: int32
+                Impressions:
+                  type: integer
+                  description: 'The goal amount - specifies the number of GoalTypes to aim for during the life of the campaign. For Revenue, Daily Revenue and Monthly Revenue Goal Types the maximum Goal Amount is 500000000. For all other GoalTypes the maximum Goal Amount is 2147483647. Instructions are [here](doc:flights#goals). Note: the field is named Impressions even if Goal Type is not set to Impressions.'
+                  format: int32
+                IsActive:
+                  type: boolean
+                  description: Specifies whether campaigns should be active or inactive. Defaults to `false`.
+                  default: false
+                RateType:
+                  type: integer
+                  description: 'The Rate value - instructions [here](doc:flights#rateprice). Key: `1 = Flat 2 = CPM 3 = CPC 4 = CPA View 5 = CPA Click 6 = CPA View & Click`.'
+                  format: int32
+                EndDateISO:
+                  type: string
+                  description: 'UTC end date in ISO 8601 format: ``YYYY-MM-DDTHH:MM:SS.SSSSSSS`. You can also send in a standard date of `YYYY-MM-DD`. **Required** if `GoalType` is not `2`, `9` or `10`.'
+                IsDeleted:
+                  type: boolean
+                  description: Specifies whether flight should be deleted. Do not use when creating a flight. Defaults to `false`.
+                  default: false
+                Price:
+                  type: number
+                  description: The Price value - instructions [here](doc:flights#rateprice).
+                  format: float
+                CapType:
+                  type: integer
+                  description: 'The cap type metric. Instructions [here](doc:flights#caps). Key: `1 = Impressions 2 = Clicks 3 = Conversions 4 = Revenue`. Do not set to `0` - if removing, set to `null`.'
+                  format: int32
+                DailyCapAmount:
+                  type: integer
+                  description: 'The maximum # of `CapType` per day. Instructions [here](doc:flights#caps).'
+                  format: int32
+                LifetimeCapAmount:
+                  type: integer
+                  description: 'The maximum # of `CapType` per lifetime.  Instructions [here](doc:flights#caps).'
+                  format: int32
+                Keywords:
+                  type: string
+                  description: Keywords used for targeting. Instructions [here](https://dev.kevel.com/docs/keyword-targeting).
+                CustomTargeting:
+                  type: string
+                  description: Zerkel string for Custom targeting. Instructions [here](https://dev.kevel.com/docs/custom-targeting). The maximum string length for `CustomTargeting` is 1000 characters.
+                CustomFieldsJSON:
+                  type: string
+                  description: Sets the value of custom fields based on a custom fields schema. Must contact support before use. More info [here](doc:custom-fields).
+                IsFreqCap:
+                  type: boolean
+                  description: Set to `true` if doing capping. If false or null, then the other Freq fields are ignored. Learn more about FC [here](https://dev.kevel.com/docs/flight-frequency-capping). If not already enabled, you'll need your account manager to enable it.
+                FreqCap:
+                  type: integer
+                  description: The number of times the frequency cap should occur. Cannot be 0 unless `FreqCapType` is None (0).
+                  format: int32
+                FreqCapDuration:
+                  type: integer
+                  description: Specifies how often the frequency cap should occur. Cannot be 0 unless `FreqCapType` is None (0).
+                  format: int32
+                FreqCapType:
+                  type: integer
+                  description: 'Specifies which unit of time you would like frequency capping to occur. Key: `1 = Hour 2 = Day 3 = Minute`.'
+                  format: int32
+                DontAffectParentFreqCap:
+                  type: boolean
+                  description: If true, opts-it out of frequency cap settings imposed at advertiser or campaign level.
+                IsCompanion:
+                  type: boolean
+                  description: If `true`, enables companion ads. `IsCompanion` must be set to `false` when `IsNoDuplicates` is `true`, and vice versa. Learn more [here](doc:additional-display-rules#companion-ads).
+                isNoDuplicates:
+                  type: boolean
+                  description: If `true`, enables no duplicates. `IsCompanion` must be set to `false` when `IsNoDuplicates` is true, and vice versa.
+                DuplicateMode:
+                  type: integer
+                  description: 'Indicates which level no duplicates should be enforced on. Key follows: `1: Flight 2: Campaign 3: Advertiser 4: Creative`.'
+                  format: int32
+                DeliveryStatus:
+                  type: integer
+                  description: 'Read-only. Status of the flight. The mapping of the status against the [UI](https://dev.kevel.com/docs/campaigns#flights-and-ads) are in brackets. Key: 0 = Pending (blue) 1 = Healthy (green) 2 = BorderLine (amber) 3 = InDanger (red) 5 = Underdelivered (amber).'
+                  format: int32
+                IsTrackingConversions:
+                  type: boolean
+                  description: If `true`, enables conversion tracking endpoints/pixels.
+                CanPassback:
+                  type: boolean
+                  description: Sets whether a flight in an adChained-enabled priority can pass back to the next flight in the adChain.
+                PassbackSortOrder:
+                  type: integer
+                  description: Sets the order of a flight in the adChain. `PassbackSortOrder` is a transient value that can be modified by internal processes in the UI. Although the value may change, the actual sort order of flights in the adChain will remain consistent. Setting two flights to the same `PassbackSortOrder` will cause the flights to be chosen randomly. Setting `PassbackSortOrder` to `0` will cause the flight to appear as `"--"` in the UI, but the flight will still be part of the adChain. This is not recommended.
+                  format: int32
+                IsECPMOptimized:
+                  type: boolean
+                  description: Specifies whether `ECPM Optimization` is enabled.
+                ECPMOptimizePeriod:
+                  type: integer
+                  description: Timeframe to optimize for [1 - 90 days].
+                  format: int32
+                ECPMMultiplier:
+                  type: number
+                  description: The final eCPM will be multiplied by this amount. Must be at least 0.01.
+                  format: float
+                FloorECPM:
+                  type: number
+                  description: Minimum eCPM. Must be at least 0.01.
+                  format: float
+                CeilingECPM:
+                  type: number
+                  description: Maximum eCPM. Must be at least 0.01.
+                  format: float
+                DefaultECPM:
+                  type: number
+                  description: This is the eCPM an ad starts at when the Flight begins serving. During burn-in the eCPM moves from this value towards the ad's calculated eCPM as impressions accrue. Must be at least 0.01.
+                  format: float
+                ECPMBurnInImpressions:
+                  type: integer
+                  description: Impressions per creative over which the eCPM moves from the default eCPM to the calculated eCPM [1 - 2147483648].
+                  format: int32
+                EffectiveCPMOverride:
+                  type: number
+                  description: Sets a manual override to a flight's CPM, e.g. so a Flat Rate flight can compete in an auction priority.
+                  format: float
+                DatePartingStartTimeISO:
+                  type: string
+                  description: 'Targets the flight to certain hours within a day. Use ISO 8601 format: `HH:MM:SS`. *(This parameter is part of Kevel''s legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*'
+                  default: 'Null'
+                DatePartingEndTimeISO:
+                  type: string
+                  description: 'Targets the flight to certain hours within a day. Use ISO 8601 format: `HH:MM:SS`. *(This parameter is part of Kevel''s legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*'
+                  default: 'Null'
+                IsSunday:
+                  type: boolean
+                  description: If `true`, targets this day. Defaults to `false` if you have filled in the `DateParting` fields. *(This parameter is part of Kevel's legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*
+                  default: false
+                IsMonday:
+                  type: boolean
+                  description: If `true`, targets this day. Defaults to `false` if you have filled in the `DateParting` fields. *(This parameter is part of Kevel's legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*
+                  default: false
+                IsTuesday:
+                  type: boolean
+                  description: If `true`, targets this day. Defaults to `false` if you have filled in the `DateParting` fields. *(This parameter is part of Kevel's legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*
+                  default: false
+                IsWednesday:
+                  type: boolean
+                  description: If `true`, targets this day. Defaults to `false` if you have filled in the `DateParting` fields. *(This parameter is part of Kevel's legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*
+                  default: false
+                IsThursday:
+                  type: boolean
+                  description: If `true`, targets this day. Defaults to `false` if you have filled in the `DateParting` fields. *(This parameter is part of Kevel's legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*
+                  default: false
+                IsFriday:
+                  type: boolean
+                  description: If `true`, targets this day. Defaults to `false` if you have filled in the `DateParting` fields. *(This parameter is part of Kevel's legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*
+                  default: false
+                IsSaturday:
+                  type: boolean
+                  description: If `true`, targets this day. Defaults to `false` if you have filled in the `DateParting` fields. *(This parameter is part of Kevel's legacy day parting features. It is still supported, but will be ignored if a Flight has one or more new day parts. Learn more about new day parting features [here](https://dev.kevel.com/docs/day-hour-parting) and about legacy day parts [here](https://dev.kevel.com/docs/day-hour-parting-v1).)*
+                  default: false
+                IsArchived:
+                  type: boolean
+                  description: Specifies whether flight is archived.
+                  default: false
+                RequireStrictLocation:
+                  type: boolean
+                  description: If true, the ad request needs exact longitude and latitude in order to use GeoDistance targeting settings.
+                  default: false
+                TimeZone:
+                  type: string
+                  description: Sets a [supported IANA time zone string](https://dev.kevel.com/docs/time-zones-1#available-time-zones-strings) to be used for the flight's daily caps, daily goals, and day parting. Note that even if a non-UTC  `TimeZone` is set, start and end dates will still be in UTC.
+                  default: '"UTC"'
+                IsTargetingOptimization:
+                  type: boolean
+                  description: Legacy parameter
+                TargetingOptimizationType:
+                  type: integer
+                  description: Legacy parameter
+                  format: int32
+                TargetingOptimizationTargetType:
+                  type: integer
+                  description: Legacy parameter
+                  format: int32
+                TargetingOptimizationTarget:
+                  type: number
+                  description: Legacy parameter
+                  format: float
+                TargetingOptimizationBurnIn:
+                  type: integer
+                  description: Legacy parameter
+                  format: int32
+                TargetingOptimizationCanMiss:
+                  type: boolean
+                  description: Legacy parameter
+                TargetROAS:
+                  type: number
+                  description: For CPC/CPA/CPM auctions, a target return can be selected on ad spend (ROAS) goal and the decision engine will automatically adjust the CPC/CPA/CPM bid to try to achieve the goal set. Acceptable values are expressed as a decimal between 0.01–99.99. This is equivalent to 1%–9,999%.
+                  default: null
+                  format: float
+                BidModifiers:
+                  type: array
+                  description: See [Bid Modifiers documentation](https://dev.kevel.com/docs/bid-modifiers#how-to-configure-bid-modifiers-using-the-management-api) for example usage.
+                  items:
+                    properties:
+                      Match:
+                        type: object
+                        properties:
+                          Keyword:
+                            type: string
+                          Site:
+                            type: integer
+                            format: int32
+                          Zone:
+                            type: integer
+                            format: int32
+                          Segment:
+                            type: integer
+                            format: int32
+                          SearchTerm:
+                            type: object
+                            properties:
+                              Term:
+                                type: string
+                          Category:
+                            type: object
+                            description: 'Match the category the ad request sends in `placements[].category`. The match is exact and case-sensitive after Kevel trims spaces from the start and end, and a parent category does not match its children. A category match never makes an Ad eligible: it changes the bid of an Ad that is already eligible. Kevel accepts and applies a category match whether or not category targeting is enabled for your network.'
+                            required:
+                            - Id
+                            properties:
+                              Id:
+                                type: string
+                                description: The category, a string of 1 to 200 characters after trimming.
+                    type: object
+                SiteZoneTargeting:
+                  type: array
+                  items:
+                    properties:
+                      SiteID:
+                        type: integer
+                        description: ID of targeted site
+                        format: int32
+                      ZoneID:
+                        type: integer
+                        description: ID of targeted zone
+                        format: int32
+                      IsExclude:
+                        type: boolean
+                        description: Whether or not the site is included or excluded
+                    type: object
+                Geotargeting:
+                  type: array
+                  items:
+                    properties:
+                      CountryCode:
+                        type: string
+                        description: The 2-3 character string that denotes the country you want to target
+                      Region:
+                        type: string
+                        description: The 2-3 character string that denotes the region (or state) that you want to target
+                      MetroCode:
+                        type: integer
+                        description: The 3 digit number that denotes the metropolitan area you want to target. US only.
+                        format: int32
+                      City:
+                        type: string
+                        description: The name of the city you want to target
+                      CityGeonameId:
+                        type: integer
+                        description: The numeric geoname ID that denotes the city you want to target. This is the value matched for city targeting. Retrieve valid IDs from the List Cities in Region endpoint.
+                        format: int32
+                      IsExclude:
+                        type: boolean
+                        description: If leave blank, this will default to `false/null` and target the country. If you want to exclude it instead, use `true`
+                        default: false
+                    type: object
+                SegmentTargeting:
+                  type: array
+                  items:
+                    properties:
+                      SegmentId:
+                        type: integer
+                        format: int32
+                        description: ID of the targeted Segment
+                      IsExclude:
+                        type: boolean
+                        default: 'false'
+                    type: object
+                CategoryTargeting:
+                  type: array
+                  description: The category targeting rules for the Flight. Each entry has an `Id`, the category to match, and `IsExclude`, which is `true` for an exclude rule and `false` for an include rule. Both keys are required. An `Id` can appear only once in the list, including once as an include and once as an exclude, otherwise the request returns a 400 with "CategoryTargeting includes duplicate Id values, or it may be null." A Flight can hold up to 25 rules unless Kevel raises the limit for your network. A longer list returns a 400 with "Your account has exceeded the limit for CategoryTargeting on this flight. Please contact support." Set the field to `null` or `[]` to remove the rules. If category targeting is not enabled for your network, Kevel ignores the field on writes and leaves it out of responses, and a malformed value still returns a 400. See [Set up category targeting](doc:set-up-category-targeting).
+                  items:
+                    type: object
+                    required:
+                    - Id
+                    - IsExclude
+                    properties:
+                      Id:
+                        type: string
+                        description: The category to match, written exactly as your ad requests send it in `placements[].category`. Kevel trims spaces from the start and end when it saves the value, and matching is exact and case-sensitive. A parent category does not match its children. The value is a string of 1 to 200 characters.
+                      IsExclude:
+                        type: boolean
+                        description: '`true` for an exclude rule, `false` for an include rule.'
+                AttributionView:
+                  type: object
+                  description: The post-view attribution settings for this Flight. Set to `null` to disable. Learn more about [Kevel's attribution functionality](doc:attribution-overview).
+                  properties:
+                    MatchType:
+                      type: string
+                      description: The relationship between the purchased and advertised product. This choice represents the broadest acceptable match. Kevel will attempt to match purchases at the most specific level first (same product) and then look for broader shopper touch points up to this value.
+                      enum:
+                      - SameProduct
+                      - SameCategoryBrand
+                      - SameBrand
+                      - SameMerchant
+                    LookbackWindow:
+                      type: string
+                      description: The eligible time period (days) between a sales transaction and an ad event.
+                      enum:
+                      - '1'
+                      - '7'
+                      - '14'
+                      - '30'
+                    MatchMerchant:
+                      type: boolean
+                      description: If true, Kevel will only attribute sales that align with the selected `MatchType` _and_ the merchant(s) set via `AttributableItems` on Ads in this Flight must also match.
+                      default: false
+                AttributionClick:
+                  type: object
+                  description: The post-click attribution settings for this Flight. Set to `null` to disable. Learn more about [Kevel's attribution functionality](doc:attribution-overview).
+                  properties:
+                    MatchType:
+                      type: string
+                      description: The relationship between the purchased and advertised product. This choice represents the broadest acceptable match. Kevel will attempt to match purchases at the most specific level first (same product) and then look for broader shopper touch points up to this value.
+                      enum:
+                      - SameProduct
+                      - SameCategoryBrand
+                      - SameBrand
+                      - SameMerchant
+                    LookbackWindow:
+                      type: string
+                      description: The eligible time period (days) between a sales transaction and an ad event.
+                      enum:
+                      - '1'
+                      - '7'
+                      - '14'
+                      - '30'
+                    MatchMerchant:
+                      type: boolean
+                      description: If true, Kevel will only attribute sales that align with the selected `MatchType` _and_ the merchant(s) set via `AttributableItems` on Ads in this Flight must also match.
+                      default: false
+                SearchTerms:
+                  type: object
+                  description: See [Search Term Targeting](doc:search-term-targeting).
+                  properties:
+                    Term:
+                      type: string
+                      description: The term to match against
+                    IsExclude:
+                      type: boolean
+                      description: Indicate whether the term should positively (false) or negatively (true)
+                      default: false
+                    MatchType:
+                      type: string
+                      default: '"Broad"'
+                      enum:
+                      - '"Broad"'
+                      - '"Strict"'
+                      - '"Exact"'
+                AttributionSettings:
+                  type: object
+                  description: Specify the products, categories, brands, and/or merchants that make a purchase eligible for attribution to Ads in this Flight. See [Attribution Overview](doc:attribution-overview) for more details.
+                  properties:
+                    AttributableItems:
+                      type: array
+            examples:
+              JSON:
+                value:
+                  Name: Basic Flight
+                  StartDateISO: '2017-05-01'
+                  EndDateISO: '2017-12-31'
+                  CampaignId: 1234
+                  PriorityId: 1234
+                  GoalType: 1
+                  Impressions: 10000
+                  RateType: 2
+                  Price: 5
+                  CapType: 1
+                  DailyCapAmount: 5000
+                  LifetimeCapAmount: 50000
+                  IsActive: true
+                  Keywords: exercise
+                  CustomTargeting: null
+                  GeoTargeting: null
+                  SiteZoneTargeting: null
+                  IsFreqCap: true
+                  FreqCap: 2
+                  FreqCapDuration: 10
+                  FreqCapType: 1
+                  DontAffectParentFreqCap: true
+                  IsCompanion: true
+                  IsNoDuplicates: false
+                  IsTrackingConversions: true
+                  CanPassback: true
+                  PassbackSortOrder: 1
+                  IsArchived: false
+                  IsSunday: true
+                  IsMonday: false
+                  IsTuesday: false
+                  IsWednesday: false
+                  IsThursday: false
+                  IsFriday: false
+                  IsSaturday: true
+                  TimeZone: America/New_York
+                  IsECPMOptimized: true
+                  ECPMOptimizePeriod: 30
+                  ECPMMultiplier: 1.25
+                  FloorECPM: 0.15
+                  CeilingECPM: 0.35
+                  DefaultECPM: 0.28
+                  ECPMBurnInImpressions: 1000
+                  BehavioralTargeting:
+                    onClick:
+                      stopShowingAdsFromFlight: true
+                      stopShowingAdsFromAdvertiser: true
+                      storeCategoriesFromFlightAsInterest: true
+                    onConvert:
+                      stopShowingAdsFromFlight: true
+                      stopShowingAdsFromAdvertiser: true
+                      storeCategoriesFromFlightAsInterest: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 1234,\n  \"StartDateISO\": \"2017-05-01T00:00:00.0000000\",\n  \"EndDateISO\": \"2017-12-31T00:00:00.0000000\",\n  \"NoEndDate\": false,\n  \"Price\": 5,\n  \"Impressions\": 10000,\n  \"IsNoDuplicates\": false,\n  \"IsCompanion\": true,\n  \"Keywords\": \"exercise\",\n  \"Name\": \"Basic Flight\",\n  \"IsFreqCap\": true,\n  \"CampaignId\": 1234,\n  \"PriorityId\": 1234,\n  \"DeliveryStatus\": 0,\n  \"IsDeleted\": false,\n  \"IsActive\": true,\n  \"GeoTargeting\": [\n    {\n      \"CountryCode\": \"US\",\n      \"Region\": \"NC\",\n      \"MetroCode\": 560,\n      \"City\": \"Durham\",\n      \"CityGeonameId\": 4464368,\n      \"IsExclude\": false\n    }\n  ],\n  \"SiteZoneTargeting\": [\n    {\n      \"SiteId\": 123,\n      \"ZoneId\": 321,\n      \"IsExclude\": false\n    }\n  ],\n  \"CustomTargeting\": null,\n  \"SegmentTargting\": [\n    {\n      \"FlightId\": 1234,\n      \"SegmentId\": 567,\n      \"IsExclude\": false,\n      \"Id\": 5195,\n      \"Segment\": {\n        \"Description\": \"\",\n        \"Reach\": null,\n        \"Id\": 567,\n        \"Source\": null,\n        \"Name\": \"Age 25-34\",\n        \"Category\": \"Age Demographics\"\n      }\n    }\n  ],\n  \"GoalType\": 1,\n  \"RateType\": 2,\n  \"IsECPMOptimized\": true,\n  \"ECPMOptimizePeriod\": 30,\n  \"ECPMMultiplier\": 1.25,\n  \"FloorECPM\": 0.15,\n  \"CeilingECPM\": 0.35,\n  \"DefaultECPM\": 0.28,\n  \"ECPMBurnInImpressions\": 1000,\n  \"EffectiveCPMOverride\": null,\n  \"DatePartingStartTimeISO\": null,\n  \"DatePartingEndTimeISO\": null,\n  \"IsSunday\": true,\n  \"IsMonday\": false,\n  \"IsTuesday\": false,\n  \"IsWednesday\": false,\n  \"IsThursday\": false,\n  \"IsFriday\": false,\n  \"IsSaturday\": true,\n  \"TimeZone\": \"America/New_York\",\n  \"FreqCap\": 2,\n  \"FreqCapDuration\": 10,\n  \"FreqCapType\": 1,\n  \"CapType\": 1,\n  \"DailyCapAmount\": 5000,\n  \"LifetimeCapAmount\": 50000,\n  \"CustomFieldsJson\": null,\n  \"BehavioralTargeting\": {\n    \"onClick\": {\n      \"stopShowingAdsFromFlight\": true,\n      \"stopShowingAdsFromAdvertiser\": true,\n      \"storeCategoriesFromFlightAsInterest\": true\n    },\n    \"onConvert\": {\n      \"stopShowingAdsFromFlight\": true,\n      \"stopShowingAdsFromAdvertiser\": true,\n      \"storeCategoriesFromFlightAsInterest\": true\n    }\n  },\n  \"IsArchived\": null,\n  \"IsTrackingConversions\": true,\n  \"RequireStrictLocation\": false,\n  \"CanPassback\": true,\n\"PassbackSortOrder\":[\n  }              "
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  StartDateISO:
+                    type: string
+                    example: '2017-05-01T00:00:00.0000000'
+                  EndDateISO:
+                    type: string
+                    example: '2017-12-31T00:00:00.0000000'
+                  NoEndDate:
+                    type: boolean
+                    example: false
+                    default: true
+                  Price:
+                    type: integer
+                    example: 5
+                    default: 0
+                  Impressions:
+                    type: integer
+                    example: 10000
+                    default: 0
+                  IsNoDuplicates:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsCompanion:
+                    type: boolean
+                    example: true
+                    default: true
+                  Keywords:
+                    type: string
+                    example: exercise
+                  Name:
+                    type: string
+                    example: Basic Flight
+                  IsFreqCap:
+                    type: boolean
+                    example: true
+                    default: true
+                  CampaignId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  PriorityId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  DeliveryStatus:
+                    type: integer
+                    example: 0
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  GeoTargeting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        CountryCode:
+                          type: string
+                          example: US
+                        Region:
+                          type: string
+                          example: NC
+                        MetroCode:
+                          type: integer
+                          example: 560
+                          default: 0
+                        City:
+                          type: string
+                          example: Durham
+                        CityGeonameId:
+                          type: integer
+                          example: 4464368
+                          default: 0
+                        IsExclude:
+                          type: boolean
+                          example: false
+                          default: true
+                  SiteZoneTargeting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        SiteId:
+                          type: integer
+                          example: 123
+                          default: 0
+                        ZoneId:
+                          type: integer
+                          example: 321
+                          default: 0
+                        IsExclude:
+                          type: boolean
+                          example: false
+                          default: true
+                  CustomTargeting: {}
+                  SegmentTargeting:
+                    type: array
+                    items:
+                      properties:
+                        Id:
+                          type: integer
+                          format: int32
+                        FlightId:
+                          type: integer
+                          format: int32
+                        SegmentId:
+                          type: integer
+                          format: int32
+                        IsExclude:
+                          type: boolean
+                          default: 'false'
+                        Segment:
+                          type: object
+                          properties: {}
+                          description: Details of the targeted Segment
+                      type: object
+                  GoalType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  RateType:
+                    type: integer
+                    example: 2
+                    default: 0
+                  IsECPMOptimized:
+                    type: boolean
+                    example: true
+                    default: true
+                  ECPMOptimizePeriod:
+                    type: integer
+                    example: 30
+                    default: 0
+                  ECPMMultiplier:
+                    type: number
+                    example: 1.25
+                    default: 0
+                  FloorECPM:
+                    type: number
+                    example: 0.15
+                    default: 0
+                  CeilingECPM:
+                    type: number
+                    example: 0.35
+                    default: 0
+                  DefaultECPM:
+                    type: number
+                    example: 0.28
+                    default: 0
+                  ECPMBurnInImpressions:
+                    type: integer
+                    example: 1000
+                    default: 0
+                  EffectiveCPMOverride:
+                    type: number
+                  DatePartingStartTimeISO: {}
+                  DatePartingEndTimeISO: {}
+                  IsSunday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsMonday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsTuesday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsWednesday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsThursday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsFriday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsSaturday:
+                    type: boolean
+                    example: true
+                    default: true
+                  TimeZone:
+                    type: string
+                    example: America/New_York
+                  FreqCap:
+                    type: integer
+                    example: 2
+                    default: 0
+                  FreqCapDuration:
+                    type: integer
+                    example: 10
+                    default: 0
+                  FreqCapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  CapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  DailyCapAmount:
+                    type: integer
+                    example: 5000
+                    default: 0
+                  LifetimeCapAmount:
+                    type: integer
+                    example: 50000
+                    default: 0
+                  CustomFieldsJson: {}
+                  BehavioralTargeting:
+                    type: object
+                    properties:
+                      onClick:
+                        type: object
+                        properties:
+                          stopShowingAdsFromFlight:
+                            type: boolean
+                            example: true
+                            default: true
+                          stopShowingAdsFromAdvertiser:
+                            type: boolean
+                            example: true
+                            default: true
+                          storeCategoriesFromFlightAsInterest:
+                            type: boolean
+                            example: true
+                            default: true
+                      onConvert:
+                        type: object
+                        properties:
+                          stopShowingAdsFromFlight:
+                            type: boolean
+                            example: true
+                            default: true
+                          stopShowingAdsFromAdvertiser:
+                            type: boolean
+                            example: true
+                            default: true
+                          storeCategoriesFromFlightAsInterest:
+                            type: boolean
+                            example: true
+                            default: true
+                  IsArchived: {}
+                  IsTrackingConversions:
+                    type: boolean
+                    example: true
+                    default: true
+                  RequireStrictLocation:
+                    type: boolean
+                    example: false
+                    default: true
+                  CanPassback:
+                    type: boolean
+                    example: true
+                    default: true
+                  PassbackSortOrder:
+                    type: integer
+                    example: 1
+                    default: 0
+                  CategoryTargeting:
+                    type: array
+                    description: The category targeting rules saved on the Flight, each with an `Id` and `IsExclude`. Left out when category targeting is not enabled for your network.
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: string
+                          description: The category the rule matches.
+                        IsExclude:
+                          type: boolean
+                          description: '`true` for an exclude rule, `false` for an include rule.'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "# The example below is a minimally viable flight that has no End Date and is set with a Percentage Goal of 100. \ncurl -X POST \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     -H \"Content-Type:application/json\" \\\n     \"https://api.kevel.co/v1/flight\" \\\n     --data-binary '{\"Name\":\"Basic Flight\",\"StartDateISO\":\"2017-05-01\",\"CampaignId\":123456,\"PriorityId\":12345,\"GoalType\":2,\"RateType\":2,\"Impressions\":100,\"IsActive\":true}'"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createFlight() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flight = await client.run(\"flight\", \"create\", {\n    name: \"Flight Name\",\n    isActive: true,\n    startDateIso: \"2020-01-01\",\n    priorityId: 207820,\n    campaignId: 1752671,\n    goalType: Adzerk.GoalType.Percentage,\n    impressions: 100, // 100% goal\n    rateType: Adzerk.RateType.Cpm, \n    price: 0.25, // $0.25 for thousand impressions\n  });\n\n  console.log(flight);\n}\n\ncreateFlight();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_flight()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        name: \"Flight Name\",\n        is_active: true,\n        start_date_iso: \"2020-01-01\",\n        priority_id: 12345,\n        campaign_id: 67890,\n        goal_type: 2, # Percentage goal\n        impressions: 100, # 100% goal\n        rate_type: 2, # CPM: \"cost per mille\", i.e. cost per thousand impressions\n        price: 0.25, # $0.25 for thousand impressions\n    }\n    pp client.flights.create(data)\nend\ncreate_flight()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    get:
+      summary: List Flights
+      description: Lists all the flights in the network. For the explorer, use the API Key.
+      operationId: list-flights
+      parameters:
+      - name: filter
+        in: query
+        description: Limit the set of returned flights. Omission is equivalent to `not-archived`. See below.
+        schema:
+          type: string
+          enum:
+          - not-archived
+          - archived
+          - active
+          - inactive
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n    \"page\":1,\n    \"items\":[  \n        {  \n            \"Id\":12345,\n            \"Price\":1.000,\n            \"Impressions\":100,\n            \"IsNoDuplicates\":true,\n            \"Keywords\":\"\",\n            \"Name\":\"My Flight is Best Flight\",\n            \"IsCompanion\":false,\n            \"CampaignId\":1234,\n            \"PriorityId\":1234,\n            \"IsDeleted\":false,\n            \"IsActive\":true,\n            \"CustomTargeting\":\"\",\n            \"GoalType\":2,\n            \"RateType\":1,\n            \"IsSunday\":true,\n            \"IsMonday\":true,\n            \"IsTuesday\":true,\n            \"IsWednesday\":true,\n            \"IsThursday\":true,\n            \"IsFriday\":true,\n            \"IsSaturday\":true,\n            \"FreqCap\":0,\n            \"FreqCapDuration\":0,\n            \"FreqCapType\":0,\n            \"DontAffectParentFreqCap\": true,\n            \"DeliveryStatus\":1,\n            \"IsArchived\":null,\n            \"CanPassback\":true,\n            \"PassbackSortOrder\":1,\n            \"StartDateISO\":\"2017-05-29T15:41:00.0000000\",\n            \"Created\": \"2022-03-08T12:34:56.123Z\",\n            \"LastModified\": \"2022-03-08T12:34:56.123Z\",\n            \"Version\": 1\n        },..."
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -X GET \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     \"https://api.kevel.co/v1/flight\"\n     \n# List Archived only\ncurl -X GET \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     \"https://api.kevel.co/v1/flight?isArchived=true\""
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listFlights() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flights = await client.run(\"flight\", \"list\");\n  console.log(flights);\n\n  let names = flights.items.map(a => a.name)\n  console.log(names);\n}\n\nlistFlights();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_flights()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.flights.list()\nend\nlist_flights()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}:
+    put:
+      summary: Update Flights
+      description: This lets you update flights.
+      operationId: update-flights
+      parameters:
+      - name: FlightID
+        in: path
+        description: This is the ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - in: query
+        name: excludeAds
+        schema:
+          type: boolean
+          default: 'false'
+        description: If true, the endpoint returns only the flight metadata without ad objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Id
+              - Name
+              - StartDateISO
+              - CampaignId
+              - PriorityId
+              - GoalType
+              - Impressions
+              - IsActive
+              properties:
+                Id:
+                  type: integer
+                  description: The ID of the Flight
+                  format: int32
+                Name:
+                  type: string
+                  description: The name of the Flight
+                StartDateISO:
+                  type: string
+                  description: 'Start date in ISO 8601 format: `YYYY-MM-DDTHH:MM:SS.SSSSSSS`. You can also just use `YYYY-MM-DD`'
+                EndDateISO:
+                  type: string
+                  description: 'End date in ISO 8601 format: `YYYY-MM-DDTHH:MM:SS.SSSSSSS`. You can also just use `YYYY-MM-DD`'
+                NoEndDate:
+                  type: boolean
+                  description: If flight has no specified End Date, set to `true`
+                CampaignId:
+                  type: integer
+                  description: The ID of the campaign
+                  format: int32
+                PriorityId:
+                  type: integer
+                  description: The ID of the Priority
+                  format: int32
+                GoalType:
+                  type: integer
+                  description: 'This is the metric that Kevel uses to pace the ads so it hits the desired goal by the end date.  Key follows: `1 = Impressions 2 = Percentage 3 = Click 7 = Conversion 8 = Revenue 9 = Daily Revenue  10 = Monthly Revenue`. Instructions are [here](doc:flights#goals)'
+                  format: int32
+                Impressions:
+                  type: integer
+                  description: The Goal Amount
+                  format: int32
+                IsActive:
+                  type: boolean
+                  description: Active/inactive state of the flight
+                IsDeleted:
+                  type: boolean
+                  description: If want to delete, set to `true`
+                IsArchived:
+                  type: boolean
+                  description: Specifies whether flight is archived.
+                  default: false
+                BidModifiers:
+                  type: array
+                  description: See [Bid Modifiers documentation](https://dev.kevel.com/docs/bid-modifiers#how-to-configure-bid-modifiers-using-the-management-api) for example usage.
+                  items:
+                    properties:
+                      Match:
+                        type: object
+                        properties:
+                          Keyword:
+                            type: string
+                          Site:
+                            type: integer
+                            format: int32
+                          Zone:
+                            type: integer
+                            format: int32
+                          Segment:
+                            type: integer
+                            format: int32
+                          SearchTerm:
+                            type: object
+                            properties:
+                              Term:
+                                type: string
+                          Category:
+                            type: object
+                            description: 'Match the category the ad request sends in `placements[].category`. The match is exact and case-sensitive after Kevel trims spaces from the start and end, and a parent category does not match its children. A category match never makes an Ad eligible: it changes the bid of an Ad that is already eligible. Kevel accepts and applies a category match whether or not category targeting is enabled for your network.'
+                            required:
+                            - Id
+                            properties:
+                              Id:
+                                type: string
+                                description: The category, a string of 1 to 200 characters after trimming.
+                    type: object
+                CategoryTargeting:
+                  type: array
+                  description: The category targeting rules for the Flight. Each entry has an `Id`, the category to match, and `IsExclude`, which is `true` for an exclude rule and `false` for an include rule. Both keys are required. An `Id` can appear only once in the list, including once as an include and once as an exclude, otherwise the request returns a 400 with "CategoryTargeting includes duplicate Id values, or it may be null." A Flight can hold up to 25 rules unless Kevel raises the limit for your network. A longer list returns a 400 with "Your account has exceeded the limit for CategoryTargeting on this flight. Please contact support." Set the field to `null` or `[]` to remove the rules. Send the full list on every update. An update that leaves this field out clears the rules, as it clears any other field you leave out, unless your network uses partial updates. If category targeting is not enabled for your network, Kevel ignores the field on writes and leaves it out of responses, and a malformed value still returns a 400. See [Set up category targeting](doc:set-up-category-targeting).
+                  items:
+                    type: object
+                    required:
+                    - Id
+                    - IsExclude
+                    properties:
+                      Id:
+                        type: string
+                        description: The category to match, written exactly as your ad requests send it in `placements[].category`. Kevel trims spaces from the start and end when it saves the value, and matching is exact and case-sensitive. A parent category does not match its children. The value is a string of 1 to 200 characters.
+                      IsExclude:
+                        type: boolean
+                        description: '`true` for an exclude rule, `false` for an include rule.'
+            examples:
+              JSON:
+                value:
+                  Id: 1234
+                  Name: A Different Name
+                  StartDateISO: 2017-05-01T00:00:00.00.0000000
+                  CampaignId: 1234
+                  PriorityId: 1234
+                  GoalType: 1
+                  Impressions: 20000
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Name\":\"A Different Name\",\n  \"StartDateISO\":\"2017-05-01T00:00:00.00.0000000\",\n  \"EndDateISO\":\"2017-12-31T00:00:00.00.0000000\",\n  \"CampaignId\":1234,\n  \"PriorityId\":1234,\n  \"GoalType\": 1,\n  \"Impressions\":20000,\n  \"RateType\": 2,\n  \"Price\":5,\n  \"CapType\": 1,\n  \"DailyCapAmount\": 5000,\n  \"LifetimeCapAmount\": 50000,\n  \"IsActive\":true,\n  \"Keywords\":\"exercise\",\n  \"CustomTargeting\": null,\n  \"GeoTargeting\":[{\n    \"CountryCode\":\"US\",\n    \"Region\":\"NC\",\n    \"MetroCode\":560,\n    \"City\":\"Durham\",\n    \"CityGeonameId\":4464368,\n    \"IsExclude\":false\n  }],\n    \"SiteZoneTargeting\":[{\n    \"SiteId\":123,\n    \"ZoneId\":321,\n    \"IsExclude\":false\n  }],\n  \"IsActive\":true,\n  \"IsFreqCap\":true,\n  \"FreqCap\": 2,\n  \"FreqCapDuration\": 10,\n  \"FreqCapType\": 1,\n  \"DontAffectParentFreqCap\": true,\n  \"IsCompanion\":true,\n  \"IsNoDuplicates\":false,  \n  \"IsTrackingConversions\": true,\n  \"CanPassback\":true,\n  \"PassbackSortOrder\":1,\n  \"IsArchived\":false,\n  \"IsSunday\": true,\n  \"IsMonday\": false,\n  \"IsTuesday\": false,\n  \"IsWednesday\": false,\n  \"IsThursday\": false,\n  \"IsFriday\": false,\n  \"IsSaturday\": true,\n  \"IsECPMOptimized\":true,\n  \"ECPMOptimizePeriod\":30,\n  \"ECPMMultiplier\":1.25,\n  \"FloorECPM\":0.15,\n  \"CeilingECPM\":0.35,\n  \"DefaultECPM\":0.28,\n  \"ECPMBurnInImpressions\":1000,\n  \"BehavioralTargeting\": {\n    \"onClick\": {\n      \"stopShowingAdsFromFlight\": true,\n      \"stopShowingAdsFromAdvertiser\": true,\n      \"storeCategoriesFromFlightAsInterest\": true\n    },\n    \"onConvert\": {\n      \"stopShowingAdsFromFlight\": true,\n      \"stopShowingAdsFromAdvertiser\": true,\n      \"storeCategoriesFromFlightAsInterest\": true\n    }\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  Name:
+                    type: string
+                    example: A Different Name
+                  StartDateISO:
+                    type: string
+                    example: 2017-05-01T00:00:00.00.0000000
+                  EndDateISO:
+                    type: string
+                    example: 2017-12-31T00:00:00.00.0000000
+                  CampaignId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  PriorityId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  GoalType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Impressions:
+                    type: integer
+                    example: 20000
+                    default: 0
+                  RateType:
+                    type: integer
+                    example: 2
+                    default: 0
+                  Price:
+                    type: integer
+                    example: 5
+                    default: 0
+                  CapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  DailyCapAmount:
+                    type: integer
+                    example: 5000
+                    default: 0
+                  LifetimeCapAmount:
+                    type: integer
+                    example: 50000
+                    default: 0
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  Keywords:
+                    type: string
+                    example: exercise
+                  CustomTargeting: {}
+                  GeoTargeting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        CountryCode:
+                          type: string
+                          example: US
+                        Region:
+                          type: string
+                          example: NC
+                        MetroCode:
+                          type: integer
+                          example: 560
+                          default: 0
+                        City:
+                          type: string
+                          example: Durham
+                        CityGeonameId:
+                          type: integer
+                          example: 4464368
+                          default: 0
+                        IsExclude:
+                          type: boolean
+                          example: false
+                          default: true
+                  SiteZoneTargeting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        SiteId:
+                          type: integer
+                          example: 123
+                          default: 0
+                        ZoneId:
+                          type: integer
+                          example: 321
+                          default: 0
+                        IsExclude:
+                          type: boolean
+                          example: false
+                          default: true
+                  IsFreqCap:
+                    type: boolean
+                    example: true
+                    default: true
+                  FreqCap:
+                    type: integer
+                    example: 2
+                    default: 0
+                  FreqCapDuration:
+                    type: integer
+                    example: 10
+                    default: 0
+                  FreqCapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  DontAffectParentFreqCap:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsCompanion:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsNoDuplicates:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsTrackingConversions:
+                    type: boolean
+                    example: true
+                    default: true
+                  CanPassback:
+                    type: boolean
+                    example: true
+                    default: true
+                  PassbackSortOrder:
+                    type: integer
+                    example: 1
+                    default: 0
+                  IsArchived:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsSunday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsMonday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsTuesday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsWednesday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsThursday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsFriday:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsSaturday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsECPMOptimized:
+                    type: boolean
+                    example: true
+                    default: true
+                  ECPMOptimizePeriod:
+                    type: integer
+                    example: 30
+                    default: 0
+                  ECPMMultiplier:
+                    type: number
+                    example: 1.25
+                    default: 0
+                  FloorECPM:
+                    type: number
+                    example: 0.15
+                    default: 0
+                  CeilingECPM:
+                    type: number
+                    example: 0.35
+                    default: 0
+                  DefaultECPM:
+                    type: number
+                    example: 0.28
+                    default: 0
+                  ECPMBurnInImpressions:
+                    type: integer
+                    example: 1000
+                    default: 0
+                  BehavioralTargeting:
+                    type: object
+                    properties:
+                      onClick:
+                        type: object
+                        properties:
+                          stopShowingAdsFromFlight:
+                            type: boolean
+                            example: true
+                            default: true
+                          stopShowingAdsFromAdvertiser:
+                            type: boolean
+                            example: true
+                            default: true
+                          storeCategoriesFromFlightAsInterest:
+                            type: boolean
+                            example: true
+                            default: true
+                      onConvert:
+                        type: object
+                        properties:
+                          stopShowingAdsFromFlight:
+                            type: boolean
+                            example: true
+                            default: true
+                          stopShowingAdsFromAdvertiser:
+                            type: boolean
+                            example: true
+                            default: true
+                          storeCategoriesFromFlightAsInterest:
+                            type: boolean
+                            example: true
+                            default: true
+                  CategoryTargeting:
+                    type: array
+                    description: The category targeting rules saved on the Flight, each with an `Id` and `IsExclude`. Left out when category targeting is not enabled for your network.
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: string
+                          description: The category the rule matches.
+                        IsExclude:
+                          type: boolean
+                          description: '`true` for an exclude rule, `false` for an include rule.'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -X PUT \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     -H \"Content-Type:application/json\" \\\n     --data-binary '{\"Id\":123456,\"PriorityId\":12345,\"GoalType\":2,\"RateType\":2,\"CampaignId\":123456,\"Name\":\"A Different Name\",\"StartDateISO\":\"2018-06-03\",\"IsActive\":true}' \\\n     \"https://api.kevel.co/v1/flight/123456\""
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateFlight() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flight = await client.run(\"flight\", \"update\", {id: 12345, name: \"A Different Name\"});\n  console.log(flight);\n}\n\nupdateFlight();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_flight()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    data = client.flights.get(flight_id)\n    data[:name] = \"Updated Name\"\n    pp client.flights.update(data)\nend\nupdate_flight()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    get:
+      summary: Get Flight
+      description: This returns the parameters for a specific flight
+      operationId: get-flight
+      parameters:
+      - name: FlightID
+        in: path
+        description: This is the ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: excludeAds
+        in: query
+        description: If true, the endpoint returns only the flight metadata without ad objects
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n    \"Id\":12345,\n    \"NoEndDate\":null,\n    \"Price\":0.000,\n    \"OptionType\":1,\n    \"Impressions\":100,\n    \"IsUnlimited\":false,\n    \"IsNoDuplicates\":true,\n    \"DuplicateMode\":4,\n    \"IsFullSpeed\":false,\n    \"Keywords\":\"\",\n    \"UserAgentKeywords\":null,\n    \"Name\":\"The Great API Flight\",\n    \"WeightOverride\":null,\n    \"IsFreqCap\":null,\n    \"IsCompanion\":false,\n    \"CampaignId\":12345,\n    \"PriorityId\":1234,\n    \"IsDeleted\":false,\n    \"IsActive\":true,\n    \"GeoTargeting\":[  \n        {  \n            \"LocationId\":1234567,\n            \"FlightId\":0,\n            \"CountryCode\":\"US\",\n            \"Region\":\"NC\",\n            \"MetroCode\":560,\n            \"City\":\"Durham\",\n            \"CityGeonameId\":4464368,\n            \"IsExclude\":null\n        }\n    ],\n    \"SiteZoneTargeting\":[  \n        {  \n            \"Id\":123456,\n            \"FlightId\":12345,\n            \"SiteId\":12345,\n            \"ZoneId\":null,\n            \"IsExclude\":true\n        }\n    ],\n    \"CustomTargeting\":\"\",\n    \"GoalType\":2,\n    \"RateType\":1,\n    \"IsECPMOptimized\":null,\n    \"ECPMOptimizePeriod\":null,\n    \"ECPMMultiplier\":null,\n    \"FloorECPM\":null,\n    \"CeilingECPM\":null,\n    \"DefaultECPM\":null,\n    \"ECPMBurnInImpressions\":null,\n    \"EffectiveCPMOverride\":null,\n    \"DatePartingStartTime\":null,\n    \"DatePartingEndTime\":null,\n    \"IsSunday\":true,\n    \"IsMonday\":true,\n    \"IsTuesday\":true,\n    \"IsWednesday\":true,\n    \"IsThursday\":true,\n    \"IsFriday\":true,\n    \"IsSaturday\":true,\n    \"FreqCap\":0,\n    \"FreqCapDuration\":0,\n    \"FreqCapType\":0,\n    \"CapType\":1,\n    \"DailyCapAmount\":null,\n    \"LifetimeCapAmount\":null,\n    \"DeliveryStatus\":1,\n    \"CustomFieldsJson\":\"{\\\"SKU\\\":\\\"\\\"}\",\n    \"BehavioralTargeting\":null,\n    \"CreativeMaps\":[  \n        {  \n            \"Id\":12345,\n            \"CampaignId\":12345,\n            \"FlightId\":12345,\n            \"ZoneId\":0,\n            \"SiteId\":0,\n            \"Iframe\":null,\n            \"Impressions\":100,\n            \"Percentage\":0,\n            \"DistributionType\":1,\n            \"IsDeleted\":false,\n            \"IsActive\":true,\n            \"Creative\":{  \n                \"Id\":12345,\n                \"Title\":\"The Great API Creative\",\n                \"ImageName\":\"99b3fbfdd2e8491295c9d0d5dc4d5a2f.gif\",\n                \"Url\":\"https://adzerk.com\",\n                \"Body\":\"\\\"\\\"\",\n                \"AdvertiserId\":12345,\n                \"IsActive\":true,\n                \"AdTypeId\":5,\n                \"Alt\":\"New alt tag\",\n                \"IsDeleted\":null,\n                \"IsSync\":null,\n                \"IsHTMLJS\":false,\n                \"Metadata\":null,\n                \"ImageLink\":\"httpss://static.adzerk.net/Advertisers/99b3fbfdd2e8491295c9d0d5dc4d5a2f.gif\"\n            },\n            \"CustomTargeting\":\"\",\n            \"FreqCap\":0,\n            \"FreqCapDuration\":0,\n            \"FreqCapType\":0,\n            \"StartDate\":null,\n            \"EndDate\":null,\n            \"GoalType\":0,\n            \"Goal\":null,\n            \"IsGoalOverride\":null,\n            \"IsStartEndDateOverride\":null,\n            \"ActiveKeywords\":[  \n\n            ],\n            \"RtbCustomFields\":null\n        }\n    ],\n    \"IsTargetingOptimization\":null,\n    \"TargetingOptimizationType\":null,\n    \"TargetingOptimizationTargetType\":null,\n    \"TargetingOptimizationTarget\":null,\n    \"TargetingOptimizationBurnIn\":null,\n    \"TargetingOptimizationCanMiss\":null,\n  \t\"GeoDistanceTargeting\":[],\n    \"IsArchived\":null,\n    \"CanPassback\":true,\n    \"PassbackSortOrder\":1,\n    \"StartDateISO\":\"2015-06-08T00:00:00.0000000\"\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  NoEndDate: {}
+                  Price:
+                    type: integer
+                    example: 0
+                    default: 0
+                  OptionType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Impressions:
+                    type: integer
+                    example: 100
+                    default: 0
+                  IsUnlimited:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsNoDuplicates:
+                    type: boolean
+                    example: true
+                    default: true
+                  DuplicateMode:
+                    type: integer
+                    example: 4
+                    default: 0
+                  IsFullSpeed:
+                    type: boolean
+                    example: false
+                    default: true
+                  Keywords:
+                    type: string
+                    example: ''
+                  UserAgentKeywords: {}
+                  Name:
+                    type: string
+                    example: The Great API Flight
+                  WeightOverride: {}
+                  IsFreqCap: {}
+                  IsCompanion:
+                    type: boolean
+                    example: false
+                    default: true
+                  CampaignId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  PriorityId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  GeoTargeting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        LocationId:
+                          type: integer
+                          example: 1234567
+                          default: 0
+                        FlightId:
+                          type: integer
+                          example: 0
+                          default: 0
+                        CountryCode:
+                          type: string
+                          example: US
+                        Region:
+                          type: string
+                          example: NC
+                        MetroCode:
+                          type: integer
+                          example: 560
+                          default: 0
+                        City:
+                          type: string
+                          example: Durham
+                        CityGeonameId:
+                          type: integer
+                          example: 4464368
+                          default: 0
+                        IsExclude: {}
+                  SiteZoneTargeting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        FlightId:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        SiteId:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        ZoneId: {}
+                        IsExclude:
+                          type: boolean
+                          example: true
+                          default: true
+                  CustomTargeting:
+                    type: string
+                    example: ''
+                  GoalType:
+                    type: integer
+                    example: 2
+                    default: 0
+                  RateType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  IsECPMOptimized: {}
+                  ECPMOptimizePeriod: {}
+                  ECPMMultiplier: {}
+                  FloorECPM: {}
+                  CeilingECPM:
+                    type: number
+                    example: 0.35
+                    default: 0
+                  DefaultECPM:
+                    type: number
+                    example: 0.28
+                    default: 0
+                  ECPMBurnInImpressions:
+                    type: integer
+                    example: 1000
+                    default: 0
+                  EffectiveCPMOverride:
+                    type: number
+                  DatePartingStartTime: {}
+                  DatePartingEndTime: {}
+                  IsSunday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsMonday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsTuesday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsWednesday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsThursday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsFriday:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsSaturday:
+                    type: boolean
+                    example: true
+                    default: true
+                  FreqCap:
+                    type: integer
+                    example: 0
+                    default: 0
+                  FreqCapDuration:
+                    type: integer
+                    example: 0
+                    default: 0
+                  FreqCapType:
+                    type: integer
+                    example: 0
+                    default: 0
+                  CapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  DailyCapAmount: {}
+                  LifetimeCapAmount: {}
+                  DeliveryStatus:
+                    type: integer
+                    example: 1
+                    default: 0
+                  CustomFieldsJson:
+                    type: string
+                    example: '{"SKU":""}'
+                  BehavioralTargeting: {}
+                  CreativeMaps:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        CampaignId:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        FlightId:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        ZoneId:
+                          type: integer
+                          example: 0
+                          default: 0
+                        SiteId:
+                          type: integer
+                          example: 0
+                          default: 0
+                        Iframe: {}
+                        Impressions:
+                          type: integer
+                          example: 100
+                          default: 0
+                        Percentage:
+                          type: integer
+                          example: 0
+                          default: 0
+                        DistributionType:
+                          type: integer
+                          example: 1
+                          default: 0
+                        IsDeleted:
+                          type: boolean
+                          example: false
+                          default: true
+                        IsActive:
+                          type: boolean
+                          example: true
+                          default: true
+                        Creative:
+                          type: object
+                          properties:
+                            Id:
+                              type: integer
+                              example: 12345
+                              default: 0
+                            Title:
+                              type: string
+                              example: The Great API Creative
+                            ImageName:
+                              type: string
+                              example: 99b3fbfdd2e8491295c9d0d5dc4d5a2f.gif
+                            Url:
+                              type: string
+                              example: https://adzerk.com
+                            Body:
+                              type: string
+                              example: '""'
+                            AdvertiserId:
+                              type: integer
+                              example: 12345
+                              default: 0
+                            IsActive:
+                              type: boolean
+                              example: true
+                              default: true
+                            AdTypeId:
+                              type: integer
+                              example: 5
+                              default: 0
+                            Alt:
+                              type: string
+                              example: New alt tag
+                            IsDeleted: {}
+                            IsSync: {}
+                            IsHTMLJS:
+                              type: boolean
+                              example: false
+                              default: true
+                            Metadata: {}
+                            ImageLink:
+                              type: string
+                              example: httpss://static.adzerk.net/Advertisers/99b3fbfdd2e8491295c9d0d5dc4d5a2f.gif
+                        CustomTargeting:
+                          type: string
+                          example: ''
+                        FreqCap:
+                          type: integer
+                          example: 0
+                          default: 0
+                        FreqCapDuration:
+                          type: integer
+                          example: 0
+                          default: 0
+                        FreqCapType:
+                          type: integer
+                          example: 0
+                          default: 0
+                        StartDate: {}
+                        EndDate: {}
+                        GoalType:
+                          type: integer
+                          example: 0
+                          default: 0
+                        Goal: {}
+                        IsGoalOverride: {}
+                        IsStartEndDateOverride: {}
+                        ActiveKeywords:
+                          type: array
+                        RtbCustomFields: {}
+                  IsTargetingOptimization: {}
+                  TargetingOptimizationType: {}
+                  TargetingOptimizationTargetType: {}
+                  TargetingOptimizationTarget: {}
+                  TargetingOptimizationBurnIn: {}
+                  TargetingOptimizationCanMiss: {}
+                  GeoDistanceTargeting:
+                    type: array
+                  IsArchived: {}
+                  CanPassback:
+                    type: boolean
+                    example: true
+                    default: true
+                  PassbackSortOrder:
+                    type: integer
+                    example: 1
+                    default: 0
+                  StartDateISO:
+                    type: string
+                    example: '2015-06-08T00:00:00.0000000'
+                  CategoryTargeting:
+                    type: array
+                    description: The category targeting rules saved on the Flight, each with an `Id` and `IsExclude`. Left out when category targeting is not enabled for your network.
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: string
+                          description: The category the rule matches.
+                        IsExclude:
+                          type: boolean
+                          description: '`true` for an exclude rule, `false` for an include rule.'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -X GET \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     \"https://api.kevel.co/v1/flight/12345\"\n     \n# Exclude ads (returns faster with less data)\ncurl -X GET \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     \"https://api.kevel.co/v1/flight/12345?excludeAds=true\""
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getFlight() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flight = await client.run(\"flight\", \"get\", {id: 12345});\n  console.log(flight);\n}\n\ngetFlight();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_flight()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    pp client.flights.get(flight_id)\nend\nget_flight()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/creatives:
+    get:
+      summary: List Ads for Flight
+      description: ''
+      operationId: list-ads
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\": 1,\n  \"items\": [\n    {\n      \"Id\": 123456,\n      \"CampaignId\": 123456,\n      \"FlightId\": 123456,\n      \"ZoneId\": null,\n      \"SiteId\": null,\n      \"Impressions\": 100,\n      \"Percentage\": 0,\n      \"DistributionType\": 1,\n      \"IsDeleted\": false,\n      \"IsActive\": true,\n      \"Creative\": {\n        \"Id\": 12345,\n        \"Title\": \"Adzerk Blue Creative\",\n        \"ImageName\": \"\",\n        \"Url\": \"https://adzerk.com\",\n        \"Body\": \"\",\n        \"AdvertiserId\": 12345,\n        \"IsActive\": true,\n        \"AdTypeId\": 5,\n        \"Alt\": \"Adzerk - Native Ads\",\n        \"IsDeleted\": false,\n        \"IsSync\": false,\n        \"IsHTMLJS\": true,\n        \"ScriptBody\": \"JS or HTML content\",\n        \"Metadata\": \"{\\\"something\\\":true}\",\n        \"ImageLink\": \"httpss://static.adzerk.net/Advertisers/\",\n        \"IsNoTrack\": true,\n        \"IsNetworkAd\": false\n      },\n      \"CustomTargeting\": \"$keywords contains \\\"dean\\\"\",\n      \"FreqCap\": 5,\n      \"FreqCapDuration\": 1,\n      \"FreqCapType\": 2,\n      \"DontAffectParentFreqCap\": true,\n      \"StartDate\": null,\n      \"EndDate\": null,\n      \"StartDateISO\": \"2017-01-01T00:00:00.0000000\",\n      \"EndDateISO\": \"2015-12-05T00:00:00.0000000\",\n      \"GoalType\": 1,\n      \"Price\": 1,\n      \"IsGoalOverride\": true,\n      \"IsStartEndDateOverride\": true,\n      \"ActiveKeywords\": [\"kittens\",\"cats\"]\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        CampaignId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        FlightId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        ZoneId: {}
+                        SiteId: {}
+                        Impressions:
+                          type: integer
+                          example: 100
+                          default: 0
+                        Percentage:
+                          type: integer
+                          example: 0
+                          default: 0
+                        DistributionType:
+                          type: integer
+                          example: 1
+                          default: 0
+                        IsDeleted:
+                          type: boolean
+                          example: false
+                          default: true
+                        IsActive:
+                          type: boolean
+                          example: true
+                          default: true
+                        Creative:
+                          type: object
+                          properties:
+                            Id:
+                              type: integer
+                              example: 12345
+                              default: 0
+                            Title:
+                              type: string
+                              example: Adzerk Blue Creative
+                            ImageName:
+                              type: string
+                              example: ''
+                            Url:
+                              type: string
+                              example: https://adzerk.com
+                            Body:
+                              type: string
+                              example: ''
+                            AdvertiserId:
+                              type: integer
+                              example: 12345
+                              default: 0
+                            IsActive:
+                              type: boolean
+                              example: true
+                              default: true
+                            AdTypeId:
+                              type: integer
+                              example: 5
+                              default: 0
+                            Alt:
+                              type: string
+                              example: Adzerk - Native Ads
+                            IsDeleted:
+                              type: boolean
+                              example: false
+                              default: true
+                            IsSync:
+                              type: boolean
+                              example: false
+                              default: true
+                            IsHTMLJS:
+                              type: boolean
+                              example: true
+                              default: true
+                            ScriptBody:
+                              type: string
+                              example: JS or HTML content
+                            Metadata:
+                              type: string
+                              example: '{"something":true}'
+                            ImageLink:
+                              type: string
+                              example: httpss://static.adzerk.net/Advertisers/
+                            IsNoTrack:
+                              type: boolean
+                              example: true
+                              default: true
+                            IsNetworkAd:
+                              type: boolean
+                              example: false
+                              default: true
+                        CustomTargeting:
+                          type: string
+                          example: $keywords contains "dean"
+                        FreqCap:
+                          type: integer
+                          example: 5
+                          default: 0
+                        FreqCapDuration:
+                          type: integer
+                          example: 1
+                          default: 0
+                        FreqCapType:
+                          type: integer
+                          example: 2
+                          default: 0
+                        DontAffectParentFreqCap:
+                          type: boolean
+                          example: true
+                          default: true
+                        StartDate: {}
+                        EndDate: {}
+                        StartDateISO:
+                          type: string
+                          example: '2017-01-01T00:00:00.0000000'
+                        EndDateISO:
+                          type: string
+                          example: '2015-12-05T00:00:00.0000000'
+                        GoalType:
+                          type: integer
+                          example: 1
+                          default: 0
+                        Price:
+                          type: integer
+                          example: 1
+                          default: 0
+                        IsGoalOverride:
+                          type: boolean
+                          example: true
+                          default: true
+                        IsStartEndDateOverride:
+                          type: boolean
+                          example: true
+                          default: true
+                        ActiveKeywords:
+                          type: array
+                          items:
+                            type: string
+                            example: kittens
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/flight/12345/creatives"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdsForFlight() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let list = await client.run('ad', 'listForFlight', { flightId: 12345 });\n  \n  // Print out the entire response\n  console.dir(list, {depth:null});\n}\n\nlistAdsForFlight();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_ads_for_flight()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    pp client.ads.list(flight_id)\nend\nlist_ads_for_flight()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/creative/{AdID}:
+    get:
+      summary: Get Ad (Legacy)
+      description: ''
+      operationId: get-ad
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: AdID
+        in: path
+        description: ID of the Ad / Creative Flight Map. This is not the ID from Create Creatives.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 1227159,\n  \"CampaignId\": 258367,\n  \"FlightId\": 616145,\n  \"ZoneId\": 12345,\n  \"SiteId\": 1234,\n  \"Iframe\": null,\n  \"Impressions\": 0,\n  \"Percentage\": 0,\n  \"DistributionType\": 1,\n  \"IsDeleted\": false,\n  \"IsActive\": false,\n  \"Creative\": {\n    \"Id\": 1163487,\n    \"Title\": \"Adzerk Blue Creative\",\n    \"ImageName\": \"\",\n    \"Url\": \"https://adzerk.com\",\n    \"Body\": \"\",\n    \"AdvertiserId\": 84825,\n    \"IsActive\": null,\n    \"AdTypeId\": 5,\n    \"Alt\": \"Adzerk - Native Ads\",\n    \"IsDeleted\": null,\n    \"IsSync\": null,\n    \"IsHTMLJS\": true,\n    \"ScriptBody\": \"this\",\n    \"Metadata\": null,\n    \"ImageLink\": \"httpss://static.adzerk.net/Advertisers/\",\n    \"IsNoTrack\": true,\n    \"IsNetworkAd\": false\n  },\n  \"CustomTargeting\": \"$keywords contains \\\"dean\\\"\",\n  \"FreqCap\": 5,\n  \"FreqCapDuration\": 1,\n  \"FreqCapType\": 2,\n  \"StartDate\": \"/Date(1430481600000)/\",\n  \"EndDate\": \"/Date(1430827200000)/\",\n  \"GoalType\": 1,\n  \"Goal\": 200000,\n  \"Price\": 1,\n  \"IsGoalOverride\": true,\n  \"IsStartEndDateOverride\": true,\n  \"ActiveKeywords\": [\"kittens\", \"cats\"],\n  \"RtbCustomFields\": null\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1227159
+                    default: 0
+                  CampaignId:
+                    type: integer
+                    example: 258367
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 616145
+                    default: 0
+                  ZoneId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  SiteId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  Iframe: {}
+                  Impressions:
+                    type: integer
+                    example: 0
+                    default: 0
+                  Percentage:
+                    type: integer
+                    example: 0
+                    default: 0
+                  DistributionType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsActive:
+                    type: boolean
+                    example: false
+                    default: true
+                  Creative:
+                    type: object
+                    properties:
+                      Id:
+                        type: integer
+                        example: 1163487
+                        default: 0
+                      Title:
+                        type: string
+                        example: Adzerk Blue Creative
+                      ImageName:
+                        type: string
+                        example: ''
+                      Url:
+                        type: string
+                        example: https://adzerk.com
+                      Body:
+                        type: string
+                        example: ''
+                      AdvertiserId:
+                        type: integer
+                        example: 84825
+                        default: 0
+                      IsActive: {}
+                      AdTypeId:
+                        type: integer
+                        example: 5
+                        default: 0
+                      Alt:
+                        type: string
+                        example: Adzerk - Native Ads
+                      IsDeleted: {}
+                      IsSync: {}
+                      IsHTMLJS:
+                        type: boolean
+                        example: true
+                        default: true
+                      ScriptBody:
+                        type: string
+                        example: this
+                      Metadata: {}
+                      ImageLink:
+                        type: string
+                        example: httpss://static.adzerk.net/Advertisers/
+                      IsNoTrack:
+                        type: boolean
+                        example: true
+                        default: true
+                      IsNetworkAd:
+                        type: boolean
+                        example: false
+                        default: true
+                  CustomTargeting:
+                    type: string
+                    example: $keywords contains "dean"
+                  FreqCap:
+                    type: integer
+                    example: 5
+                    default: 0
+                  FreqCapDuration:
+                    type: integer
+                    example: 1
+                    default: 0
+                  FreqCapType:
+                    type: integer
+                    example: 2
+                    default: 0
+                  StartDate:
+                    type: string
+                    example: /Date(1430481600000)/
+                  EndDate:
+                    type: string
+                    example: /Date(1430827200000)/
+                  GoalType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Goal:
+                    type: integer
+                    example: 200000
+                    default: 0
+                  Price:
+                    type: integer
+                    example: 1
+                    default: 0
+                  IsGoalOverride:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsStartEndDateOverride:
+                    type: boolean
+                    example: true
+                    default: true
+                  ActiveKeywords:
+                    type: array
+                    items:
+                      type: string
+                      example: kittens
+                  RtbCustomFields: {}
+                  CategoryTargeting:
+                    type: array
+                    description: The category targeting rules saved on the Ad itself, each with an `Id` and `IsExclude`. An Ad with no rules of its own uses its Flight's rules, and they do not appear here. Left out when category targeting is not enabled for your network.
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: string
+                          description: The category the rule matches.
+                        IsExclude:
+                          type: boolean
+                          description: '`true` for an exclude rule, `false` for an include rule.'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' "https://api.kevel.co/v1/flight/12345/creative/123456"
+        samples-languages:
+        - curl
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/creative/{AdID}/delete:
+    get:
+      summary: Delete Ad
+      description: ''
+      operationId: delete-ad
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: AdID
+        in: path
+        description: ID of the Ad/ Creative Flight Map. This is not the ID from Create Creatives.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"This creative map has been deleted"'
+              schema:
+                type: string
+                example: This creative map has been deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' "https://api.kevel.co/v1/flight/12345/creative/123456/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteAd() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let ad = await client.run('ad', 'delete', {\n    id: 12345,\n    flightId: 67890\n  });\n  console.log(ad);\n}\n\ndeleteAd();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_ad()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    ad_id = 12345\n    flight_id = 67890\n    pp client.ads.delete(ad_id, 67890)\nend\ndelete_ad()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightId}/segmenttargeting:
+    post:
+      summary: Create Flight Segment Targeting Rule
+      description: Create a Flight to Segment targeting rule
+      operationId: create-flight-segment
+      parameters:
+      - name: FlightId
+        in: path
+        description: The flight the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - SegmentId
+              properties:
+                SegmentId:
+                  type: integer
+                  description: Id of the Segment
+                  format: int32
+                IsExclude:
+                  type: boolean
+                  description: Whether targeting is to be excluded or included.
+                  default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \t\"Id\": 56789,\n\t\t\"FlightId\": 55555,\n    \"SegmentId\": 123456,\n    \"IsExclude\": false,\n\t\t\"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 55555
+                    default: 0
+                  SegmentId:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+                  Segment:
+                    type: object
+                    properties:
+                      Source:
+                        type: string
+                        example: audience
+                      Name:
+                        type: string
+                        example: best customers
+                      Reach:
+                        type: object
+                        properties:
+                          all_time:
+                            type: integer
+                            example: 3187463
+                            default: 0
+                          28d:
+                            type: integer
+                            example: 387434
+                            default: 0
+                      Description:
+                        type: string
+                        example: top 1% spenders in the last 30 days.
+                      Category:
+                        type: string
+                        example: CRM
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X POST -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" https://api.kevel.co/v1/flight/{FlightId}/segmenttargeting --data-binary ''{"SegmentId":123456,"IsExclude":false}'' '
+        - language: javascript
+          code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createFlightSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run(\"flightSegment\", \"create\", {\n    segmentId:123456,\n    isExclude: false\n  });\n\n  console.log(targetingRule);\n}\n\ncreateFlightSegment();"
+        - language: ruby
+          code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef create_flight_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.flightSegment.create(segmentId: 123456, isExclude: false)\nend\ncreate_flight_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    get:
+      summary: List Flight Segment Targeting Rules
+      description: List all Segment targeting rules for a Flight
+      operationId: list-flight-segments
+      parameters:
+      - name: FlightId
+        in: path
+        description: The flight the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\":1,\n  \"items\": [\n\t\t\t{\n\t\t\t\t\"Id\": 56789,\n\t\t\t\t\"FlightId\": 55555,\n    \t\t\"SegmentId\": 123456,\n        \"IsExclude\": false,\n        \"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\n\t\t\t}\n    ],\n    \"pageSize\":1,\n    \"totalPages\":1,\n\t\t\"totalItems\":1\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 56789
+                          default: 0
+                        FlightId:
+                          type: integer
+                          example: 55555
+                          default: 0
+                        SegmentId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        IsExclude:
+                          type: boolean
+                          example: false
+                          default: 'false'
+                        Segment:
+                          type: object
+                          properties:
+                            Source:
+                              type: string
+                              example: audience
+                            Name:
+                              type: string
+                              example: best customers
+                            Reach:
+                              type: object
+                              properties:
+                                all_time:
+                                  type: integer
+                                  example: 3187463
+                                  default: 0
+                                28d:
+                                  type: integer
+                                  example: 387434
+                                  default: 0
+                            Description:
+                              type: string
+                              example: top 1% spenders in the last 30 days.
+                            Category:
+                              type: string
+                              example: CRM
+                  pageSize:
+                    type: integer
+                    example: 1
+                    default: 0
+                  totalPages:
+                    type: integer
+                    example: 1
+                    default: 0
+                  totalItems:
+                    type: integer
+                    example: 1
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/flight/{FlightId}/segmenttargeting" '
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listFlightSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run('flightSegment', 'list');\n  console.log(targetingRule);\n}\n\nlistFlightSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_flight_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.flight_segments.list()\nend\nlist_flight_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightId}/segmenttargeting/{Id}:
+    delete:
+      summary: Delete Flight Segment Targeting Rule
+      description: Delete a Flight Segment targeting rule
+      operationId: delete-flight-segment
+      parameters:
+      - name: FlightId
+        in: path
+        description: The flight the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SegmentTargetingId
+        in: path
+        description: Id of the Flight Segment targeting rule
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully deleted."'
+              schema:
+                type: string
+                example: Successfully deleted.
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X DELETE -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/flight/{FlightId}/segmenttargeting/{Id}"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteFlightSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run('flightSegment', 'delete', {\n    flight_id: 12345,\n\t\tid: 456789\n  });\n  console.log(flightSegment);\n}\n\ndeleteFlightSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_flight_segment()\n  \tclient = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n\t  flight_id = 6789\n    id = 12345\n    pp client.segments.delete(flight_id, id)\nend\ndelete_flight_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    put:
+      summary: Update Flight Segment Targeting Rule
+      description: Update a Flight to Segment targeting rule
+      operationId: update-flight-segment
+      parameters:
+      - name: FlightId
+        in: path
+        description: The flight the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SegmentTargetingId
+        in: path
+        description: Id of the Flight Segment targeting rule
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                IsExclude:
+                  type: boolean
+                  description: Whether targeting is to be excluded or included.
+                  default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \t\"Id\": 56789,\n\t\t\"FlightId\": 55555,\n    \"SegmentId\": 123456,\n    \"IsExclude\": true,\n\t\t\"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 55555
+                    default: 0
+                  SegmentId:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: true
+                    default: 'false'
+                  Segment:
+                    type: object
+                    properties:
+                      Source:
+                        type: string
+                        example: audience
+                      Name:
+                        type: string
+                        example: best customers
+                      Reach:
+                        type: object
+                        properties:
+                          all_time:
+                            type: integer
+                            example: 3187463
+                            default: 0
+                          28d:
+                            type: integer
+                            example: 387434
+                            default: 0
+                      Description:
+                        type: string
+                        example: top 1% spenders in the last 30 days.
+                      Category:
+                        type: string
+                        example: CRM
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" https://api.kevel.co/v1/flight/{FlightId}/segmenttargeting/{Id} --data-binary '{"IsExclude":true}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateFlightSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run(\"flightSegment\", \"update\", {\n    isExclude: true,\n    flightId: 456789,\n\t\tid: 123456\n  });\n\n  console.log(targetingRule);\n}\n\nupdateFlightSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_flight_segment()\n  client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n  flight_id = 456789\n  id = 123456\n  data = client.flightSegment.update(flight_id, id)\n  data[:is_exclude] = true\n  pp client.flightSegment.update(data)\nend \nupdate_flight_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    get:
+      summary: Get Flight Segment Targeting Rule
+      description: Get a Flight Segment targeting rule
+      operationId: get-flight-segment
+      parameters:
+      - name: FlightId
+        in: path
+        description: The flight the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SegmentTargetingId
+        in: path
+        description: Id of the Flight Segment targeting rule
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n\t\t\"Id\": 56789,\n\t\t\"FlightId\": 55555,\n    \"SegmentId\": 123456,\n    \"IsExclude\": true,\n\t\t\"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\t\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 55555
+                    default: 0
+                  SegmentId:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: true
+                    default: 'false'
+                  Segment:
+                    type: object
+                    properties:
+                      Source:
+                        type: string
+                        example: audience
+                      Name:
+                        type: string
+                        example: best customers
+                      Reach:
+                        type: object
+                        properties:
+                          all_time:
+                            type: integer
+                            example: 3187463
+                            default: 0
+                          28d:
+                            type: integer
+                            example: 387434
+                            default: 0
+                      Description:
+                        type: string
+                        example: top 1% spenders in the last 30 days.
+                      Category:
+                        type: string
+                        example: CRM
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/flight/{FlightId}/segmenttargeting/{Id}"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getFlightSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run(\"flightSegment\", \"get\", \n                      {flightId: 456789, id: 123456});\n\n  console.log(targetingRule);\n}\n\ngetFlightSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_flight_segment()\n  client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n\t\tflight_id = 456789\n    segment_targeting_id = 12345\n    pp client.segments.get(flight_id, segment_targeting_id)\nend\nget_flight_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/category:
+    post:
+      summary: Create Flight Categories
+      description: ''
+      operationId: create-flight-categories
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Name
+              properties:
+                Name:
+                  type: string
+                  description: The category's name
+                Id:
+                  type: integer
+                  description: The category ID. If the category is new to your network, this field is optional
+                  format: int32
+            examples:
+              JSON:
+                value:
+                  Id: 4567
+                  Name: Sports
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":4567,\n  \"Name\":\"Sports\"\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 4567
+                    default: 0
+                  Name:
+                    type: string
+                    example: Sports
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '## Creating a new category:
+
+            curl -X POST -H ''X-Adzerk-ApiKey:<APIKEY>'' -H "Content-Type:application/json" "https://api.kevel.co/v1/flight/12345/category" --data-binary ''{"Name":"Sports"}''
+
+
+            ## Linking an existing category to the flight:
+
+            curl -X POST -H ''X-Adzerk-ApiKey:<APIKEY>'' -H "Content-Type:application/json" "https://api.kevel.co/v1/flight/12345/category" --data-binary ''{"Name:"Sports","Id":4567}'''
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createFlightCategory() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flightCategory = await client.run(\"flightCategory\", \"create\", {\n    flightId: 12345,\n    name: \"Sports\"\n  });\n\n  console.log(flightCategory);\n}\n\ncreateFlightCategory();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_flight_category()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    data = {\n        name: \"Test Flight Category\"\n    }\n    pp client.categories.create(flight_id, data)\nend\ncreate_flight_category()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/categories:
+    get:
+      summary: List Flight Categories
+      description: ''
+      operationId: flight-categories-list
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\":1,\n  \"items\":[\n    {\n      \"Id\":123,\n      \"Name\":\"Sports\"\n    }\n    {\n      \"Id\":234,\n      \"Name\":\"Current Events\"\n    }\n  ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/flight/123456/categories"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listFlightCategories() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flightCategories = await client.run(\"flightCategory\", \"listForFlight\", {flightId: 12345});\n  console.log(flightCategories);\n\n  let names = flightCategories.items.map(a => a.name)\n  console.log(names);\n}\n\nlistFlightCategories();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_flight_categories()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    pp client.categories.list(flight_id)\nend\nlist_flight_categories()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/category/{FlightCategoryID}/delete:
+    get:
+      summary: Delete Flight Category
+      description: ''
+      operationId: delete-category
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: FlightCategoryID
+        in: path
+        description: ID of Flight Category. You can find this via the List Category endpoints, or in the response when you create a Flight Category.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully Deleted"'
+              schema:
+                type: string
+                example: Successfully Deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/flight/12345/category/123/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteFlightCategory() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flightCategory = await client.run(\"flightCategory\", \"delete\", {flightId: 12345, id: 6789});\n  console.log(flightCategory);\n}\n\ndeleteFlightCategory();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_flight_category()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    category_id = 6789\n    pp client.categories.delete(flight_id, category_id)\nend\ndelete_flight_category()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/sitezonetargeting:
+    post:
+      summary: Create Site/Zone Targeting
+      description: ''
+      operationId: create-sitezone-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SiteId:
+                  type: integer
+                  description: ID of the Site
+                  format: int32
+                ZoneId:
+                  type: integer
+                  description: ID of the Zone
+                  format: int32
+                IsExclude:
+                  type: boolean
+                  description: Whether targeting is to be excluded or included. Defaults to `false`, so if you leave this blank it'll target the site/zone.
+                  default: 'false'
+            examples:
+              JSON:
+                value:
+                  FlightId: 12345
+                  SiteId: 678
+                  ZoneId: 910
+                  IsExclude: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":98765,\n  \"FlightId\":12345,\n  \"SiteId\":678,\n  \"ZoneId\":910,\n  \"IsExclude\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  SiteId:
+                    type: integer
+                    example: 678
+                    default: 0
+                  ZoneId:
+                    type: integer
+                    example: 910
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H 'X-Adzerk-ApiKey:<APIKEY>' -H "Content-Type:application/json" "https://api.kevel.co/v1/flight/12345/sitezonetargeting" --data-binary '{"FlightId":12345,"SiteId":678,"ZoneId":910,"IsExclude":false}'
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createSiteZoneTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let siteZoneTargeting = await client.run(\"siteZoneTargeting\", \"create\", {\n    flightId: 12345,\n    siteId: 678,\n    zoneId: 910,  // optional\n    isExclude: false, // defaults to false\n  });\n\n  console.log(siteZoneTargeting);\n}\n\ncreateSiteZoneTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_site_zone_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 123456\n    data = {\n        site_id: 67890,\n        zone_id: 54321, # optional\n        is_exclude: false # defaults to false\n    }\n    pp client.sitezonetargetings.create(flight_id, data)\nend\ncreate_site_zone_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}:
+    put:
+      summary: Update Site/Zone Targeting
+      description: ''
+      operationId: update-sitezone-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SiteZoneTargetingID
+        in: path
+        description: ID of the Site/Zone Targeting parameter. You can pull it through the Get Flight endpoint if don't have.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SiteID:
+                  type: integer
+                  description: ID of the Site
+                  format: int32
+                ZoneID:
+                  type: integer
+                  description: ID of the Zone
+                  format: int32
+                isExclude:
+                  type: boolean
+                  description: Whether you want to include or exclude
+                  default: 'false'
+            examples:
+              JSON:
+                value:
+                  FlightId: 12345
+                  SiteId: 678
+                  ZoneId: 910
+                  IsExclude: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":98765,\n  \"FlightId\":12345,\n  \"SiteId\":678,\n  \"ZoneId\":910,\n  \"IsExclude\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  SiteId:
+                    type: integer
+                    example: 678
+                    default: 0
+                  ZoneId:
+                    type: integer
+                    example: 910
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H 'X-Adzerk-ApiKey:<APIKEY>' -H "Content-Type:application/json" "https://api.kevel.co/v1/flight/12345/sitezonetargeting/98765" --data-binary '{"FlightId":12345,"SiteId":678,"ZoneId":910,"IsExclude":false}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateSiteZoneTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let siteZoneTargeting = await client.run(\"siteZoneTargeting\", \"update\", {\n    id: 98765,\n    flightId: 12345,\n    isExclude: false,\n  });\n\n  console.log(siteZoneTargeting);\n}\n\nupdateSiteZoneTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_site_zone_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 123456\n    id = 987654\n    data = client.sitezonetargetings.get(flight_id, id)\n    data[:is_exclude] = true\n    pp client.sitezonetargetings.update(flight_id, id, data)\nend\nupdate_site_zone_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    get:
+      summary: Get Site/Zone Targeting
+      description: ''
+      operationId: get-sitezone-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SiteZoneTargetingID
+        in: path
+        description: ID of the Site Zone Targeting parameter. You can pull it through the Get Flight endpoint if don't have.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":98765,\n  \"FlightId\":12345,\n  \"SiteId\":678,\n  \"ZoneId\":910,\n  \"IsExclude\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  SiteId:
+                    type: integer
+                    example: 678
+                    default: 0
+                  ZoneId:
+                    type: integer
+                    example: 910
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' "https://api.kevel.co/v1/flight/12345/sitezonetargeting/98765"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getSiteZoneTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let siteZoneTargeting = await client.run(\"siteZoneTargeting\", \"get\", {\n    id: 98765,\n    flightId: 12345\n  });\n\n  console.log(siteZoneTargeting);\n}\n\ngetSiteZoneTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_site_zone_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    id = 67890\n    pp client.sitezonetargetings.get(flight_id, id)\nend\nget_site_zone_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}/delete:
+    get:
+      summary: Delete Site/Zone Targeting
+      description: This removes site/zone targeting from a flight.
+      operationId: delete-sitezone-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SiteZoneTargetingID
+        in: path
+        description: ID of the Site Zone Targeting parameter. You can pull it through the Get Flight endpoint if don't have.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully Deleted"'
+              schema:
+                type: string
+                example: Successfully Deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' "https://api.kevel.co/v1/flight/12345/sitezonetargeting/98765/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteSiteZoneTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let response = await client.run(\"siteZoneTargeting\", \"delete\", {\n    id: 98765,\n    flightId: 12345\n  });\n\n  console.log(response);\n}\n\ndeleteSiteZoneTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_site_zone_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    id = 67890\n    pp client.sitezonetargetings.delete(flight_id, id)\nend\ndelete_site_zone_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/geotargeting:
+    post:
+      summary: Create Geo-Targeting
+      description: ''
+      operationId: create-geo-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                CountryCode:
+                  type: string
+                  description: The 2-3 character string that denotes the country you want to target
+                Region:
+                  type: string
+                  description: The 2-3 character string that denotes the region (or state) that you want to target
+                MetroCode:
+                  type: integer
+                  description: The 3 digit number that denotes the metropolitan area you want to target. US only.
+                  format: int32
+                City:
+                  type: string
+                  description: The name of the city you want to target
+                CityGeonameId:
+                  type: integer
+                  description: The numeric geoname ID that denotes the city you want to target. This is the value matched for city targeting. Retrieve valid IDs from the List Cities in Region endpoint.
+                  format: int32
+                IsExclude:
+                  type: boolean
+                  description: If leave blank, this will default to `false/null` and target the country. If you want to exclude it instead, use `true`
+                  default: 'false'
+            examples:
+              JSON:
+                value:
+                  FlightId: 12345
+                  CountryCode: US
+                  Region: NC
+                  MetroCode: 560
+                  City: Durham
+                  CityGeonameId: 4464368
+                  IsExclude: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"LocationId\":76543,\n  \"FlightId\":12345,\n  \"CountryCode\":\"US\",\n  \"Region\":\"NC\",\n  \"MetroCode\":560,\n  \"City\":\"Durham\",\n  \"CityGeonameId\":4464368,\n  \"IsExclude\":false\n}"
+              schema:
+                type: object
+                properties:
+                  LocationId:
+                    type: integer
+                    example: 76543
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  CountryCode:
+                    type: string
+                    example: US
+                  Region:
+                    type: string
+                    example: NC
+                  MetroCode:
+                    type: integer
+                    example: 560
+                    default: 0
+                  City:
+                    type: string
+                    example: Durham
+                  CityGeonameId:
+                    type: integer
+                    example: 4464368
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H 'X-Adzerk-ApiKey:<APIKEY>' -H "Content-Type:application/json" "https://api.kevel.co/v1/flight/12345/geotargeting" --data-binary '{"FlightId":12345,"CountryCode":"US","Region":"NC","MetroCode":560, "IsExclude":false}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createGeoTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let geoTargeting = await client.run(\"geoTargeting\", \"create\", {\n    flightId: 12345,\n    countryCode: \"US\",  // United States\n    region: \"NC\",       // North Carolina (optional)\n    metroCode: 560,     // Raleigh/Durham, NC (optional)\n    isExclude: false,   // target only this region, defaults to false\n  });\n\n  console.log(geoTargeting);\n}\n\ncreateGeoTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_geo_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    data = {\n        country_code: \"US\", \n        region: \"NC\",      \n        is_exclude: false,\n    }\n    pp client.geotargetings.create(flight_id, data)\nend\ncreate_geo_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/geotargeting/{LocationID}:
+    put:
+      summary: Update Geo-Targeting
+      description: ''
+      operationId: update-geo-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: LocationID
+        in: path
+        description: ID from the Geo-Targeting Endpoint
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                CountryCode:
+                  type: string
+                  description: The 2-3 character string that denotes the country you want to target
+                Region:
+                  type: string
+                  description: The 2-3 character string that denotes the region (or state) that you want to target
+                MetroCode:
+                  type: integer
+                  description: The 3 digit number that denotes the metropolitan area you want to target. US only.
+                  format: int32
+                City:
+                  type: string
+                  description: The name of the city you want to target
+                CityGeonameId:
+                  type: integer
+                  description: The numeric geoname ID that denotes the city you want to target. This is the value matched for city targeting. Retrieve valid IDs from the List Cities in Region endpoint.
+                  format: int32
+                isExclude:
+                  type: boolean
+                  description: If `true`, this will exclude the country from targeting. Defaults to `false/null`
+                  default: 'false'
+            examples:
+              JSON:
+                value:
+                  FlightId: 12345
+                  CountryCode: US
+                  Region: NC
+                  MetroCode: 560
+                  City: Durham
+                  CityGeonameId: 4464368
+                  IsExclude: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"LocationId\":76543,\n  \"FlightId\":12345,\n  \"CountryCode\":\"US\",\n  \"Region\":\"NC\",\n  \"MetroCode\":560,\n  \"City\":\"Durham\",\n  \"CityGeonameId\":4464368,\n  \"IsExclude\":false\n}"
+              schema:
+                type: object
+                properties:
+                  LocationId:
+                    type: integer
+                    example: 76543
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  CountryCode:
+                    type: string
+                    example: US
+                  Region:
+                    type: string
+                    example: NC
+                  MetroCode:
+                    type: integer
+                    example: 560
+                    default: 0
+                  City:
+                    type: string
+                    example: Durham
+                  CityGeonameId:
+                    type: integer
+                    example: 4464368
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H 'X-Adzerk-ApiKey:<APIKEY>' -H "Content-Type:application/json" "https://api.kevel.co/v1/flight/12345/geotargeting/76543" --data-binary '{"FlightId":12345,"CountryCode":"US","Region":"NC","MetroCode":560, "IsExclude":true}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateGeoTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let geoTargeting = await client.run(\"geoTargeting\", \"update\", {\n    locationId: 76543,\n    flightId: 12345,\n    countryCode: \"US\",  // United States\n    region: \"NC\",       // North Carolina\n  });\n\n  console.log(geoTargeting);\n}\n\nupdateGeoTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_geo_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    location_id = 67890\n    data = client.geotargetings.get(flight_id, location_id)\n    data[:region] = \"MN\"\n    pp client.geotargetings.update(flight_id, location_id, data)\nend\nupdate_geo_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    get:
+      summary: Get Geo-Targeting
+      description: ''
+      operationId: get-geo-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: LocationID
+        in: path
+        description: ID from the Geo-Targeting Endpoint
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"LocationId\":76543,\n  \"FlightId\":12345,\n  \"CountryCode\":\"US\",\n  \"Region\":\"NC\",\n  \"MetroCode\":560,\n  \"City\":\"Durham\",\n  \"CityGeonameId\":4464368,\n  \"IsExclude\":false\n}"
+              schema:
+                type: object
+                properties:
+                  LocationId:
+                    type: integer
+                    example: 76543
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  CountryCode:
+                    type: string
+                    example: US
+                  Region:
+                    type: string
+                    example: NC
+                  MetroCode:
+                    type: integer
+                    example: 560
+                    default: 0
+                  City:
+                    type: string
+                    example: Durham
+                  CityGeonameId:
+                    type: integer
+                    example: 4464368
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' "https://api.kevel.co/v1/flight/12345/geotargeting/76543"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getGeoTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let geoTargeting = await client.run(\"geoTargeting\", \"get\", {\n    locationId: 76544,\n    flightId: 12345,\n  });\n\n  console.log(geoTargeting);\n}\n\ngetGeoTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_geo_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    location_id = 67890\n    pp client.geotargetings.get(flight_id, location_id)\nend\nget_geo_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/geotargeting/{LocationID}/delete:
+    get:
+      summary: Delete Geo-Targeting
+      description: ''
+      operationId: delete-geo-targeting
+      parameters:
+      - name: FlightID
+        in: path
+        description: ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: LocationID
+        in: path
+        description: ID from the Geo-Targeting Endpoint
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully Deleted"'
+              schema:
+                type: string
+                example: Successfully Deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' "https://api.kevel.co/v1/flight/12345/geotargeting/76543/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteGeoTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let response = await client.run(\"geoTargeting\", \"delete\", {\n    locationId: 76543,\n    flightId: 12345,\n  });\n\n  console.log(response);\n}\n\ndeleteGeoTargeting();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_geo_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    location_id = 67890\n    pp client.geotargetings.delete(flight_id, location_id)\nend\ndelete_geo_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/distance:
+    post:
+      summary: Create Distance Targeting Geometry
+      description: ''
+      operationId: create-geodistance-targeting-geometry
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Distance:
+                  type: number
+                  description: 'The radius of the Distance geometry in kilometers. Min: 0.01, Max: 500. Optional on networks with user-specified radius features enabled; omit for user-specified radius.'
+                  format: float
+                Latitude:
+                  type: number
+                  description: The latitude of the Distance point. Saved up to 7 decimal places. Cannot be used with `StreetAddress`.
+                  format: float
+                Longitude:
+                  type: number
+                  description: The longitude of the Distance point. Saved up to 7 decimal places. Cannot be used with `StreetAddress`.
+                  format: float
+                StreetAddress:
+                  type: string
+                  description: The street address of the Distance point. This will be resolved to latitude and longitude. Cannot be used with `Latitude` and `Longitude` params.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Distance\": 42,\n  \"StreetAddress\": \"1 Kevel Boulevard, Keveltown NC 27701\",\n  \"FlightId\": 12345,\n  \"Latitude\": 35.9950488,\n  \"Longitude\": -78.9081815,\n  \"Id\": 123\n}"
+              schema:
+                type: object
+                properties:
+                  Distance:
+                    type: integer
+                    example: 42
+                    default: 0
+                  StreetAddress:
+                    type: string
+                    example: 1 Kevel Boulevard, Keveltown NC 27701
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Latitude:
+                    type: number
+                    example: 35.9950488
+                    default: 0
+                  Longitude:
+                    type: number
+                    example: -78.9081815
+                    default: 0
+                  Id:
+                    type: integer
+                    example: 123
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Unresolvable address:
+                  value: "{\n  \"Errors\": [\n    {\n      \"message\": \"Address cannot be resolved\",\n      \"values\": {\n        \"Distance\": 42,\n        \"StreetAddress\": \"bad address\",\n        \"FlightId\": 12345\n      }\n    }\n  ]\n}"
+                Validation errors:
+                  value: "{\n  \"Errors\": [\n    {\n      \"path\": [\n        \"Latitude\"\n      ],\n      \"value\": 200,\n      \"message\": \"Value '200' at '[\\\"Latitude\\\"]' Decimal value must be <= 90.0.\"\n    },\n    {\n      \"path\": [\n        \"Longitude\"\n      ],\n      \"value\": 200,\n      \"message\": \"Value '200' at '[\\\"Longitude\\\"]' Decimal value must be <= 180.0.\"\n    },\n    {\n      \"path\": [\n        \"Distance\"\n      ],\n      \"value\": 700,\n      \"message\": \"Value '700' at '[\\\"Distance\\\"]' Decimal value must be <= 500.\"\n    }\n  ]\n}"
+                Max geometries reached:
+                  value: "{\n  \"Errors\": [\n    {\n      \"message\": \"Error inserting Geometry\",\n      \"values\": {\n        \"Distance\": 42,\n        \"Latitude\": 35.9950488,\n        \"Longitude\": -78.9081815,\n        \"FlightId\": 12345,\n        \"StreetAddress\": \"1 Adzerk Boulevard, Adzerktown NC 27701\"\n      }\n    }\n  ]\n}"
+                Bad JSON:
+                  value: "{\n  \"Errors\": \"Invalid JSON payload\"\n}"
+              schema:
+                oneOf:
+                - title: Unresolvable address
+                  type: object
+                  properties:
+                    Errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+                            example: Address cannot be resolved
+                          values:
+                            type: object
+                            properties:
+                              Distance:
+                                type: integer
+                                example: 42
+                                default: 0
+                              StreetAddress:
+                                type: string
+                                example: bad address
+                              FlightId:
+                                type: integer
+                                example: 12345
+                                default: 0
+                - title: Validation errors
+                  type: object
+                  properties:
+                    Errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          path:
+                            type: array
+                            items:
+                              type: string
+                              example: Latitude
+                          value:
+                            type: integer
+                            example: 200
+                            default: 0
+                          message:
+                            type: string
+                            example: Value '200' at '["Latitude"]' Decimal value must be <= 90.0.
+                - title: Max geometries reached
+                  type: object
+                  properties:
+                    Errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+                            example: Error inserting Geometry
+                          values:
+                            type: object
+                            properties:
+                              Distance:
+                                type: integer
+                                example: 42
+                                default: 0
+                              Latitude:
+                                type: number
+                                example: 35.9950488
+                                default: 0
+                              Longitude:
+                                type: number
+                                example: -78.9081815
+                                default: 0
+                              FlightId:
+                                type: integer
+                                example: 12345
+                                default: 0
+                              StreetAddress:
+                                type: string
+                                example: 1 Adzerk Boulevard, Adzerktown NC 27701
+                - title: Bad JSON
+                  type: object
+                  properties:
+                    Errors:
+                      type: string
+                      example: Invalid JSON payload
+        '503':
+          description: '503'
+          content:
+            application/json:
+              examples:
+                Geocoding unavailable:
+                  value: "{\n  \"Errors\": [\n    {\n      \"message\": \"Geocoding service unavailable\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  Errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          example: Geocoding service unavailable
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "## Using street address \n\ncurl -X POST -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" -H \"Content-Type:application/json\" https://api.kevel.co/v1/flight/12345/distance --data-binary '{\"Distance\":42.0,\"StreetAddress\":\"1 Kevel Boulevard, Keveltown NC 27701\"}'\n\n## Using longitude and latitude\n\ncurl -X POST -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" -H \"Content-Type:application/json\" https://api.kevel.co/v1/flight/12345/distance --data-binary '{\"Distance\":42.0,\"Latitude\":35.9950488,\"Longitude\":-78.9081815}'"
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\n// Using street address\n\nasync function createDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  let distanceTargeting = await client.run('distanceTargeting', 'create', {\n    flightId: 12345,\n    distance: 42,\n    streetAddress: \"1 Kevel Boulevard, Keveltown NC 27701\"\n  });\n\n  console.log(distanceTargeting);\n}\ncreateDistanceTargeting()\n\n// Using longitude and latitude\n\nasync function createDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  let distanceTargeting = await client.run('distanceTargeting', 'create', {\n    flightId: 12345,\n    distance: 42,\n    latitude: 35.9950488,\n    longitude: -78.9081815\n  });\n\n  console.log(distanceTargeting);\n}\ncreateDistanceTargeting()"
+        - language: ruby
+          code: "require \"adzerk\"\n\n# Using street address\n\ndef create_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    data = {\n        distance: 42,\n        street_address: \"1 Kevel Boulevard, Keveltown NC 27701\"\n    }\n    pp client.distance_targetings.create(flight_id, data)\nend\ncreate_distance_targeting()\n\n# Using longitude and latitude\n\ndef create_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    data = {\n        distance: 42,\n        latitude: 35.9950488,\n      \tlongitude: -78.9081815,\n    }\n    pp client.distance_targetings.create(flight_id, data)\nend\ncreate_distance_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/distance/batch:
+    post:
+      summary: Batch Upload Distance Targeting Geometries
+      description: ''
+      operationId: batch-upload-geodistance-targeting-geometries
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Geometries
+              properties:
+                ReplaceExisting:
+                  type: boolean
+                  description: Whether to replace any existing geometries on a flight. Defaults to false.
+                  default: false
+                Geometries:
+                  type: array
+                  description: Must contain at least 0 geometry objects. If 1 or more objects are present, `Distance`, `Latitude`, and `Longitude` (float) are all required.
+                  items:
+                    properties:
+                      Latitude:
+                        type: number
+                        description: Latitude of the geometry
+                        format: float
+                      Longitude:
+                        type: number
+                        description: Longitude of the geometry
+                        format: float
+                      Distance:
+                        type: number
+                        description: Distance of the geometry
+                        format: float
+                    required:
+                    - Latitude
+                    - Longitude
+                    - Distance
+                    type: object
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "## Batch create/override\n\n{\n  \"InsertedGeometries\": 2\n}\n\n## Remove all geometries on the flight\n\n{\n  \"InsertedGeometries\": 0\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '## Batch create/override
+
+
+            curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" https://api.kevel.co/v1/flight/1234567/distance/batch -d ''{"ReplaceExisting": false, "Geometries": [{"Latitude": -89.05, "Longitude": -170.1, "Distance": 5},{"Latitude": 14, "Longitude": 57.1, "Distance": 5}]}''
+
+
+            ## Remove all geometries on the flight
+
+
+            curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" https://api.kevel.co/v1/flight/1234567/distance/batch -d ''{"ReplaceExisting": true, "Geometries": []}''
+
+            '
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\n// Batch create/override\n\nasync function uploadBatchDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  let distanceTargeting = await client.run(\"distanceTargeting\", \"batchUpload\", {\n    flightId: 12345,\n    replaceExisting: false,\n    geometries: [\n      {\n        Latitude: -89.05,\n        Longitude: 57.1,\n        Distance: 5\n      },\n      {\n        Latitude: 14,\n        Longitude: 57.1,\n        Distance: 5\n      }\n    ]\n  });\n\n  console.log(distanceTargeting);\n}\nuploadBatchDistanceTargeting()\n\n// Remove all geometries on the flight\n\nasync function removeAllDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  let distanceTargeting = await client.run(\"distanceTargeting\", \"batchUpload\", {\n    flightId: 12345,\n    replaceExisting: true,\n    geometries: []\n  });\n\n  console.log(distanceTargeting);\n}\nremoveAllDistanceTargeting()"
+        - language: ruby
+          code: "require \"adzerk\"\n\n# Batch create/override\n\ndef upload_batch_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    data = {\n        replace_existing: false,\n        geometries: [\n            {\n                latitude: -89.05,\n                longitude: 57.1,\n                distance: 5\n            },\n            {\n                latitude: 14,\n                longitude: 57.1,\n                distance: 5\n            }\n        ]\n    }\n    pp client.distance_targetings.batch_upload(flight_id, data)\nend\nupload_batch_distance_targeting()\n\n# Remove all geometries on the flight\n\ndef remove_all_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    data = {\n        replace_existing: true,\n        geometries: []\n    }\n    pp client.distance_targetings.batch_upload(flight_id, data)\nend\nremove_all_distance_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/distance/{GeometryID}:
+    put:
+      summary: Update Distance Targeting Geometry
+      description: ''
+      operationId: updates-geodistance-targeting-geometry
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: GeometryID
+        in: path
+        description: The ID of the Distance Targeting geometry
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Distance:
+                  type: number
+                  description: 'The radius of the Distance geometry in kilometers. Min: 0.01, Max: 500 Optional on networks withuser-specified radius features enabled; omit for user-specified radius.'
+                  format: float
+                Latitude:
+                  type: number
+                  description: The latitude of the Distance point. Saved up to 7 decimal places. Cannot be used with `StreetAddress`.
+                  format: float
+                Longitude:
+                  type: number
+                  description: The longitude of the Distance point. Saved up to 7 decimal places. Cannot be used with `StreetAddress`.
+                  format: float
+                StreetAddress:
+                  type: string
+                  description: The street address of the Distance point. This will be resolved to latitude and longitude. Cannot be used with `Latitude` and `Longitude` params.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Distance\": 42,\n  \"StreetAddress\": \"1 Kevel Boulevard, Keveltown NC 27701\",\n  \"FlightId\": 12345,\n  \"Latitude\": 35.9950488,\n  \"Longitude\": -78.9081815,\n  \"Id\": 123\n}"
+              schema:
+                type: object
+                properties:
+                  Distance:
+                    type: integer
+                    example: 42
+                    default: 0
+                  StreetAddress:
+                    type: string
+                    example: 1 Kevel Boulevard, Keveltown NC 27701
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Latitude:
+                    type: number
+                    example: 35.9950488
+                    default: 0
+                  Longitude:
+                    type: number
+                    example: -78.9081815
+                    default: 0
+                  Id:
+                    type: integer
+                    example: 123
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Unresolvable address:
+                  value: "{\n  \"Errors\": [\n    {\n      \"message\": \"Address cannot be resolved\",\n      \"values\": {\n        \"Distance\": 42,\n        \"StreetAddress\": \"bad address\",\n        \"FlightId\": 12345\n      }\n    }\n  ]\n}"
+                Validation errors:
+                  value: "{\n  \"Errors\": [\n    {\n      \"path\": [\n        \"Latitude\"\n      ],\n      \"value\": 200,\n      \"message\": \"Value '200' at '[\\\"Latitude\\\"]' Decimal value must be <= 90.0.\"\n    },\n    {\n      \"path\": [\n        \"Longitude\"\n      ],\n      \"value\": 200,\n      \"message\": \"Value '200' at '[\\\"Longitude\\\"]' Decimal value must be <= 180.0.\"\n    },\n    {\n      \"path\": [\n        \"Distance\"\n      ],\n      \"value\": 700,\n      \"message\": \"Value '700' at '[\\\"Distance\\\"]' Decimal value must be <= 500.\"\n    }\n  ]\n}"
+                Max geometries reached:
+                  value: "{\n  \"Errors\": [\n    {\n      \"message\": \"Error inserting Geometry\",\n      \"values\": {\n        \"Distance\": 42,\n        \"Latitude\": 35.9950488,\n        \"Longitude\": -78.9081815,\n        \"FlightId\": 12345,\n        \"StreetAddress\": \"1 Adzerk Boulevard, Adzerktown NC 27701\"\n      }\n    }\n  ]\n}"
+                Bad JSON:
+                  value: "{\n  \"Errors\": \"Invalid JSON payload\"\n}"
+              schema:
+                oneOf:
+                - title: Unresolvable address
+                  type: object
+                  properties:
+                    Errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+                            example: Address cannot be resolved
+                          values:
+                            type: object
+                            properties:
+                              Distance:
+                                type: integer
+                                example: 42
+                                default: 0
+                              StreetAddress:
+                                type: string
+                                example: bad address
+                              FlightId:
+                                type: integer
+                                example: 12345
+                                default: 0
+                - title: Validation errors
+                  type: object
+                  properties:
+                    Errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          path:
+                            type: array
+                            items:
+                              type: string
+                              example: Latitude
+                          value:
+                            type: integer
+                            example: 200
+                            default: 0
+                          message:
+                            type: string
+                            example: Value '200' at '["Latitude"]' Decimal value must be <= 90.0.
+                - title: Max geometries reached
+                  type: object
+                  properties:
+                    Errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+                            example: Error inserting Geometry
+                          values:
+                            type: object
+                            properties:
+                              Distance:
+                                type: integer
+                                example: 42
+                                default: 0
+                              Latitude:
+                                type: number
+                                example: 35.9950488
+                                default: 0
+                              Longitude:
+                                type: number
+                                example: -78.9081815
+                                default: 0
+                              FlightId:
+                                type: integer
+                                example: 12345
+                                default: 0
+                              StreetAddress:
+                                type: string
+                                example: 1 Adzerk Boulevard, Adzerktown NC 27701
+                - title: Bad JSON
+                  type: object
+                  properties:
+                    Errors:
+                      type: string
+                      example: Invalid JSON payload
+        '503':
+          description: '503'
+          content:
+            application/json:
+              examples:
+                Geocoding unavailable:
+                  value: "{\n  \"Errors\": [\n    {\n      \"message\": \"Geocoding service unavailable\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  Errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          example: Geocoding service unavailable
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "## Using street address \n\ncurl -X PUT -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" -H \"Content-Type:application/json\" https://api.kevel.co/v1/flight/12345/distance/123 --data-binary '{\"Distance\":42.0,\"StreetAddress\":\"1 Adzerk Boulevard, Adzerktown NC 27701\"}'\n\n## Using longitude and latitude\n\ncurl -X PUT -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" -H \"Content-Type:application/json\" https://api.kevel.co/v1/flight/12345/distance/123 --data-binary '{\"Distance\":42.0,\"Latitude\":35.9950488,\"Longitude\":-78.9081815}'"
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\n// Using street address \n\nasync function updateDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  let distanceTargeting = await client.run(\"distanceTargeting\", \"update\", {\n    flightId: 12345,\n    geometryId: 123,\n    distance: 42.0,\n    streetAddress: \"1 Adzerk Boulevard, Adzerktown NC 27701\"\n  });\n\n  console.log(distanceTargeting);\n}\nupdateDistanceTargeting()\n\n// Using longitude and latitude\n\nasync function updateDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  let distanceTargeting = await client.run(\"distanceTargeting\", \"update\", {\n    flightId: 12345,\n    geometryId: 123,\n    distance: 42.0,\n    latitude: 35.9950488,\n    longitude: -78.9081815\n  });\n\n  console.log(distanceTargeting);\n}\nupdateDistanceTargeting()"
+        - language: ruby
+          code: "require \"adzerk\"\n\n# Using street address \n\ndef update_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    geometry_id = 123\n    data = {\n        distance: 42,\n        street_address: \"1 Kevel Boulevard, Keveltown NC 27701\"\n    }\n    pp client.distance_targetings.update(flight_id, geometry_id, data)\nend\nupdate_distance_targeting()\n\n# Using longitude and latitude\n\ndef update_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    geometry_id = 123\n    data = {\n        distance: 42,\n        latitude: 35.9950488,\n        longitude: -78.9081815\n    }\n    pp client.distance_targetings.update(flight_id, geometry_id, data)\nend\nupdate_distance_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    get:
+      summary: Get Distance Targeting Geometry
+      description: ''
+      operationId: get-geodistance-targeting-geometry
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: GeometryID
+        in: path
+        description: The ID of the Distance Targeting geometry
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Distance\": 42,\n  \"StreetAddress\": \"1 Kevel Boulevard, Keveltown NC 27701\",\n  \"FlightId\": 12345,\n  \"Latitude\": 35.9950488,\n  \"Longitude\": -78.9081815,\n  \"Id\": 123\n}"
+              schema:
+                type: object
+                properties:
+                  Distance:
+                    type: integer
+                    example: 42
+                    default: 0
+                  StreetAddress:
+                    type: string
+                    example: 1 Kevel Boulevard, Keveltown NC 27701
+                  FlightId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Latitude:
+                    type: number
+                    example: 35.9950488
+                    default: 0
+                  Longitude:
+                    type: number
+                    example: -78.9081815
+                    default: 0
+                  Id:
+                    type: integer
+                    example: 123
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            text/plain:
+              examples:
+                Not found:
+                  value: "{\n  \"message\": \"GeoDistance Targeting Geometry not found.\"\n}"
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: GeoDistance Targeting Geometry not found.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" https://api.kevel.co/v1/flight/12345/distance/1234 \n"
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n  \n  let distanceTargeting = await client.run(\"distanceTargeting\", \"get\", {\n    flightId: 12345,\n    geometryId: 123\n  });\n  \n  console.log(distanceTargeting);\n}\ngetDistanceTargeting()"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    geometry_id = 123\n    pp client.distance_targetings.get(flight_id, geometry_id)\nend\nget_distance_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+    delete:
+      summary: Delete Distance Targeting Geometry
+      description: ''
+      operationId: delete-geodistance-targeting-geometry
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: GeometryID
+        in: path
+        description: The ID of the Distance Targeting geometry
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '## No response body'
+        '400':
+          description: '400'
+          content:
+            text/plain:
+              examples:
+                Not found:
+                  value: "{\n  \"message\": \"GeoDistance Targeting Geometry not found.\"\n}"
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: GeoDistance Targeting Geometry not found.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -X DELETE -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" https://api.kevel.co/v1/flight/12345/distance/1234 \n"
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  let distanceTargeting = await client.run(\"distanceTargeting\", \"delete\", {\n    flightId: 12345,\n    geometryId: 123\n  });\n    \n  console.log(distanceTargeting);\n}\ndeleteDistanceTargeting()"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    geometry_id = 123\n    pp client.distance_targetings.delete(flight_id, geometry_id)\nend\ndelete_distance_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+  /v1/flight/{FlightID}/distance/:
+    get:
+      summary: List Distance Targeting Geometries
+      description: ''
+      operationId: list-geodistance-targeting-geometries
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n    \"Id\": 12345,\n    \"Latitude\": 35.99505,\n    \"Longitude\": -78.90818,\n    \"StreetAddress\": \"kevel\",\n    \"FlightId\": 1234567,\n    \"Distance\": 10\n  },\n  {\n    \"Id\": 12346,\n    \"Latitude\": 35.99505,\n    \"Longitude\": -78.90818,\n    \"StreetAddress\": \"kevel uk\",\n    \"FlightId\": 1234567,\n    \"Distance\": 10\n  },\n  {\n    \"Id\": 12347,\n    \"Latitude\": 35.99505,\n    \"Longitude\": -78.90818,\n    \"StreetAddress\": \"kevel san francisco\",\n    \"FlightId\": 1234567,\n    \"Distance\": 10\n  }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Id:
+                      type: integer
+                      example: 12345
+                      default: 0
+                    Latitude:
+                      type: number
+                      example: 35.99505
+                      default: 0
+                    Longitude:
+                      type: number
+                      example: -78.90818
+                      default: 0
+                    StreetAddress:
+                      type: string
+                      example: kevel
+                    FlightId:
+                      type: integer
+                      example: 1234567
+                      default: 0
+                    Distance:
+                      type: integer
+                      example: 10
+                      default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" https://api.kevel.co/v1/flight/12345/distance \n"
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listDistanceTargeting() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n    \n  let distanceTargeting = await client.run(\"distanceTargeting\", \"list\", {\n    flightId: 12345\n  });\n    \n  console.log(distanceTargeting);\n}\nlistDistanceTargeting()"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_distance_targeting()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 12345\n    pp client.distance_targetings.list(flight_id)\nend\nlist_distance_targeting()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Flight
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

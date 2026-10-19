@@ -1,0 +1,12 @@
+{
+ "url": "https://dev.kevel.com/openapi/management-api-2.json",
+ "final": "https://dev.kevel.com/openapi/management-api-2.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 422975,
+ "sha256": "2f69e2ea15cb5bc3e8cf578318dd0a65b83cbe62bfb870b9d727ff9d708a3dc0",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

@@ -1,0 +1,969 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Ad API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Ad
+paths:
+  /v1/ad/{AdID}:
+    get:
+      summary: Get Ad
+      description: ''
+      operationId: get-ad-1
+      parameters:
+      - name: AdID
+        in: path
+        description: ID of the Ad / Creative Flight Map. This is not the ID from Create Creatives.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 1227159,\n  \"CampaignId\": 258367,\n  \"FlightId\": 616145,\n  \"ZoneId\": 12345,\n  \"SiteId\": 1234,\n  \"Iframe\": null,\n  \"Impressions\": 0,\n  \"Percentage\": 0,\n  \"DistributionType\": 1,\n  \"IsDeleted\": false,\n  \"IsActive\": false,\n  \"Creative\": {\n    \"Id\": 1163487,\n    \"Title\": \"Adzerk Blue Creative\",\n    \"ImageName\": \"\",\n    \"Url\": \"https://adzerk.com\",\n    \"Body\": \"\",\n    \"AdvertiserId\": 84825,\n    \"IsActive\": null,\n    \"AdTypeId\": 5,\n    \"Alt\": \"Adzerk - Native Ads\",\n    \"IsDeleted\": null,\n    \"IsSync\": null,\n    \"IsHTMLJS\": true,\n    \"ScriptBody\": \"this\",\n    \"Metadata\": null,\n    \"ImageLink\": \"httpss://static.adzerk.net/Advertisers/\",\n    \"IsNoTrack\": true,\n    \"IsNetworkAd\": false\n  },\n  \"CustomTargeting\": \"$keywords contains \\\"dean\\\"\",\n  \"FreqCap\": 5,\n  \"FreqCapDuration\": 1,\n  \"FreqCapType\": 2,\n  \"StartDate\": \"/Date(1430481600000)/\",\n  \"EndDate\": \"/Date(1430827200000)/\",\n  \"GoalType\": 1,\n  \"Goal\": 200000,\n  \"Price\": 1,\n  \"IsGoalOverride\": true,\n  \"IsStartEndDateOverride\": true,\n  \"ActiveKeywords\": [\"kittens\", \"cats\"],\n  \"RtbCustomFields\": null\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1227159
+                    default: 0
+                  CampaignId:
+                    type: integer
+                    example: 258367
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 616145
+                    default: 0
+                  ZoneId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  SiteId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  Iframe: {}
+                  Impressions:
+                    type: integer
+                    example: 0
+                    default: 0
+                  Percentage:
+                    type: integer
+                    example: 0
+                    default: 0
+                  DistributionType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsActive:
+                    type: boolean
+                    example: false
+                    default: true
+                  Creative:
+                    type: object
+                    properties:
+                      Id:
+                        type: integer
+                        example: 1163487
+                        default: 0
+                      Title:
+                        type: string
+                        example: Adzerk Blue Creative
+                      ImageName:
+                        type: string
+                        example: ''
+                      Url:
+                        type: string
+                        example: https://adzerk.com
+                      Body:
+                        type: string
+                        example: ''
+                      AdvertiserId:
+                        type: integer
+                        example: 84825
+                        default: 0
+                      IsActive: {}
+                      AdTypeId:
+                        type: integer
+                        example: 5
+                        default: 0
+                      Alt:
+                        type: string
+                        example: Adzerk - Native Ads
+                      IsDeleted: {}
+                      IsSync: {}
+                      IsHTMLJS:
+                        type: boolean
+                        example: true
+                        default: true
+                      ScriptBody:
+                        type: string
+                        example: this
+                      Metadata: {}
+                      ImageLink:
+                        type: string
+                        example: httpss://static.adzerk.net/Advertisers/
+                      IsNoTrack:
+                        type: boolean
+                        example: true
+                        default: true
+                      IsNetworkAd:
+                        type: boolean
+                        example: false
+                        default: true
+                  CustomTargeting:
+                    type: string
+                    example: $keywords contains "dean"
+                  FreqCap:
+                    type: integer
+                    example: 5
+                    default: 0
+                  FreqCapDuration:
+                    type: integer
+                    example: 1
+                    default: 0
+                  FreqCapType:
+                    type: integer
+                    example: 2
+                    default: 0
+                  StartDate:
+                    type: string
+                    example: /Date(1430481600000)/
+                  EndDate:
+                    type: string
+                    example: /Date(1430827200000)/
+                  GoalType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Goal:
+                    type: integer
+                    example: 200000
+                    default: 0
+                  Price:
+                    type: integer
+                    example: 1
+                    default: 0
+                  IsGoalOverride:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsStartEndDateOverride:
+                    type: boolean
+                    example: true
+                    default: true
+                  ActiveKeywords:
+                    type: array
+                    items:
+                      type: string
+                      example: kittens
+                  RtbCustomFields: {}
+                  CategoryTargeting:
+                    type: array
+                    description: The category targeting rules saved on the Ad itself, each with an `Id` and `IsExclude`. An Ad with no rules of its own uses its Flight's rules, and they do not appear here. Left out when category targeting is not enabled for your network.
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: string
+                          description: The category the rule matches.
+                        IsExclude:
+                          type: boolean
+                          description: '`true` for an exclude rule, `false` for an include rule.'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' "https://api.kevel.co/v1/ad/123456"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getAd() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let ad = await client.run('ad', 'get', {id: 12345});\n  console.log(ad);\n}\n\ngetAd();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_ad()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    ad_id = 12345\n    flight_id = 67890\n    pp client.ads.get(ad_id, flight_id)\nend\nget_ad()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Ad
+  /v1/ad/{AdID}/tracking-urls:
+    get:
+      summary: Get Ad Tracking Pixel and ClickURL
+      description: ''
+      operationId: get-ad-tracking-pixel-and-clickurl
+      parameters:
+      - name: AdID
+        in: path
+        description: The ad ID (or creative flight map). Note that this is not the creative ID.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: siteid
+        in: query
+        description: The site in your network where the impression and/or click should be tracked. The site must be eligible to serve the ad (i.e. the ad's flight belongs to a channel the site is associated with).
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: zoneid
+        in: query
+        description: An optional zone where the impression and/or click should be tracked. Must belong to the `siteid`.
+        schema:
+          type: integer
+          format: int32
+      - name: keywords
+        in: query
+        description: A comma separated string of keywords, like `foo,bar,baz`, that will be tracked in reporting with the click and/or impression. Keywords must not contain [disallowed characters defined in the keyword documentation.](doc:keyword-targeting#keywords-and-special-characters)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\": 1234567,\n  \"StaticClickUrl\": \"https://e-1234.adzerk.net/r?e=eyJhdiI6MjMwNjIsImF0IjoyMCwiYnQiOjAsImNtIjo...&s=FOw8LAsm9ns2zM3THky6Dxvg0jc\",\n  \"ImpressionPixelUrl\": \"https://e-1234.adzerk.net/p/eyJhdiI6MjMwNjIsImF0.../i.gif\"\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1234567
+                    default: 0
+                  StaticClickUrl:
+                    type: string
+                    example: https://e-1234.adzerk.net/r?e=eyJhdiI6MjMwNjIsImF0IjoyMCwiYnQiOjAsImNtIjo...&s=FOw8LAsm9ns2zM3THky6Dxvg0jc
+                  ImpressionPixelUrl:
+                    type: string
+                    example: https://e-1234.adzerk.net/p/eyJhdiI6MjMwNjIsImF0.../i.gif
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"message\": \"This ad is not active.\"\n}\n\n{\n  \"message\": \"This ad does not belong to your network.\"\n}\n\n{\n  \"message\": \"Site ID must be an integer.\"\n}\n\n{\n  \"message\": \"This site does not belong to your network.\"\n}\n\n{\n  \"message\": \"This site is not associated with a channel that includes this ad.\"\n}\n\n{\n  \"message\": \"Zone ID must be an integer.\"\n}\n\n{\n  \"message\": \"This zone does not belong to your network.\"\n}\n\n{\n  \"message\": \"This zone does not belong to this site.\"\n}\n\n{\n  \"message\": \"The keyword \\\":foo\\\" contains a character that is not allowed: ':'\"\n}\n\n{\n  \"message\": \"The keyword \\\" foo\\\" is invalid because it starts with whitespace.\"\n}"
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"message\": \"The tracking URLs you have requested are not available. This may indicate the Ad has not yet been fully published. Please retry your request based on the Retry-After header.\"\n}"
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: The tracking URLs you have requested are not available. This may indicate the Ad has not yet been fully published. Please retry your request based on the Retry-After header.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '## Requesting the ad for an eligible site:
+
+            curl -s -H "X-Adzerk-ApiKey:<API-KEY>" "https://api.kevel.co/v1/ad/123456/tracking-urls?siteid=123456"
+
+
+            ## Requesting the ad for a site, zone, and keywords:
+
+            curl -s -H "X-Adzerk-ApiKey:<API-KEY>" "https://api.kevel.co/v1/ad/123456/tracking-urls?siteid=123456&zoneid=12345&keywords=foo,bar,baz"'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getTrackingUrls() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let urls = await client.run('ad', 'getTrackingUrls', {id: 12345, siteid: 67890});\n  console.log(urls);\n}\n\ngetTrackingUrls();"
+        samples-languages:
+        - curl
+        - javascript
+      tags:
+      - Ad
+  /v1/ad:
+    get:
+      summary: List Ads For Network
+      description: ''
+      operationId: list-ads-for-network
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\": 1,\n  \"items\": [\n    {\n      \"Id\": 123456,\n      \"CampaignId\": 123456,\n      \"FlightId\": 123456,\n      \"ZoneId\": null,\n      \"SiteId\": null,\n      \"Impressions\": 100,\n      \"Percentage\": 0,\n      \"DistributionType\": 1,\n      \"IsDeleted\": false,\n      \"IsActive\": true,\n      \"Creative\": {\n        \"Id\": 12345,\n        \"Title\": \"Adzerk Blue Creative\",\n        \"ImageName\": \"\",\n        \"Url\": \"https://adzerk.com\",\n        \"Body\": \"\",\n        \"AdvertiserId\": 12345,\n        \"IsActive\": true,\n        \"AdTypeId\": 5,\n        \"Alt\": \"Adzerk - Native Ads\",\n        \"IsDeleted\": false,\n        \"IsSync\": false,\n        \"IsHTMLJS\": true,\n        \"ScriptBody\": \"JS or HTML content\",\n        \"Metadata\": \"{\\\"something\\\":true}\",\n        \"ImageLink\": \"httpss://static.adzerk.net/Advertisers/\",\n        \"IsNoTrack\": true,\n        \"IsNetworkAd\": false\n      },\n      \"CustomTargeting\": \"$keywords contains \\\"dean\\\"\",\n      \"FreqCap\": 5,\n      \"FreqCapDuration\": 1,\n      \"FreqCapType\": 2,\n      \"DontAffectParentFreqCap\": true,\n      \"StartDate\": null,\n      \"EndDate\": null,\n      \"StartDateISO\": \"2017-01-01T00:00:00.0000000\",\n      \"EndDateISO\": \"2015-12-05T00:00:00.0000000\",\n      \"GoalType\": 1,\n      \"Price\": 1,\n      \"IsGoalOverride\": true,\n      \"IsStartEndDateOverride\": true,\n      \"ActiveKeywords\": [\"kittens\",\"cats\"]\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        CampaignId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        FlightId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        ZoneId: {}
+                        SiteId: {}
+                        Impressions:
+                          type: integer
+                          example: 100
+                          default: 0
+                        Percentage:
+                          type: integer
+                          example: 0
+                          default: 0
+                        DistributionType:
+                          type: integer
+                          example: 1
+                          default: 0
+                        IsDeleted:
+                          type: boolean
+                          example: false
+                          default: true
+                        IsActive:
+                          type: boolean
+                          example: true
+                          default: true
+                        Creative:
+                          type: object
+                          properties:
+                            Id:
+                              type: integer
+                              example: 12345
+                              default: 0
+                            Title:
+                              type: string
+                              example: Adzerk Blue Creative
+                            ImageName:
+                              type: string
+                              example: ''
+                            Url:
+                              type: string
+                              example: https://adzerk.com
+                            Body:
+                              type: string
+                              example: ''
+                            AdvertiserId:
+                              type: integer
+                              example: 12345
+                              default: 0
+                            IsActive:
+                              type: boolean
+                              example: true
+                              default: true
+                            AdTypeId:
+                              type: integer
+                              example: 5
+                              default: 0
+                            Alt:
+                              type: string
+                              example: Adzerk - Native Ads
+                            IsDeleted:
+                              type: boolean
+                              example: false
+                              default: true
+                            IsSync:
+                              type: boolean
+                              example: false
+                              default: true
+                            IsHTMLJS:
+                              type: boolean
+                              example: true
+                              default: true
+                            ScriptBody:
+                              type: string
+                              example: JS or HTML content
+                            Metadata:
+                              type: string
+                              example: '{"something":true}'
+                            ImageLink:
+                              type: string
+                              example: httpss://static.adzerk.net/Advertisers/
+                            IsNoTrack:
+                              type: boolean
+                              example: true
+                              default: true
+                            IsNetworkAd:
+                              type: boolean
+                              example: false
+                              default: true
+                        CustomTargeting:
+                          type: string
+                          example: $keywords contains "dean"
+                        FreqCap:
+                          type: integer
+                          example: 5
+                          default: 0
+                        FreqCapDuration:
+                          type: integer
+                          example: 1
+                          default: 0
+                        FreqCapType:
+                          type: integer
+                          example: 2
+                          default: 0
+                        DontAffectParentFreqCap:
+                          type: boolean
+                          example: true
+                          default: true
+                        StartDate: {}
+                        EndDate: {}
+                        StartDateISO:
+                          type: string
+                          example: '2017-01-01T00:00:00.0000000'
+                        EndDateISO:
+                          type: string
+                          example: '2015-12-05T00:00:00.0000000'
+                        GoalType:
+                          type: integer
+                          example: 1
+                          default: 0
+                        Price:
+                          type: integer
+                          example: 1
+                          default: 0
+                        IsGoalOverride:
+                          type: boolean
+                          example: true
+                          default: true
+                        IsStartEndDateOverride:
+                          type: boolean
+                          example: true
+                          default: true
+                        ActiveKeywords:
+                          type: array
+                          items:
+                            type: string
+                            example: kittens
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/ad"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdsForNetwork() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let ads = await client.run(\"ad\", \"listForNetwork\");\n  console.log(ads);\n}\nlistAdsForNetwork();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_ads_for_network()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.ads.list_for_network()\nend\nlist_ads_for_network()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Ad
+  /v1/ad/{AdId}/segmenttargeting:
+    post:
+      summary: Create Ad Segment Targeting Rule
+      description: Create an Ad to Segment targeting rule
+      operationId: create-ad-segment
+      parameters:
+      - name: AdId
+        in: path
+        description: The Ad the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - SegmentId
+              properties:
+                SegmentId:
+                  type: integer
+                  description: Id of the Segment
+                  format: int32
+                IsExclude:
+                  type: boolean
+                  description: Whether targeting is to be excluded or included
+                  default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \t\"Id\": 56789,\n\t\t\"AdId\": 55555,\n    \"SegmentId\": 123456,\n    \"IsExclude\": false,\n\t\t\"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  AdId:
+                    type: integer
+                    example: 55555
+                    default: 0
+                  SegmentId:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+                  Segment:
+                    type: object
+                    properties:
+                      Source:
+                        type: string
+                        example: audience
+                      Name:
+                        type: string
+                        example: best customers
+                      Reach:
+                        type: object
+                        properties:
+                          all_time:
+                            type: integer
+                            example: 3187463
+                            default: 0
+                          28d:
+                            type: integer
+                            example: 387434
+                            default: 0
+                      Description:
+                        type: string
+                        example: top 1% spenders in the last 30 days.
+                      Category:
+                        type: string
+                        example: CRM
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" https://api.kevel.co/v1/ad/{AdId}/segmenttargeting --data-binary '{"SegmentId":123456,"IsExclude":false}'
+        - language: javascript
+          code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createAdSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run(\"adSegment\", \"create\", {\n    segmentId:123456,\n    isExclude: false\n  });\n\n  console.log(targetingRule);\n}\n\ncreateAdSegment();"
+        - language: ruby
+          code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef create_ad_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.adSegment.create(segmentId: 123456, isExclude: false)\nend\ncreate_ad_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Ad
+    get:
+      summary: List Ad Segment Targeting Rules
+      description: List all Segment targeting rules for an Ad
+      operationId: list-ad-segments
+      parameters:
+      - name: AdId
+        in: path
+        description: The Ad the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\":1,\n  \"items\": [\n\t\t\t{\n\t\t\t\t\"Id\": 56789,\n\t\t\t\t\"AdId\": 55555,\n    \t\t\"SegmentId\": 123456,\n        \"IsExclude\": false,\n        \"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\n\t\t\t}\n    ],\n    \"pageSize\":1,\n    \"totalPages\":1,\n\t\t\"totalItems\":1\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 56789
+                          default: 0
+                        AdId:
+                          type: integer
+                          example: 55555
+                          default: 0
+                        SegmentId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        IsExclude:
+                          type: boolean
+                          example: false
+                          default: 'false'
+                        Segment:
+                          type: object
+                          properties:
+                            Source:
+                              type: string
+                              example: audience
+                            Name:
+                              type: string
+                              example: best customers
+                            Reach:
+                              type: object
+                              properties:
+                                all_time:
+                                  type: integer
+                                  example: 3187463
+                                  default: 0
+                                28d:
+                                  type: integer
+                                  example: 387434
+                                  default: 0
+                            Description:
+                              type: string
+                              example: top 1% spenders in the last 30 days.
+                            Category:
+                              type: string
+                              example: CRM
+                  pageSize:
+                    type: integer
+                    example: 1
+                    default: 0
+                  totalPages:
+                    type: integer
+                    example: 1
+                    default: 0
+                  totalItems:
+                    type: integer
+                    example: 1
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/ad/{AdId}/segmenttargeting"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run('adSegment', 'list');\n  console.log(targetingRule);\n}\n\nlistAdSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_ad_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.ad_segments.list()\nend\nlist_ad_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Ad
+  /v1/ad/{AdId}/segmenttargeting/{Id}:
+    put:
+      summary: Update Ad Segment Targeting Rule
+      description: Update an Ad to Segment targeting rule
+      operationId: update-ad-segment
+      parameters:
+      - name: AdId
+        in: path
+        description: The Ad the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SegmentTargetingId
+        in: path
+        description: Id of the Ad Segment targeting rule
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                IsExclude:
+                  type: boolean
+                  description: Whether targeting is to be excluded or included.
+                  default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \t\"Id\": 56789,\n\t\t\"AdId\": 55555,\n    \"SegmentId\": 123456,\n    \"IsExclude\": true,\n\t\t\"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  AdId:
+                    type: integer
+                    example: 55555
+                    default: 0
+                  SegmentId:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: true
+                    default: 'false'
+                  Segment:
+                    type: object
+                    properties:
+                      Source:
+                        type: string
+                        example: audience
+                      Name:
+                        type: string
+                        example: best customers
+                      Reach:
+                        type: object
+                        properties:
+                          all_time:
+                            type: integer
+                            example: 3187463
+                            default: 0
+                          28d:
+                            type: integer
+                            example: 387434
+                            default: 0
+                      Description:
+                        type: string
+                        example: top 1% spenders in the last 30 days.
+                      Category:
+                        type: string
+                        example: CRM
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" https://api.kevel.co/v1/ad/{AdId}/segmenttargeting/{Id} --data-binary '{"IsExclude":true}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateAdSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run(\"adSegment\", \"update\", {\n    isExclude: true,\n    adId: 456789,\n\t\tid: 123456\n  });\n\n  console.log(targetingRule);\n}\n\nupdateAdSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_ad_segment()\n  client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n  ad_id = 456789\n  id = 123456\n  data = client.adSegment.update(ad_id, id)\n  data[:is_exclude] = true\n  pp client.adSegment.update(data)\nend \nupdate_ad_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Ad
+    get:
+      summary: Get Ad Segment Targeting Rule
+      description: Get a Flight Segment targeting rule
+      operationId: get-ad-segment
+      parameters:
+      - name: AdId
+        in: path
+        description: The Ad the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SegmentTargetingId
+        in: path
+        description: Id of the Ad Segment targeting rule
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n\t\t\"Id\": 56789,\n\t\t\"FlightId\": 55555,\n    \"SegmentId\": 123456,\n\t\t\"IsExclude\": false,\n\t\t\"Segment\":\n        \t{\n\t\t\t\t\t\t\"Source\": \"audience\",\n  \t\t\t\t\t\"Name\": \"best customers\",\n  \t\t\t\t\t\"Reach\": { \"all_time\": 3187463, \"28d\": 387434 },\n  \t\t\t\t\t\"Description\": \"top 1% spenders in the last 30 days.\",\n  \t\t\t\t\t\"Category\": \"CRM\"\n\t\t\t\t\t}\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                  FlightId:
+                    type: integer
+                    example: 55555
+                    default: 0
+                  SegmentId:
+                    type: integer
+                    example: 123456
+                    default: 0
+                  IsExclude:
+                    type: boolean
+                    example: false
+                    default: 'false'
+                  Segment:
+                    type: object
+                    properties:
+                      Source:
+                        type: string
+                        example: audience
+                      Name:
+                        type: string
+                        example: best customers
+                      Reach:
+                        type: object
+                        properties:
+                          all_time:
+                            type: integer
+                            example: 3187463
+                            default: 0
+                          28d:
+                            type: integer
+                            example: 387434
+                            default: 0
+                      Description:
+                        type: string
+                        example: top 1% spenders in the last 30 days.
+                      Category:
+                        type: string
+                        example: CRM
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/ad/{AdId}/segmenttargeting/{Id}"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getAdSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run(\"adSegment\", \"get\", \n                      {adId: 456789, id: 123456});\n\n  console.log(targetingRule);\n}\n\ngetAdSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_ad_segment()\n  client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n\t\tad_id = 456789\n    segment_targeting_id = 12345\n    pp client.segments.get(ad_id, segment_targeting_id)\nend\nget_ad_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Ad
+    delete:
+      summary: Delete Ad Segment Targeting Rule
+      description: Delete an Ad Segment targeting rule
+      operationId: delete-ad-segment
+      parameters:
+      - name: AdId
+        in: path
+        description: The Ad the targeting rule applies to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SegmentTargetingId
+        in: path
+        description: Id of the Ad Segment targeting rule
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully deleted."'
+              schema:
+                type: string
+                example: Successfully deleted.
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X DELETE -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/ad/{AdId}/segmenttargeting/{Id}"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteAdSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let targetingRule = await client.run('adSegment', 'delete', {\n    ad_id: 12345,\n\t\tid: 456789\n  });\n  console.log(adSegment);\n}\n\ndeleteAdSegment();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_ad_segment()\n  \tclient = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n\t  ad_id = 6789\n    id = 12345\n    pp client.segments.delete(ad_id, id)\nend\ndelete_ad_segment()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Ad
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

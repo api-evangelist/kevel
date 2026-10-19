@@ -1,0 +1,193 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Channel Site API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: ChannelSite
+paths:
+  /v1/channelSite:
+    post:
+      summary: Create Channel Site Map
+      description: This API call connects a Site to a Channel. By default, any time a site is created, it is automatically added to the "All Sites" channel.
+      operationId: create-channel-site-map
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - siteId
+              - channelId
+              properties:
+                siteId:
+                  type: integer
+                  description: The site's ID
+                  format: int32
+                channelId:
+                  type: integer
+                  description: The channel's ID
+                  format: int32
+                priority:
+                  type: integer
+                  description: Also known as **affinity**. This is different from the Priority associated with Channels. See [here](doc:sites#adding-a-site-to-a-channel) for info.
+                  format: int32
+            examples:
+              JSON:
+                value:
+                  SiteId: 12345
+                  ChannelId: 67890
+                  Priority: 10
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"SiteId\":12345,\n  \"ChannelId\":67890,\n  \"FixedPaymentAmount\":null,\n  \"Priority\":10\n}"
+              schema:
+                type: object
+                properties:
+                  SiteId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  ChannelId:
+                    type: integer
+                    example: 67890
+                    default: 0
+                  FixedPaymentAmount: {}
+                  Priority:
+                    type: integer
+                    example: 10
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/channelSite" --data-binary '{"SiteId":12345,"ChannelId":67890,"Priority":5}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createChannelSiteMap() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channelSiteMap = await client.run(\"channelSiteMap\", \"create\", {\n    channelId: 67890,\n    siteId: 12345,\n\n    // NOTE: affinity or weight of site inside channel; \n    // not a Priority object ID!\n    priority: 10,\n  });\n\n  console.log(channelSiteMap);\n}\n\ncreateChannelSiteMap();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_channel_site_map()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        channel_id: 12345,\n        site_id: 67890,\n        # NOTE: affinity or weight of site inside channel; not a Priority object ID!\n        priority: 100\n    }\n    pp client.channel_site_maps.create(data)\nend\ncreate_channel_site_map()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - ChannelSite
+    put:
+      summary: Update Channel Site Map
+      description: This API call updates a Site's channel mapping.
+      operationId: update-channel-site-map
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - siteId
+              - channelId
+              - priority
+              properties:
+                siteId:
+                  type: integer
+                  description: The Site's ID
+                  format: int32
+                channelId:
+                  type: integer
+                  description: The Channel's ID
+                  format: int32
+                priority:
+                  type: integer
+                  description: Also known as **affinity**. This is different from the Priority associated with Channels. See [here](doc:sites#adding-a-site-to-a-channel) for info.
+                  format: int32
+            examples:
+              JSON:
+                value:
+                  SiteId: 12345
+                  ChannelId: 67890
+                  Priority: 10
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"SiteId\":12345,\n  \"ChannelId\":67890,\n  \"FixedPaymentAmount\":null,\n  \"Priority\":10\n}"
+              schema:
+                type: object
+                properties:
+                  SiteId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  ChannelId:
+                    type: integer
+                    example: 67890
+                    default: 0
+                  FixedPaymentAmount: {}
+                  Priority:
+                    type: integer
+                    example: 10
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/channelSite" --data-binary '{"SiteId":12345,"ChannelId":67890,"Priority":10}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateChannelSiteMap() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channelSiteMap = await client.run(\"channelSiteMap\", \"update\", {\n    channelId: 67890,\n    siteId: 12345,\n\n    // NOTE: affinity or weight of site inside channel; \n    // not a Priority object ID!\n    priority: 10,\n  });\n\n  console.log(channelSiteMap);\n}\n\nupdateChannelSiteMap();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_channel_site_map()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    site_id = 67890\n    data = client.channel_site_maps.get(channel_id, site_id)\n    data[:priority] = 250\n    pp client.channel_site_maps.update(data)\nend\nupdate_channel_site_map()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - ChannelSite
+    get:
+      summary: List Channel Site Maps
+      description: This API call returns a list of all channel site maps (associations between a site and channels) in a user's account. For the explorer, use the assigned API Key.
+      operationId: list-channel-sites
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"page\": 1,\n    \"items\": [\n        {\n            \"SiteId\": 12345,\n            \"ChannelId\": 1234,\n            \"Priority\": 10\n        },\n        .....\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channelSite"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listChannelSiteMaps() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channelSiteMaps = await client.run(\"channelSiteMap\", \"list\");\n  console.log(channelSiteMaps);\n}\n\nlistChannelSiteMaps();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_channel_site_map()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.channel_site_maps.list()\nend\nlist_channel_site_map()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - ChannelSite
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

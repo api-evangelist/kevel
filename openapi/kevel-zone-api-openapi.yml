@@ -1,0 +1,257 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Zone API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Zone
+paths:
+  /v1/zone:
+    post:
+      summary: Create Zone
+      description: This API call adds a new zone to the network. A user can choose to create a zone as either a Site Zone (used by only a single site) or a Network Zone (available to any site in the network). Only `name` is required. If `SiteID` is not added, the Zone is added at the Network level.
+      operationId: create-zone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Name
+              properties:
+                Name:
+                  type: string
+                  description: The zone's name
+                SiteId:
+                  type: integer
+                  description: The site's ID
+                  format: int32
+                IsDeleted:
+                  type: boolean
+                  description: Don't use when creating a Zone. Defaults to `false`
+                  default: false
+            examples:
+              JSON:
+                value:
+                  Name: Zone Name
+                  SiteId: 12345
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":98765,\n  \"Name\":\"Zone Name\",\n  \"SiteId\":12345,\n  \"IsDeleted\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  Name:
+                    type: string
+                    example: Zone Name
+                  SiteId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/zone" --data-binary '{"Name":"Zone Name","SiteId":12345}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createZone() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let zone = await client.run(\"zone\", \"create\", {\n    name: \"Zone Name\",\n    siteId: 12345,\n  });\n\n  console.log(zone);\n}\n\ncreateZone();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_zone()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        name: \"Zone Name\",\n        site_id: 12345\n    }\n    pp client.zones.create(data)\nend\ncreate_zone()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Zone
+    get:
+      summary: List Zones
+      description: This API call returns a list of all the zones in the network. For the API Explorer, use the assigned API Key.
+      operationId: list-zones
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n    \"page\":1,\n    \"items\":[  \n        {  \n            \"Id\":98765,\n            \"Name\":\"Zone Name\",\n            \"SiteId\":12345,          \n            \"IsDeleted\":false\n        },\n        {  \n            \"Id\":98766,\n            \"Name\":\"A Network Zone for All Sites\",\n            \"IsDeleted\":false\n        },\n        .....\n\t\t]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/zone"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listZones() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let zones = await client.run(\"zone\", \"list\");\n  console.log(zones);\n\n  let names = zones.items.map(a => a.name)\n  console.log(names);\n}\n\nlistZones();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_zones()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.zones.list()\nend\nlist_zones()\n"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Zone
+  /v1/zone/{ZoneID}:
+    put:
+      summary: Update Zone
+      description: This API call updates the name of the zone or the SiteId that has an associated target.
+      operationId: update-zone
+      parameters:
+      - name: ZoneID
+        in: path
+        description: The ID of the Zone
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Id
+              - Name
+              properties:
+                Id:
+                  type: integer
+                  description: ID of the Zone
+                  format: int32
+                Name:
+                  type: string
+                  description: Name of the Zone
+                SiteID:
+                  type: integer
+                  description: ID of the Site
+                  format: int32
+                IsDeleted:
+                  type: boolean
+                  description: If want to delete, set to `true`
+            examples:
+              JSON:
+                value:
+                  Id: 98765
+                  Name: A Different Name
+                  SiteId: 12345
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":98765,\n  \"Name\":\"A Different Name\",\n  \"SiteId\":12345,\n  \"IsDeleted\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  Name:
+                    type: string
+                    example: A Different Name
+                  SiteId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/zone/12345" --data-urlencode 'zone={ "Id":98765, "Name":"A Different Name", "SiteId":12345}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateZone() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let zone = await client.run(\"zone\", \"update\", {id: 98765, name: \"A Different Name\"});\n  console.log(zone);\n}\n\nupdateZone();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_zone()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    id = 12345\n    data = client.zones.get(id)\n    data[:name] = \"Updated Zone Name\"\n    pp client.zones.update(data)\nend\nupdate_zone()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Zone
+    get:
+      summary: Get Zone
+      description: This API call returns the properties for a specific zone.
+      operationId: get-zone
+      parameters:
+      - name: ZoneID
+        in: path
+        description: The ID of the Zone
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":98765,\n  \"Name\":\"Zone Name\",\n  \"SiteId\":12345,\n  \"IsDeleted\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  Name:
+                    type: string
+                    example: Zone Name
+                  SiteId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/zone/98765"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getZone() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let zone = await client.run(\"zone\", \"get\", {id: 98765});\n  console.log(zone);\n}\n\ngetZone();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_zone()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    id = 12345\n    pp client.zones.get(id)\nend\nget_zone()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Zone
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

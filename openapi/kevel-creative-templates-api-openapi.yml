@@ -1,0 +1,253 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Creative Templates API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Creative Templates
+paths:
+  /v2/creative-templates:
+    post:
+      summary: Create Creative Template
+      description: ''
+      operationId: create-creative-template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Name
+              - Description
+              properties:
+                Name:
+                  type: string
+                  description: The friendly name of the creative template, visible in the UI. Must be 50 characters or less
+                Description:
+                  type: string
+                  description: A *short* description of a template, visible in the UI. Best used as a version number. Must be 100 characters or less
+                IsArchived:
+                  type: boolean
+                  description: If true, archives the creative template. Defaults to `false`.
+                  default: false
+                Fields:
+                  type: array
+                  description: Sets the creative template Fields. Requires zero or more objects. See above for more details.
+                Contents:
+                  type: array
+                  description: Sets the creative template Contents. Requires zero or more objects. See above for more details.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n  \"Id\":12345,\n  \"Description\": \"Template Description\",\n  \"Name\": \"Template Name v1\",\n  \"IsArchived\": false,\n  \"Fields\": [\n    {\n      \"Name\": \"Title\",\n      \"Description\": \"The Template Title\",\n      \"Type\": \"String\",\n      \"Variable\": \"ctTitle\",\n      \"Required\": true,\n      \"AdQuery\": false\n    },\n    {\n      \"Name\": \"Thumbnail\",\n      \"Description\": \"The URL of a Thumbnail Image\",\n      \"Type\": \"String\",\n      \"Variable\": \"ctThumbnailUrl\",\n      \"Required\": false,\n      \"AdQuery\": true\n    }\n  ],\n  \"Contents\": [\n    {\n      \"Type\": \"Raw\",\n      \"Body\": \"{\\\"title\\\": \\\"{{ctTitle}\\\", \\\"thumbnailUrl\\\": \\\"{{ctThumbnailUrl}}\\\" }\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Description:
+                    type: string
+                    example: Template Description
+                  Name:
+                    type: string
+                    example: Template Name v1
+                  IsArchived:
+                    type: boolean
+                    example: false
+                    default: true
+                  Fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Name:
+                          type: string
+                          example: Title
+                        Description:
+                          type: string
+                          example: The Template Title
+                        Type:
+                          type: string
+                          example: String
+                        Variable:
+                          type: string
+                          example: ctTitle
+                        Required:
+                          type: boolean
+                          example: true
+                          default: true
+                        AdQuery:
+                          type: boolean
+                          example: false
+                          default: true
+                  Contents:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Type:
+                          type: string
+                          example: Raw
+                        Body:
+                          type: string
+                          example: '{"title": "{{ctTitle}", "thumbnailUrl": "{{ctThumbnailUrl}}" }'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type: application/json" -d ''{"Description":"Template Description","Name":"Template Name v1","IsArchived":false,"Fields":[{"Name":"Title","Description":"The Template Title","Type":"String","Variable":"ctTitle","Required":true,"AdQuery":false},{"Name":"Thumbnail","Description":"The URL of a Thumbnail Image","Type":"String","Variable":"ctThumbnailUrl","Required":false,"AdQuery":true}],"Contents":[{"Type":"Raw","Body":"{\"title\":\"{{ctTitle}}\",\"thumbnailUrl\":\"{{ctThumbnailUrl}}\"}"}]}'' "https://api.kevel.co/v2/creative-templates"'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createCreativeTemplate() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let creativeTemplate = await client.run('creativeTemplate', 'create', {\n    description: 'Template Description',\n    name: 'Template Name v1', // TIP: include version in name\n    isArchived: false,\n    fields: [{\n      name: 'Title',\n      description: 'The Template Title',\n      type: 'String',\n      variable: 'ctTitle',\n      required: true,\n      adQuery: false,\n    }, {\n      name: 'Thumbnail',\n      description: 'The URL of a Thumbnail Image',\n      type: 'String',\n      variable: 'ctThumbnailUrl',\n      required: false,\n      adQuery: true\n    }],\n    contents: [{\n      type: 'Raw', // Use \"Raw\" for JSON payloads\n      body: '{\"title\": \"{{ctTitle}}\", \"thumbnailUrl\": \"{{ctThumbnailUrl}}\" }'\n    }],\n  });\n  console.log(creativeTemplate);\n}\n\ncreateCreativeTemplate();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_creative_template()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        description: 'Template Description',\n        name: 'Template Name v3', # TIP: include version in name\n        is_archived: false,\n        fields: [{\n            name: 'Title',\n            description: 'The Template Title',\n            type: 'String',\n            variable: 'ctTitle',\n            required: true,\n          \tad_query: false,\n        },\n        {\n            name: 'Thumbnail',\n            description: 'The URL of a Thumbnail Image',\n            type: 'String',\n            variable: 'ctThumbnailUrl',\n            required: false,\n          \tad_query: true,\n        }],\n        contents: [{\n            type: 'Raw',  # Use \"Raw\" for JSON payloads\n            body: '{\"title\": \"{{ctTitle}}\", \"thumbnailUrl\": \"{{ctThumbnailUrl}}\" }'\n        }]\n    }\n    pp client.creative_templates.create(data)\nend\ncreate_creative_template()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative Templates
+    get:
+      summary: List Creative Templates
+      description: This endpoint lists the creative templates in your network.
+      operationId: list-creative-templates-1
+      parameters:
+      - name: page
+        in: query
+        description: Which page to view. Defaults to `1`.
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: pageSize
+        in: query
+        description: The number of creative template objects per page. Max is 500. Defaults to `10`.
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: includeArchived
+        in: query
+        description: If true, include archived creative templates. Defaults to `false`.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\": 1,\n  \"items\": [\n    {\n      \"Id\":12345,\n      .....\n    }\n  ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY"  "https://api.kevel.co/v2/creative-templates?page=1&pageSize=50&includeArchived=true
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listCreativeTemplates() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let list = await client.run('creativeTemplate', 'list');\n  console.log(list);\n}\n\nlistCreativeTemplates();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_creative_template()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.creative_templates.list()\nend\nlist_creative_template()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative Templates
+  /v2/creative-templates/{CreativeTemplateID}/update:
+    post:
+      summary: Update Creative Template
+      description: 'This updates a new creative template for your network and for all associated creatives. This endpoint is also used for archiving a creative template.
+
+
+        You can either update individual parameters on the creative template or you can send a whole template to be updated.'
+      operationId: update-creative-template-1
+      parameters:
+      - name: CreativeTemplateID
+        in: path
+        description: The ID from Create Creative Template
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: // The response will contain the updated creative template JSON object.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "## Update template (individual parameters)\ncurl -X POST -H \"X-Adzerk-ApiKey: $ADZERK_API_KEY\" -H \"Content-Type: application/json\" -d '{\"Updates\":[{\"Path\":[\"Fields\",0,\"Description\"], \"Op\":\"Update\", \"Value\":\"New description\"}]}' https://api.kevel.co/v2/creative-templates/1234/update\n\n## Update template in its entirety\ncurl -X POST -H \"X-Adzerk-ApiKey: $ADZERK_API_KEY\" -H \"Content-Type: application/json\" -d '{\"Updates\":[{\"Path\":[], \"Op\":\"Update\", \"Value\":{\"Description\": \"v2\", \"Name\": \"Awesome Template\", \"IsArchived\": false, \"Fields\": [{\"Name\": \"Awesome Thing One\", \"Description\": \"Awesomeness to display\", \"Type\": \"String\", \"Required\": true, \"Variable\": \"ctThingOne\"}, {\"Name\": \"Awesome Thing Two\", \"Description\": \"A second thing to (maybe) display\", \"Type\": \"String\", \"Required\": false, \"Variable\": \"ctThingTwo\"} ], \"Contents\": [{\"Type\": \"HTML\", \"Body\": \"Guess what is awesome? {{ctThingOne}} is!\"}]}}]}' https://api.kevel.co/v2/creative-templates/12345/update \n\n## Archive template\ncurl -X POST -H \"X-Adzerk-ApiKey: $ADZERK_API_KEY\" -H \"Content-Type: application/json\" -d '{\"Updates\":[{\"Path\":\"IsArchived\",\"Value\":true}]}' https://api.kevel.co/v2/creative-templates/1234/update"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateCreativeTemplate() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let updatedCreativeTemplate = await client.run('creativeTemplate', 'update', {\n    id: 12345,\n    updates: [{\n      path: ['Description'],\n      value: 'Updated Creative Template Description'\n    }, {\n      path: ['Fields', 1],\n      op: 'InsertAfter',\n      value: {\n        name: 'Body',\n        description: 'The Body of an Ad',\n        type: 'String',\n        variable: 'ctBody',\n        required: false,\n        adQuery: true,\n      },\n    }],\n  });\n  console.log(updatedCreativeTemplate);\n}\n\nupdateCreativeTemplate();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_creative_template()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    creative_template_id = 1234\n    data = {\n        updates: [{\n            path: ['Description'],\n            value: 'Updated Creative Template Description'\n        }, {\n            path: ['Fields', 1],\n            op: 'InsertAfter',\n            value: {\n                name: 'Body',\n                description: 'The Body of an Ad',\n                type: 'String',\n                variable: 'ctBody',\n                required: false,\n              \tad_query: true,\n            }\n        }]\n    }\n    pp client.creative_templates.update(creative_template_id, data)\nend\nupdate_creative_template()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative Templates
+  /v2/creative-templates/{CreativeTemplateID}:
+    get:
+      summary: Get Creative Template
+      description: This endpoint returns a creative template object by `Id`.
+      operationId: get-creative-template-1
+      parameters:
+      - name: CreativeTemplateID
+        in: path
+        description: The ID from the Create Creative Templates Endpoint
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n  \"Id\":12345,\n  \"Description\": \"Template Description\",\n  \"Name\": \"Template Name v1\",\n  \"IsArchived\": false,\n  \"Fields\": [\n    {\n      \"Name\": \"Title\",\n      \"Description\": \"The Template Title\",\n      \"Type\": \"String\",\n      \"Variable\": \"ctTitle\",\n      \"Required\": true,\n    }, \n    {\n      \"Name\": \"Thumbnail\",\n      \"Description\": \"The URL of a Thumbnail Image\",\n      \"Type\": \"String\",\n      \"Variable\": \"ctThumbnailUrl\",\n      \"Required\": false,\n    }\n  ],\n  \"Contents\": [\n    {\n      \"Type\": \"Raw\",\n      \"Body\": '{\"title\": \"{{ctTitle}}\", \"thumbnailUrl\": \"{{ctThumbnailUrl}}\" }'\n    }\n  ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v2/creative-templates/12345"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getCreativeTemplate() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let creativeTemplate = await client.run('creativeTemplate', 'get', {id: 12345});\n  console.log(creativeTemplate);\n}\n\ngetCreativeTemplate();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_creative_template()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    creative_template_id = 1234\n    pp client.creative_templates.get(creative_template_id)\nend\nget_creative_template()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative Templates
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

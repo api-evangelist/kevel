@@ -1,0 +1,1089 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Advertiser API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Advertiser
+paths:
+  /v1/advertiser/:
+    post:
+      summary: Create Advertisers
+      description: ''
+      operationId: create-advertisers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Title
+              - IsActive
+              properties:
+                Title:
+                  type: string
+                  description: The advertiser name
+                IsActive:
+                  type: boolean
+                  description: Whether advertiser is running. Always set to `true` when creating. Defaults to `false`.
+                  default: false
+                PlacementLimit:
+                  type: integer
+                  description: How many placements the advertiser's ads can fill per request
+                  format: int32
+                FreqCap:
+                  type: integer
+                  description: The number of times that you would like the frequency cap to occur. Set-up instructions [here](doc:advertiser-frequency-capping-1)
+                  format: int32
+                FreqCapDuration:
+                  type: integer
+                  description: How often the frequency cap should occur. Set-up instructions [here](doc:advertiser-frequency-capping-1)
+                  format: int32
+                FreqCapType:
+                  type: integer
+                  description: 'The unit of time you would like frequency capping to occur. Key follows: `1 = Hour 2 = Day 3 = Minute`. Set-up instructions [here](doc:advertiser-frequency-capping-1)'
+                  format: int32
+                CapType:
+                  type: integer
+                  description: Advertisers can only budget cap on the revenue metric. Set to `CapType = 4`. Do not set to `0` - if removing, set to `null`
+                  format: int32
+                DailyCapAmount:
+                  type: integer
+                  description: The max daily revenue
+                  format: int32
+                LifetimeCapAmount:
+                  type: integer
+                  description: The max lifetime revenue
+                  format: int32
+                CustomFieldsJson:
+                  type: string
+                  description: Sets the value of custom fields based on a custom fields schema. Must contact support before use. More info [here](doc:custom-fields).
+                RtbCustomFields:
+                  type: string
+                  description: Required for RTB enabled advertisers _only_. JSON Object in a String. It's JSON data provided by the RTB partner. Certain parameters in the object will be required per partner. If you aren't sure what is required, your account manager will supply you with the data for this property.
+                ExternalId:
+                  type: string
+                  description: Used to reference an ID from another external system
+                PartnerId:
+                  type: integer
+                  description: Required for RTB enabled advertisers _only_. The ID of the RTB Partner.  If you aren't sure what is required, your account manager will supply you with the data for this property.
+                  format: int32
+                IsDeleted:
+                  type: boolean
+                  description: Whether advertiser is deleted. Defaults to `false`
+                  default: false
+                CatalogAccess:
+                  type: array
+                  description: Define the scope of Catalog items that pertain to an Advertiser.
+                  items:
+                    properties:
+                      CatalogId:
+                        type: integer
+                        description: The ID of a `kevel/products` table in the Advertiser's network
+                        format: int32
+                      ProductQuery:
+                        type: array
+                        description: A Kevelog where clause.
+                        default: []
+                        items:
+                          type: string
+                    type: object
+                Segments:
+                  type: array
+                  items:
+                    properties:
+                      SegmentId:
+                        type: integer
+                        format: int32
+                        description: ID of the segment.
+                    type: object
+                  description: Segments that the advertiser should be able to access when configuring user segment targeting in Kevel Console. These settings do not effect campaigns managed directly through the Ad Server.
+            examples:
+              JSON:
+                value:
+                  Title: Nike
+                  IsDeleted: false
+                  IsActive: true
+                  PlacementLimit: 0
+                  FreqCap: 2
+                  FreqCapDuration: 10
+                  FreqCapType: 1
+                  CapType: 4
+                  DailyCapAmount: 5000
+                  LifetimeCapAmount: 50000
+                  CatalogAccess:
+                  - CatalogId: 101
+                    ProductQuery:
+                    - - - one-of
+                        - kevel/brand-id
+                      - - 12345
+                        - 12346
+                    - - kevel/merchant-id
+                      - 12347
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"IsActive\": true,\n  \"DailyCapAmount\": null,\n  \"FreqCapType\": 0,\n  \"Title\": \"Nike\",\n  \"CapType\": null,\n  \"IsFreqCap\": false,\n  \"IsDeleted\": false,\n  \"RtbCustomFields\": null,\n  \"LifetimeCapAmount\": null,\n  \"FreqCapDuration\": null,\n  \"PlacementLimit\": null,\n  \"FreqCap\": null,\n  \"ExternalId\": null,\n  \"PartnerId\": null,\n  \"CatalogAccess\":[\n    {\n      \"ProductQuery\":[ \n        [ [\"one-of\", \"kevel/brand-id\"], [12345, 12346]],\n        [ \"kevel/merchant-id\", 12347 ]\n      ],\n      \"CatalogId\":101\n    }\n  ]\n  \"Id\": 12345\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '## The example below is a minimally viable advertiser:
+
+            curl -X POST -H ''X-Adzerk-ApiKey:<APIKEY>'' -H "Content-Type:application/json" https://api.kevel.co/v1/advertiser --data-binary ''{"Title":"Nike","IsDeleted":false,"IsActive":true}'''
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createAdvertiser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let advertiser = await client.run(\"advertiser\", \"create\", {\n    title: \"Nike\",\n    isActive: true,\n  });\n\n  console.log(advertiser);\n}\n\ncreateAdvertiser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_advertiser()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.advertisers.create(title: \"Ruby Advertiser\", is_active: true)\nend\ncreate_advertiser()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+  /v1/advertiser/{AdvertiserID}:
+    put:
+      summary: Update Advertisers
+      description: ''
+      operationId: update-advertisers
+      parameters:
+      - name: AdvertiserID
+        in: path
+        description: ID of the Advertiser
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Id
+              - Title
+              - IsActive
+              properties:
+                Id:
+                  type: integer
+                  description: The ID of the Advertiser
+                  format: int32
+                Title:
+                  type: string
+                  description: The name of the advertiser
+                IsActive:
+                  type: boolean
+                  description: Whether the advertiser is active
+                isDeleted:
+                  type: boolean
+                  description: If want to delete, set to `true`
+            examples:
+              JSON:
+                value:
+                  Id: 12345
+                  Title: Nike
+                  IsDeleted: false
+                  IsActive: true
+                  PlacementLimit: 4
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":12345,\n  \"Title\":\"Nike\",\n  \"IsActive\":true,\n  \"IsDeleted\":false,\n  \"PlacementLimit\":4,\n  \"FreqCap\": 2,\n  \"FreqCapDuration\": 10,\n  \"FreqCapType\": 1,\n  \"CapType\": 4,\n  \"DailyCapAmount\": 5000,\n  \"LifetimeCapAmount\": 50000\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Title:
+                    type: string
+                    example: Nike
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  PlacementLimit:
+                    type: integer
+                    example: 4
+                    default: 0
+                  FreqCap:
+                    type: integer
+                    example: 2
+                    default: 0
+                  FreqCapDuration:
+                    type: integer
+                    example: 10
+                    default: 0
+                  FreqCapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  CapType:
+                    type: integer
+                    example: 4
+                    default: 0
+                  DailyCapAmount:
+                    type: integer
+                    example: 5000
+                    default: 0
+                  LifetimeCapAmount:
+                    type: integer
+                    example: 50000
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H 'X-Adzerk-ApiKey:<APIKEY>' -H "Content-Type:application/json" https://api.kevel.co/v1/advertiser/12345 --data-binary '{"Id":12345,"Title":"Nike","IsActive":true,"IsDeleted":false}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateAdvertiser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let advertiser = await client.run(\"advertiser\", \"update\", {id: 12345, placementLimit: 4});\n  console.log(advertiser);\n}\n\nupdateAdvertiser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_advertiser()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    advertiser_id = 12345\n    opts = client.advertisers.get(advertiser_id) \n    opts[:id] = advertiser_id\n    opts[:title] = \"Updated Title\"\n    pp client.advertisers.update(opts)\nend\nupdate_advertiser()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+    get:
+      summary: Get Advertiser
+      description: ''
+      operationId: get-advertisers
+      parameters:
+      - name: AdvertiserID
+        in: path
+        description: The ID of the Advertiser
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"IsActive\": true,\n    \"Created\": \"2024-10-08T20:15:58.820Z\",\n    \"CatalogAccess\": [\n        {\n            \"ProductQuery\": [\n                [\n                    [\n                        \"one-of\",\n                        \"kevel/brand-id\"\n                    ],\n                    [\n                        2762035,\n                        2764718,\n                        2765001\n                    ]\n                ]\n            ],\n            \"CatalogId\": 310\n        }\n    ],\n    \"DailyCapAmount\": 100,\n    \"FreqCapType\": 1,\n    \"Title\": \"Big Cashew Co.\",\n    \"ExternalId\": \"3faa9840-fd2d-40d1-82b0-cf654067ceea\",\n    \"CapType\": 4,\n    \"IsFreqCap\": true,\n    \"IsDeleted\": false,\n    \"LifetimeCapAmount\": 555555,\n    \"LastModified\": \"2025-05-30T20:24:55.120Z\",\n    \"FreqCapDuration\": 1,\n    \"PlacementLimit\": 1,\n    \"FreqCap\": 5,\n    \"PartnerId\": null,\n    \"Version\": 4,\n    \"Id\": 3423675,\n    \"CustomFieldsJson\": null\n}"
+              schema:
+                type: object
+                properties:
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  Created:
+                    type: string
+                    example: '2024-10-08T20:15:58.820Z'
+                  CatalogAccess:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ProductQuery:
+                          type: array
+                          items:
+                            type: array
+                            items:
+                              type: array
+                              items:
+                                type: string
+                                example: one-of
+                        CatalogId:
+                          type: integer
+                          example: 310
+                          default: 0
+                  DailyCapAmount:
+                    type: integer
+                    example: 100
+                    default: 0
+                  FreqCapType:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Title:
+                    type: string
+                    example: Big Cashew Co.
+                  ExternalId:
+                    type: string
+                    example: 3faa9840-fd2d-40d1-82b0-cf654067ceea
+                  CapType:
+                    type: integer
+                    example: 4
+                    default: 0
+                  IsFreqCap:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  LifetimeCapAmount:
+                    type: integer
+                    example: 555555
+                    default: 0
+                  LastModified:
+                    type: string
+                    example: '2025-05-30T20:24:55.120Z'
+                  FreqCapDuration:
+                    type: integer
+                    example: 1
+                    default: 0
+                  PlacementLimit:
+                    type: integer
+                    example: 1
+                    default: 0
+                  FreqCap:
+                    type: integer
+                    example: 5
+                    default: 0
+                  PartnerId: {}
+                  Version:
+                    type: integer
+                    example: 4
+                    default: 0
+                  Id:
+                    type: integer
+                    example: 3423675
+                    default: 0
+                  CustomFieldsJson: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" https://api.kevel.co/v1/advertiser/123
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getAdvertiser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let advertiser = await client.run(\"advertiser\", \"get\", {id: 12345});\n  console.log(advertiser);\n}\n\ngetAdvertiser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_advertiser()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    advertiser_id = 12345\n    pp client.advertisers.get(advertiser_id)\nend\nget_advertiser()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+  /v1/advertiser:
+    get:
+      summary: List Advertisers
+      description: This returns a JSON object of all your advertisers. For the explorer, just use your API Key.
+      operationId: list-advertisers
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\": 1,\n  \"items\":[\n    {\n        \"Id\":123,\n        \"Title\":\"Nike\",\n        \"IsActive\":true,\n        \"IsDeleted\":false,\n        \"PlacementLimit\":null,\n        \"FreqCap\": 2,\n        \"FreqCapDuration\": 10,\n        \"FreqCapType\": 1,\n        \"CapType\": 4,\n        \"DailyCapAmount\": 5000,\n        \"LifetimeCapAmount\": 50000\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 123
+                          default: 0
+                        Title:
+                          type: string
+                          example: Nike
+                        IsActive:
+                          type: boolean
+                          example: true
+                          default: true
+                        IsDeleted:
+                          type: boolean
+                          example: false
+                          default: true
+                        PlacementLimit: {}
+                        FreqCap:
+                          type: integer
+                          example: 2
+                          default: 0
+                        FreqCapDuration:
+                          type: integer
+                          example: 10
+                          default: 0
+                        FreqCapType:
+                          type: integer
+                          example: 1
+                          default: 0
+                        CapType:
+                          type: integer
+                          example: 4
+                          default: 0
+                        DailyCapAmount:
+                          type: integer
+                          example: 5000
+                          default: 0
+                        LifetimeCapAmount:
+                          type: integer
+                          example: 50000
+                          default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" https://api.kevel.co/v1/advertiser
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdvertisers() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let advertisers = await client.run(\"advertiser\", \"list\");\n  console.log(advertisers);\n\n  let titles = advertisers.items.map(a => a.title)\n  console.log(titles);\n}\n\nlistAdvertisers();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_advertisers()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.advertisers.list()\nend\nlist_advertisers()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+  /v1/advertiser/{AdvertiserID}/trackingCode:
+    get:
+      summary: Get Conversion Tracking Pixel
+      description: ''
+      operationId: get-conversion-tracking-pixel
+      parameters:
+      - name: AdvertiserID
+        in: path
+        description: The ID of the Advertiser
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"trackingCode\": \"<script type=\\\"text/javascript\\\">var it=document.createElement(\\\"img\\\");var u=\\\"https://engine.adzerk.net/e/1234/12345/e.gif\\\";var t=new Date().getTime();var ut=u+\\\"?_=\\\"+t;it.src=ut;it.border=0;</script>\"\n}"
+              schema:
+                type: object
+                properties:
+                  trackingCode:
+                    type: string
+                    example: <script type="text/javascript">var it=document.createElement("img");var u="https://engine.adzerk.net/e/1234/12345/e.gif";var t=new Date().getTime();var ut=u+"?_="+t;it.src=ut;it.border=0;</script>
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H 'X-Adzerk-ApiKey:<APIKEY>' https://api.kevel.co/v1/advertiser/12345/trackingCode
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getConversionTrackingCode() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let advertiser = await client.run(\"advertiser\", \"getTrackingCode\", {id: 1234});\n  console.log(advertiser);\n}\n\ngetConversionTrackingCode();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_conversion_tracking_code()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    advertiser_id = 12345\n    pp client.advertisers.get_conversion_tracking_code(advertiser_id)\nend\nget_conversion_tracking_code()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+  /v1/advertiser/{AdvertiserID}/flight:
+    get:
+      summary: List Flights for Advertiser
+      description: Lists all flights for a particular advertiser.
+      operationId: list-flights-for-advertiser-id
+      parameters:
+      - name: AdvertiserId
+        in: path
+        description: ID of the Advertiser
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: filter
+        in: query
+        description: Constrains the set of flights returned. Omission is equivalent to specifying `not-archived`. For details see [List Flights](ref:list-flights).
+        schema:
+          type: string
+          enum:
+          - active
+          - inactive
+          - archived
+          - not-archived
+      - in: query
+        name: excludeAds
+        schema:
+          type: boolean
+          default: 'false'
+        description: If true, the endpoint returns only the flight data without ad objects
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n    \"items\":[  \n        {  \n            \"Id\":12345,\n            \"NoEndDate\":null,\n            \"Price\":0.000,\n            \"Impressions\":100,\n            \"IsNoDuplicates\":true,\n            \"DuplicateMode\":4,\n            \"Keywords\":\"\",\n            \"Name\":\"The Great API Flight\",\n            \"WeightOverride\":null,\n            \"IsFreqCap\":null,\n            \"IsCompanion\":false,\n            \"CampaignId\":1234,\n            \"PriorityId\":1234,\n            \"IsDeleted\":false,\n            \"IsActive\":true,\n            \"GeoTargeting\":null,\n            \"SiteZoneTargeting\":null,\n            \"CustomTargeting\":\"\",\n            \"GoalType\":2,\n            \"RateType\":1,\n            \"IsECPMOptimized\":null,\n            \"ECPMOptimizePeriod\":null,\n            \"ECPMMultiplier\":null,\n            \"FloorECPM\":null,\n            \"CeilingECPM\":null,\n            \"DefaultECPM\":null,\n            \"ECPMBurnInImpressions\":null,\n            \"EffectiveCPMOverride\":null,\n            \"DatePartingStartTimeISO\":null,\n            \"DatePartingEndTimeISO\":null,\n            \"IsSunday\":true,\n            \"IsMonday\":true,\n            \"IsTuesday\":true,\n            \"IsWednesday\":true,\n            \"IsThursday\":true,\n            \"IsFriday\":true,\n            \"IsSaturday\":true,\n            \"FreqCap\":0,\n            \"FreqCapDuration\":0,\n            \"FreqCapType\":0,\n            \"CapType\":1,\n            \"DailyCapAmount\":null,\n            \"LifetimeCapAmount\":null,\n            \"DeliveryStatus\":1,\n            \"CustomFieldsJson\":null,\n            \"BehavioralTargeting\":null,\n            \"IsTargetingOptimization\":null,\n            \"TargetingOptimizationType\":null,\n            \"TargetingOptimizationTargetType\":null,\n            \"TargetingOptimizationTarget\":null,\n            \"TargetingOptimizationBurnIn\":null,\n            \"TargetingOptimizationCanMiss\":null,\n            \"IsArchived\":null,\n            \"CanPassback\":true,\n            \"PassbackSortOrder\":1,\n            \"StartDateISO\":\"2017-06-08T00:00:00.0000000\",\n            \"EndDateISO\":\"2017-12-08T00:00:00.0000000\",\n            \"Created\":\"2022-03-08T12:34:56.123Z\",\n            \"LastModified\":\"2022-03-08T12:34:56.123Z\",\n            \"Version\":4\n        }...\n\t\"page\": 1\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -X GET \\\n     -H \"X-Adzerk-ApiKey:$ADZERK_API_KEY\" \\\n     \"https://api.kevel.co/v1/advertiser/1234/flight\""
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listFlightsForAdvertiser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let flights = await client.run(\"flight\", \"listForAdvertiser\", {advertiserId: 12345});\n  console.log(flights);\n\n  let names = flights.items.map(a => a.name)\n  console.log(names);\n}\n\nlistFlightsForAdvertiser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_flights_for_advertiser()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    advertiser_id = 12345\n    pp client.flights.list_for_advertiser(advertiser_id)\nend\nlist_flights_for_advertiser()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+  /v1/advertiser/{AdvertiserID}/creatives:
+    get:
+      summary: List Creatives For Advertiser
+      description: This returns properties of all the creatives for a given advertiser based on the advertiser `id`.
+      operationId: list-creatives
+      parameters:
+      - name: AdvertiserID
+        in: path
+        description: The ID of the Advertiser
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"page\": 1,\n    \"items\": [\n        {\n            \"Id\": 123456,\n            \"Title\": \"Adzerk Blue Creative\",\n            \"ImageName\": \"somelongstring.jpg\",\n            \"Url\": \"https://adzerk.com\",\n            \"Body\": \"\",\n            \"AdvertiserId\": 123456,\n            \"IsActive\": true,\n            \"AdTypeId\": 5,\n            \"Alt\": \"Adzerk - Native Ads\",\n            \"IsDeleted\": false,\n            \"IsSync\": false,\n            \"IsHTMLJS\": true,\n            \"ScriptBody\": \"The Great API Content\",\n            \"ImageLink\": \"https://somecdn.com/somelongstring.jpg\",\n            \"Metadata\": \"JSON object as string\",\n            \"IsNoTrack\": true,\n            \"IsNetworkAd\": false\n        }\n      ]\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        Title:
+                          type: string
+                          example: Adzerk Blue Creative
+                        ImageName:
+                          type: string
+                          example: somelongstring.jpg
+                        Url:
+                          type: string
+                          example: https://adzerk.com
+                        Body:
+                          type: string
+                          example: ''
+                        AdvertiserId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        IsActive:
+                          type: boolean
+                          example: true
+                          default: true
+                        AdTypeId:
+                          type: integer
+                          example: 5
+                          default: 0
+                        Alt:
+                          type: string
+                          example: Adzerk - Native Ads
+                        IsDeleted:
+                          type: boolean
+                          example: false
+                          default: true
+                        IsSync:
+                          type: boolean
+                          example: false
+                          default: true
+                        IsHTMLJS:
+                          type: boolean
+                          example: true
+                          default: true
+                        ScriptBody:
+                          type: string
+                          example: The Great API Content
+                        ImageLink:
+                          type: string
+                          example: https://somecdn.com/somelongstring.jpg
+                        Metadata:
+                          type: string
+                          example: JSON object as string
+                        IsNoTrack:
+                          type: boolean
+                          example: true
+                          default: true
+                        IsNetworkAd:
+                          type: boolean
+                          example: false
+                          default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/advertiser/12345/creatives"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listCreativesForAdvertiser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let creatives = await client.run(\"creative\", \"listForAdvertiser\", {id: 12345});\n  console.log(creatives);\n\n  let titles = creatives.items.map(a => a.title)\n  console.log(titles);\n}\n\nlistCreativesForAdvertiser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_creatives_for_advertiser()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    advertiser_id = 12345\n    pp client.creatives.list(advertiser_id)\nend\nlist_creatives_for_advertiser()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+  /v1/advertiser/{AdvertiserId}/segment:
+    post:
+      summary: Copy of Create Ad Segment Targeting Rule
+      description: Create an Ad to Segment targeting rule
+      operationId: post_v1ad{AdId}segmenttargeting-1
+      parameters:
+      - in: path
+        name: AdvertiserId
+        schema:
+          type: integer
+          format: int32
+        required: true
+        description: The ID of the Advertiser.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - SegmentId
+              properties:
+                AdvertiserId:
+                  type: integer
+                  format: int32
+                  description: The ID of the Advertiser.
+                SegmentId:
+                  type: integer
+                  description: The ID of the Segment.
+                  format: int32
+      responses:
+        '200':
+          description: Response from the Create Advertiser Segment endpoint.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 56789
+                    default: 0
+                    description: The ID of the Advertiser Segment.
+                    format: int32
+                  AdvertiserId:
+                    type: integer
+                    example: 111111
+                    default: 0
+                    format: int32
+                    description: The ID of the Advertiser.
+                  SegmentId:
+                    type: integer
+                    example: 222222
+                    default: 0
+                    format: int32
+                    description: The ID of the Segment.
+                  Segment:
+                    type: object
+                    properties:
+                      Id:
+                        type: integer
+                        example: 222222
+                        default: 0
+                        format: int32
+                        description: The ID of the Segment.
+                      Source:
+                        type: string
+                        example: audience
+                        description: Where the Segment came from.
+                        default: ''
+                      Name:
+                        type: string
+                        example: best customers
+                        description: The human-friendly name of the Segment.
+                      Reach:
+                        type: object
+                        properties:
+                          all_time:
+                            type: integer
+                            example: 3187463
+                            default: 0
+                            description: All time estimated reach.
+                            format: int32
+                          28d:
+                            type: integer
+                            example: 387434
+                            default: 0
+                            description: Last 4 weeks estimated reach.
+                            format: int32
+                        description: The estimated reach of the segment for all time and the last 4 weeks.
+                      Description:
+                        type: string
+                        example: top 1% spenders in the last 30 days.
+                        description: An extended human-friendly description of the Segment.
+                      Category:
+                        type: string
+                        example: CRM
+                        description: The Category a Segment belongs to.
+                    required:
+                    - Id
+                    - Name
+                required:
+                - SegmentId
+                - AdvertiserId
+                - Id
+                - Segment
+              examples:
+                OK:
+                  summary: OK
+                  value:
+                    Id: 56789
+                    AdvertiserId: 111111
+                    SegmentId: 222222
+                    Segment:
+                      Id: 222222
+                      Source: audience
+                      Name: best customers
+                      Reach:
+                        all_time: 3187463
+                        28d: 387434
+                      Description: top 1% spenders in the last 30 days.
+                      Category: CRM
+        '400':
+          description: An error signifying that the client has issued a bad request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    Errors:
+                    - message: Advertiser segment already exists.
+              schema:
+                type: object
+                properties:
+                  Errors:
+                    type: array
+                    items:
+                      properties:
+                        message:
+                          type: string
+                          description: Error that occurred.
+                      type: object
+                      required:
+                      - message
+                    description: Collection of errors.
+                required:
+                - Errors
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:<APIKEY>" -H "Content-Type:application/json" https://api.kevel.co/v1/advertiser/{AdvertiserId}/segment --data-binary '{"AdvertiserId":111111,"SegmentId":222222}'
+        - code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createAdvertiserSegment() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let advertiserSegment = await client.run(\"advertiserSegment\", \"create\", {\n    advertiserId: 111111,\n    segmentId: 222222\n  });\n\n  console.log(advertiserSegment);\n}\n\nawait createAdvertiserSegment();"
+          language: javascript
+          name: ''
+        - code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef create_advertiser_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.advertiserSegment.create(advertiserId: 11111, segmentId: 222222)\nend\ncreate_advertiser_segment()"
+          language: ruby
+          name: ''
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+    get:
+      summary: Copy of Copy of Create Ad Segment Targeting Rule
+      description: Create an Ad to Segment targeting rule
+      operationId: post_v1advertiser{AdvertiserId}segment-1
+      parameters:
+      - in: path
+        name: AdvertiserId
+        schema:
+          type: integer
+          format: int32
+          default: ''
+        required: true
+        description: The ID of the Advertiser.
+      - in: query
+        name: pageSize
+        schema:
+          type: integer
+          format: int32
+        description: The size of the page to be returned.
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+        description: The page number to be returned.
+      responses:
+        '200':
+          description: Response from the List Advertiser Segments endpoint.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    format: int32
+                    default: ''
+                    description: The page number to be returned.
+                  Items:
+                    type: array
+                    items:
+                      properties:
+                        Id:
+                          type: integer
+                          format: int32
+                          description: The ID of the Advertiser Segment.
+                        AdvertiserId:
+                          type: string
+                          description: The ID of the Advertiser.
+                        SegmentId:
+                          type: string
+                          description: The ID of the Segment.
+                        Segment:
+                          type: object
+                          properties:
+                            Id:
+                              type: integer
+                              description: The ID of the Segment.
+                              format: int32
+                            Source:
+                              type: string
+                              description: Where the Segment came from.
+                            Name:
+                              type: string
+                              description: The human-friendly name of the Segment.
+                            Reach:
+                              type: object
+                              properties:
+                                28d:
+                                  type: integer
+                                  description: Last 4 weeks estimated reach.
+                                  format: int32
+                                all_time:
+                                  type: integer
+                                  format: int32
+                                  description: All time estimated reach.
+                            Description:
+                              type: string
+                              description: An extended human-friendly description of the Segment.
+                            Category:
+                              type: string
+                              description: The Category a Segment belongs to.
+                          required:
+                          - Id
+                          - Source
+                          - Name
+                      type: object
+                      required:
+                      - Id
+                      - Segment
+                      - SegmentId
+                      - AdvertiserId
+                    description: The items on the page.
+                  pageSize:
+                    type: integer
+                    description: The size of the page to be returned.
+                    format: int32
+                  totalPages:
+                    type: integer
+                    format: int32
+                    description: The total number of pages.
+                  totalItems:
+                    type: integer
+                    description: The total number of items.
+                    format: int32
+                required:
+                - page
+                - Items
+              examples:
+                OK:
+                  summary: OK
+                  value:
+                    page: 1
+                    items:
+                    - Id: 56789
+                      AdvertiserId: 111111
+                      SegmentId: 222222
+                      Segment:
+                        Id: 222222
+                        Source: audience
+                        Name: best customers
+                        Reach:
+                          all_time: 3187463
+                          28d: 387434
+                        Description: top 1% spenders in the last 30 days.
+                        Category: CRM
+                    pageSize: 1
+                    totalPages: 1
+                    totalItems: 1
+        '400':
+          description: An error signifying that the client has issued a bad request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    Errors:
+                    - message: Advertiser not found
+              schema:
+                type: object
+                properties:
+                  Errors:
+                    type: array
+                    items:
+                      properties:
+                        message:
+                          type: string
+                          description: Error that occurred.
+                      type: object
+                      required:
+                      - message
+                    description: Collection of errors.
+                required:
+                - Errors
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://api.kevel.co/v1/advertiser/111111/segment \\\n     --header 'accept: application/json'"
+        - code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdvertiserSegments() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let advertiserSegments = await client.run(\"advertiserSegment\", \"list\", {\n    advertiserId: 111111\n  });\n\n  console.log(advertiserSegments);\n}\n\nawait listAdvertiserSegments();"
+          language: javascript
+          name: ''
+        - code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef create_advertiser_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.advertiserSegment.list(advertiserId: 11111)\nend\nlist_advertiser_segment()"
+          language: ruby
+          name: ''
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+  /v1/advertiser/{AdvertiserId}/segment/{AdvertiserSegmentId}:
+    delete:
+      summary: Copy of Copy of Copy of Create Ad Segment Targeting Rule
+      description: Create an Ad to Segment targeting rule
+      operationId: get_v1advertiser{AdvertiserId}segment-1
+      parameters:
+      - in: path
+        name: AdvertiserId
+        schema:
+          type: integer
+          format: int32
+          default: ''
+        required: true
+        description: The ID of the Advertiser.
+      - in: path
+        name: AdvertiserSegmentId
+        schema:
+          type: integer
+          format: int32
+        required: true
+        description: The ID of the Advertiser Segment mapping.
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                OK:
+                  summary: OK
+                  value: Successfully deleted.
+              schema:
+                type: object
+                properties: {}
+          description: Successfully deleted message.
+        '400':
+          description: An error signifying that the client has issued a bad request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    Errors:
+                    - path:
+                      - path-params
+                      - advertiser-id
+                      value: abc
+                      message: Value at '[:path-params :advertiser-id]' must be a number.
+              schema:
+                type: object
+                properties:
+                  Errors:
+                    type: array
+                    items:
+                      properties:
+                        message:
+                          type: string
+                          description: Error that occurred.
+                      type: object
+                      required:
+                      - message
+                    description: Collection of errors.
+                required:
+                - Errors
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request DELETE \\\n     --url https://api.kevel.co/v1/advertiser/111111/segment/56789 \\\n     --header 'accept: application/json'"
+        - code: "// coming soon to @adzerk-management-sdk\n\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdvertiserSegments() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let result = await client.run(\"advertiserSegment\", \"delete\", {\n    advertiserId: 111111,\n    advertiserSegmentId: 56789\n  });\n\n  console.log(result);\n}\n\nawait listAdvertiserSegments();"
+          language: javascript
+          name: ''
+        - code: "## coming soon to @adzerk-management-sdk\n\nrequire \"adzerk\"\n\ndef create_advertiser_segment()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.advertiserSegment.delete(advertiserId: 11111, advertiserSegmentId: 56789)\nend\nlist_advertiser_segment()"
+          language: ruby
+          name: ''
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Advertiser
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

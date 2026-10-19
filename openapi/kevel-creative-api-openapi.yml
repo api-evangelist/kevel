@@ -1,0 +1,613 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Creative API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Creative
+paths:
+  /v1/creative:
+    post:
+      summary: Create Creative
+      description: This creates a new creative under an advertiser.
+      operationId: create-creative
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - AdvertiserId
+              - AdTypeId
+              - IsActive
+              properties:
+                AdvertiserId:
+                  type: integer
+                  description: The ID of the Advertiser.
+                  format: int32
+                AdTypeId:
+                  type: integer
+                  description: The ad size's ID. More info [here](https://dev.kevel.com/docs/ad-sizes).
+                  format: int32
+                IsActive:
+                  type: boolean
+                  description: Specifies whether creative is eligible to serve.
+                Title:
+                  type: string
+                  description: A short description of creative (in UI, it is called 'Friendly Name'). Max 500 characters.
+                ImageName:
+                  type: string
+                  description: The file name as it is stored in our database. It is not needed to create a creative, but it will be passed back in the result view. If the string is manually entered, it will result in a null string.
+                Body:
+                  type: string
+                  description: 'This is the body text associated with AdType 1 (in UI it''s called "Text"). If AdType1 is not being used, pass an empty string: `""`.'
+                Url:
+                  type: string
+                  description: The click URL. Max length is 2000 characters. Must not contain leading or trailing spaces.
+                Alt:
+                  type: string
+                  description: Alt text. The maximum length is 500 characters after HTML-encoding the value.
+                IsDeleted:
+                  type: boolean
+                  description: Specifies whether creative is deleted.
+                IsHTMLJS:
+                  type: boolean
+                  description: Specifies whether to override image with HTML or JavaScript ad. If `true` = the `ScriptBody` field should have value.
+                ScriptBody:
+                  type: string
+                  description: If `IsHTMLJS` = `true`, then this field needs to be filled with a HTML/JavaScript ad.
+                Metadata:
+                  type: string
+                  description: 'Adds custom [metadata](doc:creatives#metadata-field) to your creative. Note that this should be a JSON **object** in a string, for example:  `{   ...   "Metadata": "{ \"foo\":1234 }" }`  The entire Metadata string must be url encoded to support URLs and special characters that can break the JSON object. Maximum character limit of 1000 characters.'
+                ImageLink:
+                  type: string
+                  description: The URL of an image hosted remotely. Use if you are serving an image file without uploading it to Kevel's CDN or calling it in the `ScriptBody`
+                SaveEmptyCreative:
+                  type: boolean
+                  description: If set to `true`, this allows you to save or update a creative that contains no `ScriptBody` or `Metadata`. Note that `SaveEmptyCreative` is not a database field on the creative object, but is instead an option when creating or updating creatives. This means that the `SaveEmptyCreative` parameter will always be returned as `null` once a creative has been created.
+                IsNoTrack:
+                  type: boolean
+                  description: Indicates that a creative originating from a third-party (i.e. it uses third-party ad tags) is EFF Do Not Track compliant. Can only be used if DNT is enabled for your account.
+                IsNetworkAd:
+                  type: boolean
+                  description: Indicates that a creative originates from a third-party source (such as an ad network) that will serve multiple ads. (BETA)
+                TemplateId:
+                  type: integer
+                  description: If you are using a creative template, specifies which template to use. IDs can be retrieved from the Creative Template API.
+                  format: int32
+                TemplateValues:
+                  type: string
+                  description: 'If you are using a creative template, sets the values for the fields in the creative. Fields must match the TemplateId and the object must be wrapped in a string. For example:  `"{\"ctString\":\"A string goes here\",\"ctExternalFile\":\"http://cdn.com/ad.gif\"}"`'
+            examples:
+              JSON:
+                value:
+                  AdvertiserId: 123
+                  Title: Adzerk Blue Creative
+                  Body: ''
+                  AdTypeId: 5
+                  Url: https://adzerk.com
+                  IsDeleted: false
+                  Alt: Adzerk - Native Ads
+                  IsActive: true
+                  Metadata: JSON object as string
+                  ImageLink: https://somecdn.com/somelongstring.jpg
+                  IsNoTrack: true
+                  IsNetworkAd: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":1234,\n  \"Title\":\"Adzerk Blue Creative\",\n  \"ImageName\":\"somelongstring.jpg\",\n  \"Url\":\"https://adzerk.com\",\n  \"Body\":\"\",\n  \"AdvertiserId\":123,\n  \"IsActive\":true,\n  \"AdTypeId\":5,\n  \"Alt\":\"Adzerk - Native Ads\",\n  \"IsDeleted\":false,\n  \"IsSync\":false,\n  \"IsHTMLJS\": true,\n  \"ScriptBody\":\"<a href=\\\"{{url}}\\\">Click here to redirect to Url</a>\",\n  \"Metadata\":\"{\\\"something\\\":true}\",\n  \"ImageLink\":\"https://somecdn.com/somelongstring.jpg\",\n  \"IsNoTrack\":true,\n  \"IsNetworkAd\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  Title:
+                    type: string
+                    example: Adzerk Blue Creative
+                  ImageName:
+                    type: string
+                    example: somelongstring.jpg
+                  Url:
+                    type: string
+                    example: https://adzerk.com
+                  Body:
+                    type: string
+                    example: ''
+                  AdvertiserId:
+                    type: integer
+                    example: 123
+                    default: 0
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  AdTypeId:
+                    type: integer
+                    example: 5
+                    default: 0
+                  Alt:
+                    type: string
+                    example: Adzerk - Native Ads
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsSync:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsHTMLJS:
+                    type: boolean
+                    example: true
+                    default: true
+                  ScriptBody:
+                    type: string
+                    example: <a href="{{url}}">Click here to redirect to Url</a>
+                  Metadata:
+                    type: string
+                    example: '{"something":true}'
+                  ImageLink:
+                    type: string
+                    example: https://somecdn.com/somelongstring.jpg
+                  IsNoTrack:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsNetworkAd:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "## A minimally viable creative. Note that it includes no `Title` or creative contents.\ncurl -X POST -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/creative\" --data-binary '{\"AdvertiserId\":12345,\"AdTypeId\":5,\"IsActive\":true}'\n\n## A minimally viable image creative without an uploaded image (to upload an image, see \"Upload Creative Image\"): \ncurl -X POST -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/creative\" --data-binary '{\"AdvertiserId\":12345,\"AdTypeId\":5,\"Title\":\"Image Creative\",\"Url\":\"http://adzerk.com\",\"Body\":\"\",\"IsActive\":true}'\n\n## A minimally viable image creative with an externally hosted image: \ncurl -X POST -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/creative\" --data-binary '{\"AdvertiserId\":12345,\"AdTypeId\":5,\"Title\":\"Image Creative\",\"Url\":\"http://adzerk.com\",\"Body\":\"\",\"IsActive\":true,\"ImageLink\":\"http://cdn.com/ad.gif\"}'\n\n## A minimally viable JS/HTML creative:\ncurl -X POST -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/creative\" --data-binary '{\"AdvertiserId\":12345,\"AdTypeId\":5,\"Title\":\"JS/HTML Creative\",\"IsActive\":true,\"ScriptBody\":\"Creative contents\",\"IsHTMLJS\":true}'\n\n## A minimally viable Static Text Link creative:\ncurl -X POST -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/creative\" --data-binary '{\"AdvertiserId\":12345,\"AdTypeId\":20,\"IsActive\":true,\"Title\":\"Static Text Link example\",\"Url\":\"http://adzerk.com\"}'"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createCreative() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let creative = await client.run(\"creative\", \"create\", {\n    title: \"Creative Name\",\n    isActive: true,\n    advertiserId: 12345,\n    adTypeId: 5,\n    url: \"https://www.adzerk.com\",\n    isHtmljs: true,\n    scriptBody: \"<script>console.log('hello world!')</script>\",\n  });\n\n  console.log(creative);\n}\n\ncreateCreative();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_creative()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        title: \"Creative Name\",\n        is_active: true,\n        advertiser_id: 12345,\n        ad_type_id: 5,\n        url: \"https://www.adzerk.com\",\n    }\n    pp client.creatives.create(data)\nend\ncreate_creative()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative
+    get:
+      summary: List Creatives For Network
+      description: ''
+      operationId: list-creatives-for-network
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"page\": 1,\n    \"items\": [\n        {\n            \"Id\": 123456,\n            \"Title\": \"Adzerk Blue Creative\",\n            \"ImageName\": \"somelongstring.jpg\",\n            \"Url\": \"https://adzerk.com\",\n            \"Body\": \"\",\n            \"AdvertiserId\": 123456,\n            \"IsActive\": true,\n            \"AdTypeId\": 5,\n            \"Alt\": \"Adzerk - Native Ads\",\n            \"IsDeleted\": false,\n            \"IsSync\": false,\n            \"IsHTMLJS\": true,\n            \"ScriptBody\": \"The Great API Content\",\n            \"ImageLink\": \"https://somecdn.com/somelongstring.jpg\",\n            \"Metadata\": \"JSON object as string\",\n            \"IsNoTrack\": true,\n            \"IsNetworkAd\": false\n        }\n      ]\n}"
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                    default: 0
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Id:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        Title:
+                          type: string
+                          example: Adzerk Blue Creative
+                        ImageName:
+                          type: string
+                          example: somelongstring.jpg
+                        Url:
+                          type: string
+                          example: https://adzerk.com
+                        Body:
+                          type: string
+                          example: ''
+                        AdvertiserId:
+                          type: integer
+                          example: 123456
+                          default: 0
+                        IsActive:
+                          type: boolean
+                          example: true
+                          default: true
+                        AdTypeId:
+                          type: integer
+                          example: 5
+                          default: 0
+                        Alt:
+                          type: string
+                          example: Adzerk - Native Ads
+                        IsDeleted:
+                          type: boolean
+                          example: false
+                          default: true
+                        IsSync:
+                          type: boolean
+                          example: false
+                          default: true
+                        IsHTMLJS:
+                          type: boolean
+                          example: true
+                          default: true
+                        ScriptBody:
+                          type: string
+                          example: The Great API Content
+                        ImageLink:
+                          type: string
+                          example: https://somecdn.com/somelongstring.jpg
+                        Metadata:
+                          type: string
+                          example: JSON object as string
+                        IsNoTrack:
+                          type: boolean
+                          example: true
+                          default: true
+                        IsNetworkAd:
+                          type: boolean
+                          example: false
+                          default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/creative"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listCreativesForNetwork() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let creatives = await client.run(\"creative\", \"listForNetwork\");\n  console.log(creatives);\n}\nlistCreativesForNetwork();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_creatives_for_network()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.creatives.list_for_network()\nend\nlist_creatives_for_network()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative
+  /v1/creative/{CreativeID}/upload:
+    post:
+      summary: Upload Creative Image
+      description: ''
+      operationId: upload-creative-image
+      parameters:
+      - name: CreativeID
+        in: path
+        description: The ID of the Creative
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: sizeOverride
+        in: query
+        description: Add this to upload an image that is a different dimension than the creative's `adTypeId`
+        schema:
+          type: boolean
+      - name: fieldName
+        in: query
+        description: '*(creative template creatives only)* Specifies which image field (of Type `File`) the file will be uploaded to. Can be used with single-image and multiple-image templates. If a template has only one image, `fieldName` is not required.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"IsActive\": true,\n  \"ImageName\": \"b5983bd1e1e84a8980499668a8f76822.gif\",\n  \"SaveEmptyCreative\": null,\n  \"Body\": \"\",\n  \"IsNetworkAd\": null,\n  \"Alt\": null,\n  \"Title\": \"Hello World Creative\",\n  \"IsDeleted\": false,\n  \"IsSync\": null,\n  \"Url\": \"http://adzerk.com\",\n  \"IsIdOnly\": false,\n  \"IsNoTrack\": null,\n  \"TemplateValues\": null,\n  \"TemplateId\": null,\n  \"ImageLink\": \"http://s.zkcdn.net/Advertisers/b5983bd1e1e84a8980499668a8f76822.gif\",\n  \"ScriptBody\": \"\",\n  \"AdvertiserId\": 12345,\n  \"Metadata\": null,\n  \"AdTypeId\": 5,\n  \"IsHTMLJS\": false,\n  \"Id\": 12345\n}"
+              schema:
+                type: object
+                properties:
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  ImageName:
+                    type: string
+                    example: b5983bd1e1e84a8980499668a8f76822.gif
+                  SaveEmptyCreative: {}
+                  Body:
+                    type: string
+                    example: ''
+                  IsNetworkAd: {}
+                  Alt: {}
+                  Title:
+                    type: string
+                    example: Hello World Creative
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsSync: {}
+                  Url:
+                    type: string
+                    example: http://adzerk.com
+                  IsIdOnly:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsNoTrack: {}
+                  TemplateValues: {}
+                  TemplateId: {}
+                  ImageLink:
+                    type: string
+                    example: http://s.zkcdn.net/Advertisers/b5983bd1e1e84a8980499668a8f76822.gif
+                  ScriptBody:
+                    type: string
+                    example: ''
+                  AdvertiserId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Metadata: {}
+                  AdTypeId:
+                    type: integer
+                    example: 5
+                    default: 0
+                  IsHTMLJS:
+                    type: boolean
+                    example: false
+                    default: true
+                  Id:
+                    type: integer
+                    example: 12345
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{"message":"File missing from request."}
+
+
+                    {"message":"AZERROR01: Incorrect image size for ad type"}
+
+
+
+                    Using the fieldName paramter:
+
+
+                    {"message":"ThefieldNameparameter can only be used with custom template creatives."}
+
+
+                    {"message":"The template of this creative does not have a field with the variable \"ctNope\"."}
+
+
+                    {"message":"The field \"ctStringy\" is not a file field."}
+
+
+                    {"message":"You must specify the template field for your file upload via thefieldNameparameter."}'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X POST -H "X-Adzerk-ApiKey: <APIKEY>" "https://api.kevel.co/v1/creative/12345/upload" -F "image=@helloworld.gif"
+
+
+            ## With size override:
+
+            curl -X POST -H "X-Adzerk-ApiKey: <APIKEY>" "https://api.kevel.co/v1/creative/12345/upload?sizeOverride=true" -F "image=@helloworld.gif"
+
+
+            ## With template field upload:
+
+            curl -X POST -H "X-Adzerk-ApiKey: <APIKEY>" "https://api.kevel.co/v1/creative/12345/upload?fieldName=ctSponsorImage" -F "image=@helloworld.gif"'
+        - language: javascript
+          code: "const fetch = require('node-fetch');\nconst Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function uploadCreativeImage() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  // Style 1: Specify a file path\n  let creative = await client.run('creative', \"uploadImage\", {\n    id: 12345,\n    image: \"./adzerk-logo.png\",\n    sizeOverride: true,\n  });\n\n  console.log(creative);\n\n  // Style 2: Specify an image from memory\n  let response = await fetch('https://octodex.github.com/images/Fintechtocat.png');\n  let buffer = response.buffer();\n\n  let creative = await client.run('creative', 'uploadImage', {\n    id: 12345,\n    image: buffer,\n    sizeOverride: true,\n  });\n\n  console.log(creative);\n\n  // Style 3: Upload an image into a creative template field\n  let creative = await client.run('creative', 'uploadImage', {\n    id: 12345,\n    image: \"./adzerk-logo.png\",\n    fieldName: 'ctBannerImage',\n  });\n\n  console.log(creative);\n}\n\nuploadCreativeImage();"
+        - language: ruby
+          code: "require \"adzerk\"\n\n#\n# Creating a creative and uploading a creative image are bundled in the Ruby SDK!\n# \n\ndef upload_creative_image()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        title: \"Creative Name\",\n        is_active: true,\n        advertiser_id: 12345,\n        ad_type_id: 5,\n        url: \"https://www.adzerk.com\",\n        image_link: \"./adzerk-logo.png\"\n    }\n    pp client.creatives.create(data)\nend\nupload_creative_image()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative
+  /v1/creative/{CreativeID}:
+    put:
+      summary: Update Creative
+      description: ''
+      operationId: update-creative
+      parameters:
+      - name: CreativeID
+        in: path
+        description: The ID of the Creative
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Id
+              - AdvertiserId
+              - Title
+              - IsActive
+              - AdTypeID
+              - Body
+              properties:
+                Id:
+                  type: integer
+                  description: The ID of the Creative
+                  format: int32
+                AdvertiserId:
+                  type: integer
+                  description: The ID of the advertiser
+                  format: int32
+                Title:
+                  type: string
+                  description: The name of the creative
+                IsActive:
+                  type: boolean
+                  description: Whether it's active or not. Defaults to `null`
+                  default: false
+                AdTypeID:
+                  type: integer
+                  description: The ad size's ID
+                  format: int32
+                Body:
+                  type: string
+                  description: 'This is the body text associated with AdType 1 (in UI it''s called "Text"). If you are NOT using AdType1, pass an empty string: "".'
+                isDeleted:
+                  type: boolean
+                  description: If want to delete, set to `true`
+            examples:
+              JSON:
+                value:
+                  Id: 123
+                  AdvertiserId: 123
+                  Body: Test
+                  Url: https://adzerk.com
+                  Title: Adzerk Blue Creative
+                  AdTypeId: 5
+                  Alt: Adzerk - Native Ads
+                  IsActive: true
+                  IsDeleted: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":1234,\n  \"Title\":\"Test creative\",\n  \"ImageName\":\"somelongstring.jpg\",\n  \"Url\":\"https://adzerk.com\",\n  \"Body\":\"Test\",\n  \"AdvertiserId\":123,\n  \"IsActive\":true,\n  \"AdTypeId\":1,\n  \"Alt\":\"test\",\n  \"IsDeleted\":false,\n  \"IsSync\":null,\n  \"IsHTMLJS\": false,\n  \"Metadata\":\"JSON object as string\",\n  \"ImageLink\":\"https://somecdn.com/somelongstring.jpg\",\n  \"IsNoTrack\":true,\n  \"IsNetworkAd\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  Title:
+                    type: string
+                    example: Test creative
+                  ImageName:
+                    type: string
+                    example: somelongstring.jpg
+                  Url:
+                    type: string
+                    example: https://adzerk.com
+                  Body:
+                    type: string
+                    example: Test
+                  AdvertiserId:
+                    type: integer
+                    example: 123
+                    default: 0
+                  IsActive:
+                    type: boolean
+                    example: true
+                    default: true
+                  AdTypeId:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Alt:
+                    type: string
+                    example: test
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  IsSync: {}
+                  IsHTMLJS:
+                    type: boolean
+                    example: false
+                    default: true
+                  Metadata:
+                    type: string
+                    example: JSON object as string
+                  ImageLink:
+                    type: string
+                    example: https://somecdn.com/somelongstring.jpg
+                  IsNoTrack:
+                    type: boolean
+                    example: true
+                    default: true
+                  IsNetworkAd:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "## Minimum viable update for non-image creatives:\ncurl -X PUT -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/creative/123456\" --data-binary '{\"Id\":123456,\"AdvertiserId\":12345,\"AdTypeId\":5,\"Title\":\"Update Creative\",\"IsActive\":true}'\n\n## Minimum viable update for image creatives: \ncurl -X PUT -H 'X-Adzerk-ApiKey:<API-KEY>' -H \"Content-Type:application/json\" \"https://api.kevel.co/v1/creative/123456\" --data-binary '{\"Id\":123456,\"AdvertiserId\":12345,\"AdTypeId\":5,\"Title\":\"Update\",\"Body\":\"\",\"IsActive\":true,\"Url\":\"http://adzerk.com\",\"ImageName\":\"longstringofhex.jpg\"}'"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateCreative() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let creative = await client.run(\"creative\", \"update\", {id: 12345, title: \"A Different Name\"});\n  console.log(creative);\n}\n\nupdateCreative();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_creative()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    creative_id = 12345\n    data = client.creatives.get(creative_id)\n    data[:title] = \"Updated Creative Name\"\n    pp client.creatives.update(data)\nend\nupdate_creative()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative
+    get:
+      summary: Get Creative
+      description: ''
+      operationId: get-creative
+      parameters:
+      - name: CreativeID
+        in: path
+        description: The ID of the Creative
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":1234,\n  \"Title\":\"Adzerk Blue Creative\",\n  \"ImageName\":\"somelongstring.jpg\",\n  \"Url\":\"https://adzerk.com\",\n  \"Body\":\"\",\n  \"AdvertiserId\":123,\n  \"IsActive\":true,\n  \"AdTypeId\":5,\n  \"Alt\":\"Adzerk - Native Ads\",\n  \"IsDeleted\":false,\n  \"IsSync\":null,\n  \"IsHTMLJS\":true,\n  \"ScriptBody\": \"The Great API Content\",\n  \"Metadata\":JSON object as string,\n  \"ImageLink\":\"https://somecdn.com/somelongstring.jpg\",\n  \"IsNoTrack\":true,\n  \"IsNetworkAd\":false,\n  \"TemplateValues\": null,\n  \"TemplateId\": null\n  \"SaveEmptyCreative\": null\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:<APIKEY>" "https://api.kevel.co/v1/creative/123456"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getCreative() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let creative = await client.run(\"creative\", \"get\", {id: 12345});\n  console.log(creative);\n}\n\ngetCreative();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_creative()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    creative_id = 12345\n    pp client.creatives.get(creative_id)\nend\nget_creative()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Creative
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

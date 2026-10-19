@@ -1,0 +1,52 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Countries API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Countries
+paths:
+  /v1/countries:
+    get:
+      summary: List Countries
+      description: ''
+      operationId: list-geo-codes
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n    regions: {\n      'us:pa': {\n        countryCode: 'US',\n        metros: [Object],\n        name: 'Pennsylvania',\n        code: 'PA'\n      },\n      'us:ak': { countryCode: 'US', metros: [Object], name: 'Alaska', code: 'AK' },\n      'us:or': { countryCode: 'US', metros: [Object], name: 'Oregon', code: 'OR' },\n      'us:ky': {\n        countryCode: 'US',\n        metros: [Object],\n        name: 'Kentucky',\n        code: 'KY'\n      },\n      'us:mi': {\n        countryCode: 'US',\n        metros: [Object],\n        name: 'Michigan',\n        code: 'MI'\n      },\n      'us:wa': {\n        countryCode: 'US',\n        metros: [Object],\n        name: 'Washington',\n        code: 'WA'\n      },\n\n...."
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/countries"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listCountries() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let countries = await client.run(\"geoTargeting\", \"listCountries\");\n\n  // Print out the entire response tree\n  console.dir(countries, {depth: null});\n\n  // Print mapping of country codes to names\n  let codesAndNames = countries.map(c => [c.code, c.name])\n  console.log(codesAndNames);\n}\n\nlistCountries();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_countries()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.flights.countries()\nend\nlist_countries()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Countries
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

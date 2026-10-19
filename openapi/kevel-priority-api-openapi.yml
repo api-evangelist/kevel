@@ -1,0 +1,365 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Priority API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Priority
+paths:
+  /v1/priority:
+    post:
+      summary: Create Priority
+      description: This API call adds a new priority to a specific channel.
+      operationId: create-priorities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Name
+              - ChannelId
+              - Weight
+              - SelectionAlgorithm
+              properties:
+                Name:
+                  type: string
+                  description: The Priority's Name
+                ChannelId:
+                  type: string
+                  description: The Channel's ID
+                Weight:
+                  type: integer
+                  description: The priority order within the channel. 1-100, 1 is highest priority
+                  format: int32
+                SelectionAlgorithm:
+                  type: integer
+                  description: Choose which selector the ad engines use to select an ad from this priority. Defaults to 0 (lottery). See below for the full list.
+                  format: int32
+                IsDeleted:
+                  type: boolean
+                  description: Do not use if creating a Priority. Defaults to `false`
+                  default: false
+                FloorPrice:
+                  type: number
+                  description: Sets a floor price for second-price auction priority
+                  format: float
+                FloorCPC:
+                  type: number
+                  description: (BETA) Read only - Floor CPC if the Floor CPC feature is used on the priority. Contact Kevel support to get started
+                  format: float
+                IsSecondPricing:
+                  type: boolean
+                  description: Whether flight uses second-price auction model
+                SecondPriceGroupBy:
+                  type: string
+                  description: 'Sets whether ads in a second-priced auction should *not* second price against the same: `advertiser`, `campaign`, `flight`,  or `ad`. Default is `null`, which is equivalent to `advertiser`. Can only be set when `IsSecondPricing` is true'
+                  default: 'null'
+                PassbackTimeout:
+                  type: integer
+                  description: Sets the timeout (in ms) for flights passing back in an adChain priority
+                  format: int32
+                RemainderPercentage:
+                  type: integer
+                  description: Auctions and AdChain Optimized only. Refers to the percentage of impressions that ads with lower eCPMs will receive, which is used to give poor-perfoming ads a "second-chance".
+                  format: int32
+            examples:
+              JSON:
+                value:
+                  name: High Priority
+                  channelId: 12345
+                  weight: 10
+                  isDeleted: false
+                  selectionAlgorithm: 1
+                  isSecondPricing: true
+                  floorPrice: 1
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"id\":12345,\n  \"name\":\"High Priority\",\n  \"channelId\":1234,\n  \"weight\":10,\n  \"isDeleted\":false,\n  \"selectionAlgorithm\": 0\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  name:
+                    type: string
+                    example: High Priority
+                  channelId:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  weight:
+                    type: integer
+                    example: 10
+                    default: 0
+                  isDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  selectionAlgorithm:
+                    type: integer
+                    example: 0
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/priority" --data-binary '{"Name":"High Priority","ChannelId":12345,"Weight":10,"IsDeleted":false,"SelectionAlgorithm":0}'
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createPriority() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let priority = await client.run(\"priority\", \"create\", {\n    name: \"High Priority\",\n    channelId: 51393,\n    weight: 100, //lowest weight\n    selectionAlgorithm: Adzerk.SelectionAlgorithm.Lottery,\n  });\n\n  console.log(priority);\n}\n\ncreatePriority();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_priority()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        name: \"Test Priority Name\",\n        channel_id: 12345,\n        weight: 100,\n        selection_algorithm: 0 # default\n    }\n    pp client.priorities.create(data)\nend\ncreate_priority()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Priority
+    get:
+      summary: List Priorities
+      description: This API call returns a list of all the priorities in the network, along with a list of priorities that belong to the "Channel ID."
+      operationId: list-priorities-1
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"page\": 1,\n    \"items\": [\n        {\n            \"id\": 98765,\n            \"name\": \"High Priority\",\n            \"channelId\": 12345,\n            \"weight\": 1,\n            \"isDeleted\": false\n        },\n        .....\n\t\t]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/priority"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listPriorities() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let priorities = await client.run(\"priority\", \"list\");\n  console.log(priorities);\n\n  let names = priorities.items.map(a => a.name)\n  console.log(names);\n}\n\nlistPriorities();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_priorities()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.priorities.list()\nend\nlist_priorities()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Priority
+  /v1/priority/{PriorityID}:
+    put:
+      summary: Update Priority
+      description: This API call updates an existing priority using the Priority ID. The user is unable to update the PriorityID or the SelectionAlgorithm.
+      operationId: update-priorities
+      parameters:
+      - name: priorityId
+        in: path
+        description: The Priority's ID
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id
+              - channelId
+              - name
+              - weight
+              properties:
+                id:
+                  type: integer
+                  description: The Priority's ID
+                  format: int32
+                channelId:
+                  type: integer
+                  description: The Channel's ID
+                  format: int32
+                name:
+                  type: string
+                  description: Friendly name of Priority
+                weight:
+                  type: integer
+                  description: The priority order within the channel. 1-100, 1 is highest priority
+                  format: int32
+                isDeleted:
+                  type: boolean
+                  description: If want to delete, set to `true`
+                secondPriceGroupBy:
+                  type: string
+                  description: 'Sets whether ads in a second-priced auction should *not* second price against the same: `advertiser`, `campaign`, `flight`,  or `ad`. Default is `null`, which is equivalent to `advertiser`. Can only be set when `IsSecondPricing` is true'
+                  default: 'null'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"id\":98765,\n  \"name\":\"High Priority\",\n  \"channelId\":12345,\n  \"weight\":10,\n  \"isDeleted\":false,\n  \"selectionAlgorithm\": 0\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  name:
+                    type: string
+                    example: High Priority
+                  channelId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  weight:
+                    type: integer
+                    example: 10
+                    default: 0
+                  isDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  selectionAlgorithm:
+                    type: integer
+                    example: 0
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/priority/98765" --data-binary '{"Id":98765,"Name":"High Priority","ChannelId":12345,"Weight":11,"IsDeleted":"false"}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updatePriority() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let priority = await client.run(\"priority\", \"update\", {\n    id: 98765, \n    name: \"High Priority\"\n  });\n  console.log(priority);\n}\n\nupdatePriority();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_priority()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    priority_id = 12345\n    data = client.priorities.get(priority_id)\n    data[:name] = \"Updated Name\"\n    pp client.priorities.update(data)\nend\nupdate_priority()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Priority
+    get:
+      summary: Get Priority
+      description: This API call returns properties for a specific priority. No parameters are needed as long as the "Priority ID" is in the URL.
+      operationId: get-priorities
+      parameters:
+      - name: priorityId
+        in: path
+        description: The Priority's ID
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"id\":98765,\n  \"name\":\"High Priority\",\n  \"channelId\":12345,\n  \"weight\":10,\n  \"isDeleted\":false,\n  \"selectionAlgorithm\": 0,\n  \"isSecondPricing\":null,\n  \"floorPrice\":null\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 98765
+                    default: 0
+                  name:
+                    type: string
+                    example: High Priority
+                  channelId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  weight:
+                    type: integer
+                    example: 10
+                    default: 0
+                  isDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  selectionAlgorithm:
+                    type: integer
+                    example: 0
+                    default: 0
+                  isSecondPricing: {}
+                  floorPrice: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/priority/98765"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getPriority() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let priority = await client.run(\"priority\", \"get\", {id: 98765});\n  console.log(priority);\n}\n\ngetPriority();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_priority()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    priority_id = 12345\n    pp client.priorities.get(priority_id)\nend\nget_priority()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Priority
+  /v1/priority/{PriorityID}/delete:
+    get:
+      summary: Delete Priority
+      description: This API call removes an existing priority from the channel. No parameters are needed, except "Priority ID" in URL.
+      operationId: delete-priority
+      parameters:
+      - name: priorityId
+        in: path
+        description: The Priority's ID
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully deleted"'
+              schema:
+                type: string
+                example: Successfully deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/priority/98765/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deletePriority() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let response = await client.run(\"priority\", \"delete\", {id: 98765});\n  console.log(response);\n}\n\ndeletePriority();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_priority()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    priority_id = 12345\n    pp client.priorities.delete(priority_id)\nend\ndelete_priority()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Priority
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

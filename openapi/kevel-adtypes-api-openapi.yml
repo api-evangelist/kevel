@@ -1,0 +1,144 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Adtypes API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Adtypes
+paths:
+  /v1/adtypes:
+    post:
+      summary: Create Ad Type
+      description: This API call creates an ad type at the network level, making the ad type available on any channel. If the ad type already exists, it will return the existing ad type. In the response the user will receive the unique `adTypeID` in `id` field.
+      operationId: create-ad-types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Width
+              - Height
+              properties:
+                Width:
+                  type: integer
+                  description: Width (pixels)
+                  format: int32
+                Height:
+                  type: integer
+                  description: Height (pixels)
+                  format: int32
+                Name:
+                  type: string
+                  description: Optional name. Defaults to `[width] x [height]`
+            examples:
+              JSON:
+                value:
+                  Width: '100'
+                  Height: '100'
+                  Name: Native Sponsored Ingredient
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":123\n  \"Width\":100,\n  \"Height\":100,\n  \"Name\":\"Native Sponsored Ingredient\"\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/adtypes" --data-binary '{"Width":100,"Height":100,"Name":"Native Sponsored Ingredient"}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createAdType() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  //NOTE: only creates new ad type if the width & height combo are new;\n  //if combo already exists this will return the pre-existing, matching ad type\n  let adType = await client.run(\"adType\", \"create\", {\n    name: \"Native Sponsored Ingredient\",\n    width: 100,\n    height: 100,\n  });\n\n  console.log(adType);\n}\n\ncreateAdType();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_ad_type()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        name: \"New AdType Name\",\n        width: 100,\n        height: 100\n    }\n    pp client.ad_types.create(data)\nend\ncreate_ad_type()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Adtypes
+    get:
+      summary: List Ad Types
+      description: This API call returns a list of all ad types available in the network.
+      operationId: list-ad-types
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\": 1,\n  \"items\": [\n    { \"id\": 4, \"name\": 'Leaderboard', \"width\": 728, \"height\": 90 },\n    { \"id\": 5, \"name\": 'Medium Rectangle', \"width\": 300, \"height\": 250 },\n    { \"id\": 6, \"name\": 'Wide Skyscraper', \"width\": 160, \"height\": 600 },\n    { \"id\": 9, \"name\": 'Rectangle', \"width\": 180, \"height\": 150 },\n    { \"id\": 13, \"name\": 'Micro Bar', \"width\": 88, \"height\": 31 },\n    { \"id\": 14, \"name\": 'Button 2', \"width\": 120, \"height\": 60 },\n    { \"id\": 16, \"name\": 'Square Button', \"width\": 125, \"height\": 125 },\n    .....\n  ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/adtypes"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdTypes() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let adTypes = await client.run(\"adType\", \"list\");\n  console.log(adTypes);\n\n  let names = adTypes.items.map(a => a.name)\n  console.log(names);\n}\n\nlistAdTypes();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_ad_types()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.ad_types.list()\nend\nlist_ad_types()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Adtypes
+  /v1/adtypes/{AdTypeID}/delete:
+    get:
+      summary: Delete Ad Type
+      description: This API call removes an existing Ad Type from the network. Any channels with the Ad Type enabled will no longer have this ad type. The user will receive a `"Successfully Deleted"` message, or a `"No Record to Delete"` message if no Ad Type was deleted.
+      operationId: delete-ad-type-network
+      parameters:
+      - name: adTypeId
+        in: path
+        description: ID of Ad Type from Create Ad Type Endpoint
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully Deleted"'
+              schema:
+                type: string
+                example: Successfully Deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/adtypes/987/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteAdType() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let adType = await client.run(\"adType\", \"delete\", {id: 987});\n  console.log(adType);\n}\n\ndeleteAdType();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_ad_type()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    ad_type_id = 987\n    pp client.ad_types.delete(ad_type_id)\nend\ndelete_ad_type()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Adtypes
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

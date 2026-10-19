@@ -1,0 +1,268 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Site API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Site
+paths:
+  /v1/site:
+    post:
+      summary: Create Site
+      description: 'This API call adds a new site to the network. The result includes the unique "Site ID" that can be used to update or remove the site.
+
+
+        By default, all new sites are mapped to the All Sites channel. If the All Sites channel is deleted or the site is removed from that channel, the site must be mapped to another channel to be used in ad requests.'
+      operationId: create-site
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Title
+              - URL
+              properties:
+                Title:
+                  type: string
+                  description: The site's name
+                URL:
+                  type: string
+                  description: The new site's link. Must be in the format `https://path of URL`
+                NetworkMargin:
+                  type: number
+                  description: Sets a network margin for a site in a network. The network margin adjusts the price a site bids at in auctions but not its revenue in reporting
+                  format: float
+                CustomRelevancyScore:
+                  type: integer
+                  description: The site's relevancy score, an integer between 1 and 1000. The lower the relevancy score, the lower the ad will be ranked in the auction. A site that does not have a defined relevancy score will have a default relevancy score of `500`. [Learn more](https://dev.kevel.com/docs/relevancy-score).
+                  format: int32
+                IsDeleted:
+                  type: boolean
+                  description: Don't use when creating a Site. Defaults to `false`
+                  default: false
+            examples:
+              JSON:
+                value:
+                  Title: Your Site Name
+                  Url: http://www.example.com
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":12345,\n  \"Title\":\"Your Site Name\",\n  \"Url\":\"http://www.example.com\",\n  \"NetworkMargin\":null,\n  \"IsDeleted\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Title:
+                    type: string
+                    example: Your Site Name
+                  Url:
+                    type: string
+                    example: http://www.example.com
+                  NetworkMargin: {}
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/site" --data-binary '{"Title":"Your Site Name","URL":"https://www.example.com"}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createSite() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let site = await client.run(\"site\", \"create\", {\n    title: \"Your Site Name\",\n    url: \"https://www.example.com/\",\n  });\n\n  console.log(site);\n}\n\ncreateSite();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_site()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        title: \"Site Title\",\n        url: \"https://www.example.com/\"\n    }\n    pp client.sites.create(data)\nend\ncreate_site()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Site
+    get:
+      summary: List Sites
+      description: This API call returns a list of all the sites in the network. For the explorer, use the assigned API Key.
+      operationId: list-sites
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"page\": 1,\n    \"items\": [\n        {\n            \"Id\": 1234,\n            \"Title\": \"Adzerk\",\n            \"Url\": \"http://www.adzerk.com\",\n            \"NetworkMargin\":null,\n            \"IsDeleted\": false\n        },\n        .....\n\t\t]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/site"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listSites() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let sites = await client.run(\"site\", \"list\");\n  console.log(sites);\n\n  let titles = sites.items.map(a => a.title)\n  console.log(titles);\n}\n\nlistSites();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_sites()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.sites.list()\nend\nlist_sites()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Site
+  /v1/site/{SiteID}:
+    put:
+      summary: Update Sites
+      description: This API call updates a site with a new URL and/or title, using the "Site ID". Please note that the "Site ID cannot be changed.
+      operationId: update-sites
+      parameters:
+      - name: SiteID
+        in: path
+        description: ID of the Site
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Id
+              - Title
+              - Url
+              properties:
+                Id:
+                  type: string
+                  description: The id of the Site. Cannot be changed.
+                Title:
+                  type: string
+                  description: Update the friendly name title if needed
+                Url:
+                  type: string
+                  description: Update the URL in format `https://path of URL` if needed
+                IsDeleted:
+                  type: boolean
+                  description: If want to delete, set to `true`
+            examples:
+              JSON:
+                value:
+                  Id: 12345
+                  Url: http://www.example.com
+                  Title: New Title
+                  IsDeleted: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":12345,\n  \"Title\":\"New Title\",\n  \"Url\":\"http://www.example.com\",\n  \"NetworkMargin\":null,\n  \"IsDeleted\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  Title:
+                    type: string
+                    example: New Title
+                  Url:
+                    type: string
+                    example: http://www.example.com
+                  NetworkMargin: {}
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/site/12345" --data-binary '{"Id":12345,"Url":"http://www.example.com","Title":"New Title"}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateSite() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let site = await client.run(\"site\", \"update\", {id: 12345, title: \"New Title\"});\n  console.log(site);\n}\n\nupdateSite();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_site()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    id = 12345\n    data = client.sites.get(id)\n    data[:title] = \"Updated Site Title\"\n    pp client.sites.update(data)\nend\nupdate_site()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Site
+    get:
+      summary: Get Site
+      description: This API call returns the properties of a single site based on "Site ID". No parameters are needed except "Site ID" in the URL.
+      operationId: get-site
+      parameters:
+      - name: SiteID
+        in: path
+        description: The ID of the Site
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":1234,\n  \"Title\":\"Your Site Name\",\n  \"Url\":\"http://www.example.com\",\n  \"NetworkMargin\":null,\n  \"IsDeleted\":false\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  Title:
+                    type: string
+                    example: Your Site Name
+                  Url:
+                    type: string
+                    example: http://www.example.com
+                  NetworkMargin: {}
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/site/12345"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getSite() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let site = await client.run(\"site\", \"get\", {id: 1234});\n  console.log(site);\n}\n\ngetSite();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_site()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    id = 12345\n    pp client.sites.get(id)\nend\nget_site()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Site
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

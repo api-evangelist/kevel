@@ -1,0 +1,653 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Channel API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Channel
+paths:
+  /v1/channel:
+    post:
+      summary: Create Channels
+      description: ''
+      operationId: create-channels-1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Title
+              - AdTypes
+              - Engine
+              properties:
+                Title:
+                  type: string
+                  description: The channel's name
+                AdTypes:
+                  type: array
+                  description: The [Ad Types](doc:ad-sizes) you want to use. Note - if the Ad Types aren't already created (you can check in UI by going to Inventory --> Ad Sizes), you'll need to first do that with the UI or [API](ref:ad-type).
+                  items:
+                    type: integer
+                    format: int32
+                Engine:
+                  type: string
+                  description: Set to 0 for all requests
+                  default: '0'
+                CPM:
+                  type: number
+                  description: Set to 0 for all requests
+                  format: float
+                CustomTargeting:
+                  type: string
+                  description: Zerkel string for Custom targeting. Instructions [here](https://dev.kevel.com/docs/custom-targeting). The maximum string length for `CustomTargeting` is 1000 characters.
+                IsDeleted:
+                  type: boolean
+                  description: Don't use when creating a Channel. Defaults to `false`
+                  default: false
+            examples:
+              JSON:
+                value:
+                  Title: Finance Sites
+                  AdTypes:
+                  - 5
+                  Engine: 0
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Title\": \"Finance Sites\",\n  \"IsDeleted\": false,\n  \"CustomTargeting\": null,\n  \"AdTypes\": [\n    5\n  ],\n  \"Keywords\": null,\n  \"Commission\": 0,\n  \"Engine\": \"CPM\",\n  \"CPM\": 0,\n  \"Id\": 1234\n}"
+              schema:
+                type: object
+                properties:
+                  Title:
+                    type: string
+                    example: Finance Sites
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  CustomTargeting: {}
+                  AdTypes:
+                    type: array
+                    items:
+                      type: integer
+                      example: 5
+                      default: 0
+                  Keywords: {}
+                  Commission:
+                    type: integer
+                    example: 0
+                    default: 0
+                  Engine:
+                    type: string
+                    example: CPM
+                  CPM:
+                    type: integer
+                    example: 0
+                    default: 0
+                  Id:
+                    type: integer
+                    example: 1234
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/channel" --data-binary '{"Title":"Finance Sites","Engine":0,"AdTypes":[5]}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channel = await client.run(\"channel\", \"create\", {\n    title: \"Finance Sites\",\n    adTypes: [ 5 ],\n  });\n\n  console.log(channel);\n}\n\ncreateChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    opts = {\n        title: \"Channel Title\",\n        ad_types: [5, 6],\n        engine: 0 # set to 0 for all requests\n    }\n    pp client.channels.create(opts)\nend\ncreate_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+    get:
+      summary: List Channels
+      description: ''
+      operationId: list-channels
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"page\": 1,\n   \"items\": [\n       {\n           \"Id\": 1234,\n           \"Title\": \"All Sites\",\n           \"Commission\": 0,\n           \"Engine\": 0,\n           \"CPM\": 0,\n           \"AdTypes\": [\n               4,\n               5,\n               6,\n               9,\n               13\n           ],\n           \"IsDeleted\": false,\n           \"CustomTargeting\":\"\"\n       },\n       .....\n\t\t]\n }"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listChannels() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channels = await client.run(\"channel\", \"list\");\n  console.log(channels);\n\n  let titles = channels.items.map(a => a.title)\n  console.log(titles);\n}\n\nlistChannels();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_channels()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.channels.list()\nend\nlist_channels()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+  /v1/channel/{ChannelID}:
+    put:
+      summary: Update Channels
+      description: ''
+      operationId: update-channels
+      parameters:
+      - name: ChannelID
+        in: path
+        description: The ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Id
+              - Engine
+              - Title
+              - AdTypes
+              properties:
+                Id:
+                  type: integer
+                  description: Required - cannot be changed
+                  format: int32
+                Engine:
+                  type: string
+                  description: Set to `0`
+                  default: '0'
+                Title:
+                  type: string
+                  description: Change title if you want
+                AdTypes:
+                  type: array
+                  description: This will reset the AdTypes associated with the Channel
+                  items:
+                    type: integer
+                    format: int32
+            examples:
+              JSON:
+                value:
+                  Id: 1234
+                  Title: New Channel Name
+                  Engine: 0
+                  AdTypes:
+                  - 5
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":1234,\n  \"Title\":\"New Channel Name\",\n  \"Commission\":0,\n  \"Engine\":0,\n  \"Keywords\":null,\n  \"CPM\":0,\n  \"AdTypes\":[5],\n  \"IsDeleted\": false,\n  \"CustomTargeting\": null\n}"
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    example: 1234
+                    default: 0
+                  Title:
+                    type: string
+                    example: New Channel Name
+                  Commission:
+                    type: integer
+                    example: 0
+                    default: 0
+                  Engine:
+                    type: integer
+                    example: 0
+                    default: 0
+                  Keywords: {}
+                  CPM:
+                    type: integer
+                    example: 0
+                    default: 0
+                  AdTypes:
+                    type: array
+                    items:
+                      type: integer
+                      example: 5
+                      default: 0
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  CustomTargeting: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X PUT -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/channel/1234" --data-binary ''{"Id":1234,"Title":"New Channel Name","Engine":"0","AdTypes":[5]}''
+
+
+            '
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channel = await client.run(\"channel\", \"update\", {id: 1234, title: \"New Channel Name\"});\n  console.log(channel);\n}\n\nupdateChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    opts = client.channels.get(channel_id)\n    opts[:title] = \"Updated Title\"\n    pp client.channels.update(opts)\nend\nupdate_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+    get:
+      summary: Get Channel
+      description: ''
+      operationId: get-channels
+      parameters:
+      - name: ChannelID
+        in: path
+        description: The ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Title\": \"Finance Sites\",\n  \"IsDeleted\": false,\n  \"CustomTargeting\": null,\n  \"AdTypes\": [\n    5\n  ],\n  \"Keywords\": null,\n  \"Commission\": 0.01,\n  \"Engine\": \"CPM\",\n  \"CPM\": 0.01,\n  \"Id\": 1234\n}"
+              schema:
+                type: object
+                properties:
+                  Title:
+                    type: string
+                    example: Finance Sites
+                  IsDeleted:
+                    type: boolean
+                    example: false
+                    default: true
+                  CustomTargeting: {}
+                  AdTypes:
+                    type: array
+                    items:
+                      type: integer
+                      example: 5
+                      default: 0
+                  Keywords: {}
+                  Commission:
+                    type: number
+                    example: 0.01
+                    default: 0
+                  Engine:
+                    type: string
+                    example: CPM
+                  CPM:
+                    type: number
+                    example: 0.01
+                    default: 0
+                  Id:
+                    type: integer
+                    example: 1234
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/1234"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channel = await client.run(\"channel\", \"get\", {id: 1234});\n  console.log(channel);\n}\n\ngetChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    pp client.channels.get(channel_id)\nend\nget_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+  /v1/channel/{ChannelID}/priorities:
+    get:
+      summary: Get Priorities for a Channel
+      description: ''
+      operationId: get-priorities-for-a-channel
+      parameters:
+      - name: ChannelID
+        in: path
+        description: The ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "  [\n  {\n    \"IsAdChainOptimized\": false,\n    \"IsSecondPricing\": null,\n    \"IsAdChain\": false,\n    \"PassbackTimeout\": null,\n    \"ChannelId\": 12345,\n    \"RelevancyScoreConfig\": null,\n    \"IsAdChainOrdered\": false,\n    \"IsDeleted\": false,\n    \"IsKeywordOptimized\": null,\n    \"Weight\": 1,\n    \"SerializeRelevancyScoreConfigJSON\": null,\n    \"FloorPrice\": null,\n    \"IsAuction\": false,\n    \"RelevancyScoreConfigJSON\": null,\n    \"Name\": \"Sponsorship\",\n    \"SelectionAlgorithm\": 0,\n    \"Id\": 123456\n  },...\n  ]"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/12345/priorities"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getPrioritiesForChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let priorities = await client.run(\"channel\", \"getPriorities\", {id: 1234});\n  console.log(priorities);\n}\n\ngetPrioritiesForChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_priorities_for_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    pp client.channels.get_priorities(channel_id)\nend\nget_priorities_for_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+  /v1/channel/{ChannelID}/delete:
+    get:
+      summary: Delete Channels
+      description: ''
+      operationId: delete-channels
+      parameters:
+      - name: ChannelID
+        in: path
+        description: The ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully Deleted"'
+              schema:
+                type: string
+                example: Successfully Deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/1234/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channel = await client.run(\"channel\", \"delete\", {id: 1234});\n  console.log(channel);\n}\n\ndeleteChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    pp client.channels.delete(channel_id)\nend\ndelete_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+  /v1/channel/{ChannelID}/site/{SiteID}:
+    get:
+      summary: Get Channel Site Map
+      description: This API call returns the channel site map for a specific "Site ID" and "Channel ID."
+      operationId: get-channel-site-map
+      parameters:
+      - name: ChannelID
+        in: path
+        description: The ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SiteID
+        in: path
+        description: The ID of the Site
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"SiteId\":12345,\n  \"ChannelId\":67890,\n  \"FixedPaymentAmount\":null,\n  \"Priority\":10\n}"
+              schema:
+                type: object
+                properties:
+                  SiteId:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  ChannelId:
+                    type: integer
+                    example: 67890
+                    default: 0
+                  FixedPaymentAmount: {}
+                  Priority:
+                    type: integer
+                    example: 10
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/67890/site/12345"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getChannelSiteMap() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channelSiteMap = await client.run(\"channelSiteMap\", \"get\", {\n    channelId: 67890,\n    siteId: 12345,\n  });\n  console.log(channelSiteMap);\n}\n\ngetChannelSiteMap();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_channel_site_map()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    site_id = 67890\n    pp client.channel_site_maps.get(channel_id, site_id)\nend\nget_channel_site_map()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+  /v1/channel/{ChannelID}/site/{SiteID}/delete:
+    get:
+      summary: Delete Channel Site Map
+      description: This API call removes the association of a site and channel.
+      operationId: delete-channel-site-map
+      parameters:
+      - name: ChannelID
+        in: path
+        description: The ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: SiteID
+        in: path
+        description: The ID of the Site
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully deleted"'
+              schema:
+                type: string
+                example: Successfully deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/67890/site/12345/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteChannelSiteMap() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channelSiteMap = await client.run(\"channelSiteMap\", \"delete\", {\n    channelId: 67890,\n    siteId: 12345,\n  });\n\n  console.log(channelSiteMap);\n}\n\ndeleteChannelSiteMap();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_channel_site_map()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    site_id = 67890\n    pp client.channel_site_maps.delete(channel_id, site_id)\nend\ndelete_channel_site_map()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+  /v1/channel/{ChannelID}/adtypes:
+    post:
+      summary: Create Ad Type for Channel
+      description: This API call creates a new Ad Type for a Channel. If necessary, it will also create the Ad Type if it does not already exist. The parameters are the same for the Create Ad Types Network endpoint, except the 'Channel ID' needs to be in the URL.
+      operationId: create-ad-types-channel
+      parameters:
+      - name: ChannelID
+        in: path
+        description: The ID of the Channel you want to add an Ad Type to
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - Width
+              - Height
+              properties:
+                Width:
+                  type: integer
+                  description: Width (pixels)
+                  format: int32
+                Height:
+                  type: integer
+                  description: Height (pixels)
+                  format: int32
+                Name:
+                  type: string
+                  description: Friendly name (like 100x100 or Native Ad)
+            examples:
+              JSON:
+                value:
+                  Width: '100'
+                  Height: '100'
+                  Name: Native Sponsored Ingredient
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"Id\":123\n  \"Width\":100,\n  \"Height\":100,\n  \"Name\":\"Native Sponsored Ingredient\"\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/channel/12345/adtypes" --data-binary '{"Width":100,"Height":100,"Name":"Native Sponsored Ingredient"}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createAdTypeForChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  //NOTE: only creates new ad type if the width & height combo are new;\n  //if combo already exists this will return the pre-existing, matching ad type\n  let adType = await client.run(\"adType\", \"createForChannel\", {\n    name: \"Native Sponsored Ingredient\",\n    width: 100,\n    height: 100,\n    channelId: 12345\n  });\n\n  console.log(adType);\n}\n\ncreateAdTypeForChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\n#NOTE: only creates new ad type if the width & height combo are new;\n#if combo already exists this will return the pre-existing, matching ad type\n\ndef create_ad_type_for_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        name: \"AdType For Channel\",\n        width: 127,\n        height: 127,\n        channel_id: 12345\n    }\n    pp client.ad_types.create(data)\nend\ncreate_ad_type_for_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+    get:
+      summary: List Ad Types for Channel
+      description: This API call returns a list of all Ad Types enabled for a specific channel.
+      operationId: list-ad-types-channel
+      parameters:
+      - name: channelId
+        in: path
+        description: ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"page\": 1,\n  \"items\": [\n    { \"id\": 4, \"name\": 'Leaderboard', \"width\": 728, \"height\": 90 },\n    { \"id\": 5, \"name\": 'Medium Rectangle', \"width\": 300, \"height\": 250 },\n    { \"id\": 6, \"name\": 'Wide Skyscraper', \"width\": 160, \"height\": 600 },\n    { \"id\": 9, \"name\": 'Rectangle', \"width\": 180, \"height\": 150 },\n    { \"id\": 13, \"name\": 'Micro Bar', \"width\": 88, \"height\": 31 },\n    { \"id\": 14, \"name\": 'Button 2', \"width\": 120, \"height\": 60 },\n    { \"id\": 16, \"name\": 'Square Button', \"width\": 125, \"height\": 125 },\n    .....\n  ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/12345/adtypes"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listAdTypesForChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let adTypes = await client.run(\"adType\", \"listForChannel\", {channelId: 12345});\n  console.log(adTypes);\n\n  let names = adTypes.items.map(a => a.name)\n  console.log(names);\n}\n\nlistAdTypesForChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_ad_types_for_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    channel_id = 12345\n    pp client.ad_types.list(channel_id)\nend\nlist_ad_types_for_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+  /v1/channel/{ChannelID}/adtypes/{AdTypeID}/delete:
+    get:
+      summary: Delete Ad Type from Channel
+      description: This API call removes an existing Ad Type from a specific channel. Use the "Channel ID and "Ad Type ID". The user will receive a `"Successfully Deleted"` message, or a `"No Record to Delete"` message if no Ad Type was deleted.
+      operationId: delete-ad-type-channel
+      parameters:
+      - name: channelId
+        in: path
+        description: ID of the Channel
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: adTypeId
+        in: path
+        description: ID of Ad Type from Create Ad Type Endpoint
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '"Successfully Deleted"'
+              schema:
+                type: string
+                example: Successfully Deleted
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/12345/adtypes/987/delete"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function deleteAdTypeFromChannel() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let adType = await client.run(\"adType\", \"deleteForChannel\", {\n    id: 987, \n    channelId: 12345\n  });\n  console.log(adType);\n}\n\ndeleteAdTypeFromChannel();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef delete_ad_type_for_channel()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    ad_type_id = 100\n    channel_id = 12345\n    pp client.ad_types.delete(ad_type_id, channel_id)\nend\ndelete_ad_type_for_channel()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Channel
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

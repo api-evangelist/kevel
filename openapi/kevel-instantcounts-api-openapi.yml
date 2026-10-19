@@ -1,0 +1,1434 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Instantcounts API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Instantcounts
+paths:
+  /v1/instantcounts/advertiser/{AdvertiserID}:
+    get:
+      summary: Get Advertiser Counts
+      description: This returns real time reporting data for an advertiser.
+      operationId: get-advertiser-counts
+      parameters:
+      - name: AdvertiserID
+        in: path
+        description: ID of the Advertiser
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: days
+        in: query
+        description: Returns data for the number of days since the current day. You can request a maximum of 90 days of data and a minimum of 0. `days=0` returns data for the current day.
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data starting from the date specified. Must be within the past 90 days. If no `end` is included, this will return data up to the current day.
+        schema:
+          type: string
+      - name: end
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data ending at the date specified. Must be within the past 90 days.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"advertisers\": {\n    \"123\": {\n      \"impressions\": 3097,\n      \"conversions\": 12,\n      \"revenue\": 49.11279,\n      \"clicks\": 149\n    }\n  }\n}"
+                200 OK - Multi Day:
+                  value: "{\n  \"advertisers\": {\n    \"123\": {\n      \"2017-04-18\": {\n        \"impressions\": 1,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-19\": {\n        \"impressions\": 2,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 2\n      },\n      \"2017-04-20\": {\n        \"impressions\": 3,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"total\": {\n        \"impressions\": 6,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 2\n      }\n    }\n  }\n}"
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    advertisers:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 3097
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 12
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 49.11279
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 149
+                              default: 0
+                - title: 200 OK - Multi Day
+                  type: object
+                  properties:
+                    advertisers:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            '2017-04-18':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-19':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 3
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 6
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/advertiser/123''
+
+
+            # Using Days
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/advertiser/123?days=42''
+
+
+            # Using Start/End
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/advertiser/123?start=2017-04-18&end=2017-04-20'''
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getAdvertiserCounts() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let counts = await client.run(\"realTimeReport\", \"getAdvertiserCounts\", {\n    advertiserId: 123\n  });\n\n  console.log(counts);\n}\n\ngetAdvertiserCounts();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_advertiser_counts()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    advertiser_id = 123\n    data = {\n        days: 7\n    }\n    pp client.advertisers.instant_counts(advertiser_id, data)\nend\nget_advertiser_counts()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Instantcounts
+  /v1/instantcounts/campaign/{CampaignID}:
+    get:
+      summary: Get Campaign Counts
+      description: This returns real time reporting data for a campaign.
+      operationId: get-campaign-counts
+      parameters:
+      - name: CampaignID
+        in: path
+        description: ID of the Campaign
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: days
+        in: query
+        description: Returns data for the number of days since the current day. You can request a maximum of 90 days of data and a minimum of 0. `days=0` returns data for the current day.
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data starting from the date specified. Must be within the past 90 days. If no `end` is included, this will return data up to the current day.
+        schema:
+          type: string
+      - name: end
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data ending at the date specified. Must be within the past 90 days.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"campaigns\": {\n    \"123\": {\n      \"impressions\": 123,\n      \"conversions\": 0,\n      \"revenue\": 0.117,\n      \"clicks\": 0\n    }\n  }\n}"
+                200 OK - Multi Day:
+                  value: "{\n  \"campaigns\": {\n    \"123\": {\n      \"2017-04-18\": {\n        \"impressions\": 1,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-19\": {\n        \"impressions\": 2,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 2\n      },\n      \"2017-04-20\": {\n        \"impressions\": 3,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"total\": {\n        \"impressions\": 6,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 2\n      }\n    }\n  }\n}"
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    campaigns:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 123
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.117
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                - title: 200 OK - Multi Day
+                  type: object
+                  properties:
+                    campaigns:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            '2017-04-18':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-19':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 3
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 6
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/campaign/123''
+
+
+            # Using Days
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/campaign/123?days=42''
+
+
+            # Using Start/End
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/campaign/123?start=2017-04-18&end=2017-04-20'''
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getCampaignCounts() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let counts = await client.run(\"realTimeReport\", \"getCampaignCounts\", {\n    campaignId: 123\n  });\n\n  console.log(counts);\n}\n\ngetCampaignCounts();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_campaign_counts()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    campaign_id = 123\n  \tdata = {\n        days: 7\n    }\n    pp client.campaigns.instant_counts(campaign_id, data)\nend\nget_campaign_counts()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Instantcounts
+  /v1/instantcounts/flight/{FlightID}:
+    get:
+      summary: Get Flight Counts
+      description: This returns real time reporting data for a flight.
+      operationId: get-flight-counts
+      parameters:
+      - name: FlightID
+        in: path
+        description: The ID of the Flight
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: days
+        in: query
+        description: Returns data for the number of days since the current day. You can request a maximum of 90 days of data and a minimum of 0. `days=0` returns data for the current day.
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data starting from the date specified. Must be within the past 90 days. If no `end` is included, this will return data up to the current day.
+        schema:
+          type: string
+      - name: end
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data ending at the date specified. Must be within the past 90 days.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"flights\": {\n    \"123\": {\n      \"impressions\": 123,\n      \"conversions\": 0,\n      \"revenue\": 0.117,\n      \"clicks\": 0\n    }\n  }\n}"
+                200 OK - Multi Day:
+                  value: "{\n  \"flights\": {\n    \"123\": {\n      \"2017-04-18\": {\n        \"impressions\": 1,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-19\": {\n        \"impressions\": 2,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 2\n      },\n      \"2017-04-20\": {\n        \"impressions\": 3,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"total\": {\n        \"impressions\": 6,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 2\n      }\n    }\n  }\n}"
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    flights:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 123
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.117
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                - title: 200 OK - Multi Day
+                  type: object
+                  properties:
+                    flights:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            '2017-04-18':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-19':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 3
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 6
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/flight/123''
+
+
+            # Using Days
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/flight/123?days=42''
+
+
+            # Using Start/End
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/flight/123?start=2017-04-18&end=2017-04-20'''
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getFlightCounts() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let counts = await client.run(\"realTimeReport\", \"getFlightCounts\", {\n    flightId: 123\n  });\n\n  console.log(counts);\n}\n\ngetFlightCounts();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_flight_counts()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    flight_id = 123\n  \tdata = {\n        start: \"2021-04-04\",\n        end: \"2021-04-20\"\n     }\n    pp client.flights.instant_counts(flight_id, data)\nend\nget_flight_counts()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Instantcounts
+  /v1/instantcounts/ad/{AdID}:
+    get:
+      summary: Get Ad Counts
+      description: This returns real time reporting data for an ad.
+      operationId: get-ad-counts
+      parameters:
+      - name: AdID
+        in: path
+        description: The ID of the AD
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: days
+        in: query
+        description: Returns data for the number of days since the current day. You can request a maximum of 90 days of data and a minimum of 0. `days=0` returns data for the current day.
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data starting from the date specified. Must be within the past 90 days. If no `end` is included, this will return data up to the current day.
+        schema:
+          type: string
+      - name: end
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data ending at the date specified. Must be within the past 90 days.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"ads\": {\n    \"123\": {\n      \"impressions\": 123,\n      \"conversions\": 0,\n      \"revenue\": 0.117,\n      \"clicks\": 0\n    }\n  }\n}"
+                200 OK - Multi Day:
+                  value: "{\n  \"ads\": {\n    \"123\": {\n      \"2017-04-18\": {\n        \"impressions\": 1,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-19\": {\n        \"impressions\": 2,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 2\n      },\n      \"2017-04-20\": {\n        \"impressions\": 3,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"total\": {\n        \"impressions\": 6,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 2\n      }\n    }\n  }\n}"
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    ads:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 123
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.117
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                - title: 200 OK - Multi Day
+                  type: object
+                  properties:
+                    ads:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            '2017-04-18':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-19':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 3
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 6
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/ad/123''
+
+
+            # Using Days
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/ad/123?days=42''
+
+
+            # Using Start/End
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/ad/123?start=2017-04-18&end=2017-04-20'''
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getAdCounts() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let counts = await client.run(\"realTimeReport\", \"getAdCounts\", {\n    adId: 123\n  });\n\n  console.log(counts);\n}\n\ngetAdCounts();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_ad_counts()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    ad_id = 123\n  \tdata = {\n        start: \"2021-04-04\",\n        end: \"2021-04-20\"\n     }\n    pp client.ads.instant_counts(ad_id, data)\nend\nget_ad_counts()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Instantcounts
+  /v1/instantcounts/bulk:
+    post:
+      summary: Get Bulk Counts
+      description: This returns real time reporting data for more than one advertiser, campaign, flight, or ad. You can request as many as you need from each category.
+      operationId: get-bulk-counts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                advertisers:
+                  type: array
+                  description: IDs of advertisers you want data on
+                  items:
+                    type: integer
+                    format: int32
+                campaigns:
+                  type: array
+                  description: IDs of campaigns you want data on
+                  items:
+                    type: integer
+                    format: int32
+                flights:
+                  type: array
+                  description: IDs of flights you want data on
+                  items:
+                    type: integer
+                    format: int32
+                ads:
+                  type: array
+                  description: IDs of ads you want data on
+                  items:
+                    type: integer
+                    format: int32
+                days:
+                  type: string
+                  description: Request data broken out by day for past number of days (current day is 0).
+                start:
+                  type: string
+                  description: Day you want to start getting data from in YYYY-MM-DD
+                end:
+                  type: string
+                  description: Day you want to end getting data from in YYYY-MM-DD
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"advertisers\": {\n    \"123\": {\n      \"impressions\": 3097,\n      \"conversions\": 12,\n      \"revenue\": 49.11279,\n      \"clicks\": 149\n    },\n    \"456\": {\n      \"impressions\": 100,\n      \"conversions\": 0,\n      \"revenue\": 0.011,\n      \"clicks\": 0\n    }\n  },\n  \"campaigns\": {\n    \"789\": {\n      \"impressions\": 100,\n      \"conversions\": 0,\n      \"revenue\": 0.011,\n      \"clicks\": 0\n    },\n    \"123\": {\n      \"impressions\": 123,\n      \"conversions\": 0,\n      \"revenue\": 0.117,\n      \"clicks\": 0\n    }\n  },\n  \"flights\": {\n    \"456\": {\n      \"impressions\": 0,\n      \"conversions\": 0,\n      \"revenue\": 0,\n      \"clicks\": 0\n    },\n    \"789\": {\n      \"impressions\": 106,\n      \"conversions\": 0,\n      \"revenue\": 0.106,\n      \"clicks\": 0\n    }\n  },\n  \"ads\": {\n    \"123\": {\n      \"impressions\": 0,\n      \"conversions\": 0,\n      \"revenue\": 0,\n      \"clicks\": 0\n    },\n    \"456\": {\n      \"impressions\": 106,\n      \"conversions\": 0,\n      \"revenue\": 0.106,\n      \"clicks\": 0\n    }\n  }\n}"
+                200 OK - Multi Day:
+                  value: "{\n  \"advertisers\": {\n    \"123\": {\n      \"2017-04-20\": {\n        \"impressions\": 1,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-21\": {\n        \"impressions\": 1,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"total\": {\n        \"impressions\": 2,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      }\n    }\n  },\n  \"campaigns\": {\n    \"456\": {\n      \"2017-04-20\": {\n        \"impressions\": 4,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-21\": {\n        \"impressions\": 5,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 1\n      },\n      \"total\": {\n        \"impressions\": 9,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 1\n      }\n    }\n  },\n  \"flights\": {\n    \"789\": {\n      \"2017-04-20\": {\n        \"impressions\": 2,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-21\": {\n        \"impressions\": 2,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"total\": {\n        \"impressions\": 4,\n        \"conversions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 0\n      }\n    }\n  },\n  \"ads\": {\n    \"123\": {\n      \"2017-04-20\": {\n        \"impressions\": 10,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-04-21\": {\n        \"impressions\": 2,\n        \"conversions\": 0,\n        \"revenue\": 1.0,\n        \"clicks\": 0\n      },\n      \"total\": {\n        \"impressions\": 12,\n        \"conversions\": 0,\n        \"revenue\": 1.0,\n        \"clicks\": 0\n      }\n    }\n  }\n}"
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    advertisers:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 3097
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 12
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 49.11279
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 149
+                              default: 0
+                        '456':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 100
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.011
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                    campaigns:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 123
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.117
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                        '789':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 100
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.011
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                    flights:
+                      type: object
+                      properties:
+                        '456':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: integer
+                              example: 0
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                        '789':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 106
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.106
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                    ads:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: integer
+                              example: 0
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                        '456':
+                          type: object
+                          properties:
+                            impressions:
+                              type: integer
+                              example: 106
+                              default: 0
+                            conversions:
+                              type: integer
+                              example: 0
+                              default: 0
+                            revenue:
+                              type: number
+                              example: 0.106
+                              default: 0
+                            clicks:
+                              type: integer
+                              example: 0
+                              default: 0
+                - title: 200 OK - Multi Day
+                  type: object
+                  properties:
+                    advertisers:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-21':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                    campaigns:
+                      type: object
+                      properties:
+                        '456':
+                          type: object
+                          properties:
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 4
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-21':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 5
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 9
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                    flights:
+                      type: object
+                      properties:
+                        '789':
+                          type: object
+                          properties:
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-21':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 4
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                    ads:
+                      type: object
+                      properties:
+                        '123':
+                          type: object
+                          properties:
+                            '2017-04-20':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 10
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-04-21':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 2
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 12
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X POST -H ''X-Adzerk-ApiKey:<API-KEY>'' -H ''Content-Type:application/json'' https://api.kevel.co/v1/instantcounts/bulk -d ''{"advertisers": [123,456], "campaigns": [789,123], "flights": [456,789], "ads": [123,456]}''
+
+
+            # With Days
+
+            curl -X POST -H ''X-Adzerk-ApiKey:<API-KEY>'' -H ''Content-Type:application/json'' https://api.kevel.co/v1/instantcounts/bulk -d ''{"advertisers": [123,456], "campaigns": [789,123], "flights": [456,789], "ads": [123,456], "days":42}''
+
+
+            # With Start/End
+
+            curl -X POST -H ''X-Adzerk-ApiKey:<API-KEY>'' -H ''Content-Type:application/json'' https://api.kevel.co/v1/instantcounts/bulk -d ''{"advertisers": [123], "campaigns": [456], "flights": [789], "ads": [123], "start":"2016-04-20", "end":"2016-04-21"}'''
+          name: cURL
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getBulkCounts() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let counts = await client.run(\"realTimeReport\", \"bulk\", {\n    advertisers: [123, 456],\n    campaigns: [789, 123],\n    flights: [456, 789],\n    ads: [123, 456],\n  });\n\n  console.log(counts);\n}\n\ngetBulkCounts();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_bulk_counts()\n   client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n   data = {\n       advertisers: [123, 456],\n    \t campaigns: [789, 123],\n       flights: [456, 789],\n       ads: [123, 456],\n    }\n    pp client.instant_counts.bulk(data)\nend\nget_bulk_counts()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Instantcounts
+  /v1/instantcounts/network:
+    get:
+      summary: Get Network Counts
+      description: This returns real time reporting data for all campaigns, flights and ads in a network, aggregated as a total of impressions, clicks etc.
+      operationId: get-network-counts
+      parameters:
+      - name: days
+        in: query
+        description: Returns data for the number of days since the current day. You can request a maximum of 90 days of data and a minimum of 0. `days=0` returns data for the current day.
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data starting from the date specified. Must be within the past 90 days. If no `end` is included, this will return data up to the current day.
+        schema:
+          type: string
+      - name: end
+        in: query
+        description: In the format of YYYY-MM-DD. Returns data ending at the date specified. Must be within the past 90 days.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"network\": {\n    \"12345\": {\n      \"2017-09-12\": {\n        \"impressions\": 100,\n        \"revenue\": 10,\n        \"clicks\": 6,\n        \"passbacks\": 0,\n        \"conversions\": 0\n      },\n      \"total\": {\n        \"impressions\": 100,\n        \"revenue\": 10,\n        \"clicks\": 6,\n        \"passbacks\": 0,\n        \"conversions\": 0\n      }\n    }\n  }\n}"
+                200 OK - Multi Day:
+                  value: "{\n  \"network\": {\n    \"12345\": {\n      \"2017-09-10\": {\n        \"impressions\": 0,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0\n      },\n      \"2017-09-11\": {\n        \"impressions\": 14,\n        \"revenue\": 0,\n        \"clicks\": 0,\n        \"passbacks\": 0,\n        \"conversions\": 0\n      },\n      \"2017-09-12\": {\n        \"impressions\": 1,\n        \"revenue\": 0,\n        \"clicks\": 0,\n        \"passbacks\": 0,\n        \"conversions\": 0\n      },\n      \"total\": {\n        \"impressions\": 15,\n        \"conversions\": 0,\n        \"revenue\": 0,\n        \"clicks\": 0,\n        \"passbacks\": 0\n      }\n    }\n  }\n}"
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    network:
+                      type: object
+                      properties:
+                        '12345':
+                          type: object
+                          properties:
+                            '2017-09-12':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 100
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 10
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 6
+                                  default: 0
+                                passbacks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 100
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 10
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 6
+                                  default: 0
+                                passbacks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                - title: 200 OK - Multi Day
+                  type: object
+                  properties:
+                    network:
+                      type: object
+                      properties:
+                        '12345':
+                          type: object
+                          properties:
+                            '2017-09-10':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-09-11':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 14
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                passbacks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            '2017-09-12':
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 1
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                passbacks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                            total:
+                              type: object
+                              properties:
+                                impressions:
+                                  type: integer
+                                  example: 15
+                                  default: 0
+                                conversions:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                revenue:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                clicks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+                                passbacks:
+                                  type: integer
+                                  example: 0
+                                  default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '# NOTE: You may request counts for up to a maximum of 90 days
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/network?days=42''
+
+
+            # With Start/End
+
+            curl -X GET -H ''X-Adzerk-ApiKey:<API-KEY>'' ''https://api.kevel.co/v1/instantcounts/network?start=2017-04-18&end=2017-04-20'''
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getNetworkCounts() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications, logger});\n\n  // NOTE: You may request counts for up to a maximum of 90 days\n  let counts = await client.run(\"realTimeReport\", \"getNetworkCounts\", { days: 7 });\n\n  // Prints out the entire response, no matter how deeply-nested\n  console.dir(counts, {depth: null});\n}\n\ngetNetworkCounts();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_network_counts()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        days: 7\n    }\n    pp client.instant_counts.network_counts(data)\nend\nget_network_counts()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Instantcounts
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

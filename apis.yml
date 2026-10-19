@@ -130,100 +130,222 @@ apis:
   properties:
   - type: Documentation
     url: https://dev.kevel.com/reference/userdb-overview
-- aid: kevel:kevel-ads-api
-  name: Kevel Ads API
-  description: Manage ads.
+- aid: kevel:kevel-ad-api
+  name: Kevel Ad API
+  description: The Ad API from Kevel — 5 operation(s) for ad.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Ads
+  - Ad
   properties:
   - type: OpenAPI
-    url: openapi/kevel-ads-api-openapi.yml
-- aid: kevel:kevel-advertisers-api
-  name: Kevel Advertisers API
-  description: Manage advertiser accounts.
+    url: openapi/kevel-ad-api-openapi.yml
+- aid: kevel:kevel-adtypes-api
+  name: Kevel Adtypes API
+  description: The Adtypes API from Kevel — 2 operation(s) for adtypes.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Advertisers
+  - Adtypes
   properties:
   - type: OpenAPI
-    url: openapi/kevel-advertisers-api-openapi.yml
-- aid: kevel:kevel-campaigns-api
-  name: Kevel Campaigns API
-  description: Manage campaigns.
+    url: openapi/kevel-adtypes-api-openapi.yml
+- aid: kevel:kevel-advertiser-api
+  name: Kevel Advertiser API
+  description: The Advertiser API from Kevel — 8 operation(s) for advertiser.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Campaigns
+  - Advertiser
   properties:
   - type: OpenAPI
-    url: openapi/kevel-campaigns-api-openapi.yml
-- aid: kevel:kevel-channels-api
-  name: Kevel Channels API
-  description: Manage channels.
+    url: openapi/kevel-advertiser-api-openapi.yml
+- aid: kevel:kevel-campaign-api
+  name: Kevel Campaign API
+  description: The Campaign API from Kevel — 4 operation(s) for campaign.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Channels
+  - Campaign
   properties:
   - type: OpenAPI
-    url: openapi/kevel-channels-api-openapi.yml
-- aid: kevel:kevel-creatives-api
-  name: Kevel Creatives API
-  description: Manage creatives.
+    url: openapi/kevel-campaign-api-openapi.yml
+- aid: kevel:kevel-categories-api
+  name: Kevel Categories API
+  description: The Categories API from Kevel — 1 operation(s) for categories.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-categories-api-openapi.yml
+- aid: kevel:kevel-category-catalog-api
+  name: Kevel Category Catalog API
+  description: The Category Catalog API from Kevel — 1 operation(s) for category catalog.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Category Catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-category-catalog-api-openapi.yml
+- aid: kevel:kevel-channel-api
+  name: Kevel Channel API
+  description: The Channel API from Kevel — 8 operation(s) for channel.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Channel
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-channel-api-openapi.yml
+- aid: kevel:kevel-channelsinsite-api
+  name: Kevel Channels In Site API
+  description: The ChannelsInSite API from Kevel — 1 operation(s) for channelsinsite.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - ChannelsInSite
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-channelsinsite-api-openapi.yml
+- aid: kevel:kevel-channelsite-api
+  name: Kevel Channel Site API
+  description: The ChannelSite API from Kevel — 1 operation(s) for channelsite.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - ChannelSite
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-channelsite-api-openapi.yml
+- aid: kevel:kevel-countries-api
+  name: Kevel Countries API
+  description: The Countries API from Kevel — 1 operation(s) for countries.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Countries
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-countries-api-openapi.yml
+- aid: kevel:kevel-country-api
+  name: Kevel Country API
+  description: The Country API from Kevel — 2 operation(s) for country.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Country
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-country-api-openapi.yml
+- aid: kevel:kevel-creative-api
+  name: Kevel Creative API
+  description: The Creative API from Kevel — 3 operation(s) for creative.
   humanURL: https://dev.kevel.com/reference/request
   tags:
   - Creative
-  tags_raw:
-  - Creatives
   properties:
   - type: OpenAPI
-    url: openapi/kevel-creatives-api-openapi.yml
-- aid: kevel:kevel-decision-api
-  name: Kevel Decision API
-  description: Request ad decisions and creatives.
+    url: openapi/kevel-creative-api-openapi.yml
+- aid: kevel:kevel-creative-templates-api
+  name: Kevel Creative Templates API
+  description: The Creative Templates API from Kevel — 3 operation(s) for creative templates.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Decisions
-  tags_raw:
-  - Decision
+  - Creative Templates
   properties:
   - type: OpenAPI
-    url: openapi/kevel-decision-api-openapi.yml
-- aid: kevel:kevel-flights-api
-  name: Kevel Flights API
-  description: Manage flights (line items).
+    url: openapi/kevel-creative-templates-api-openapi.yml
+- aid: kevel:kevel-entitycounts-api
+  name: Kevel Entitycounts API
+  description: The Entitycounts API from Kevel — 1 operation(s) for entitycounts.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Flights
+  - Entitycounts
   properties:
   - type: OpenAPI
-    url: openapi/kevel-flights-api-openapi.yml
-- aid: kevel:kevel-reporting-api
-  name: Kevel Reporting API
-  description: Queue and retrieve performance reports.
+    url: openapi/kevel-entitycounts-api-openapi.yml
+- aid: kevel:kevel-fast-api
+  name: Kevel Fast API
+  description: The Fast API from Kevel — 2 operation(s) for fast.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Reporting
+  - Fast
   properties:
   - type: OpenAPI
-    url: openapi/kevel-reporting-api-openapi.yml
-- aid: kevel:kevel-sites-api
-  name: Kevel Sites API
-  description: Manage sites.
+    url: openapi/kevel-fast-api-openapi.yml
+- aid: kevel:kevel-flight-api
+  name: Kevel Flight API
+  description: The Flight API from Kevel — 20 operation(s) for flight.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Sites
+  - Flight
   properties:
   - type: OpenAPI
-    url: openapi/kevel-sites-api-openapi.yml
-- aid: kevel:kevel-zones-api
-  name: Kevel Zones API
-  description: Manage zones.
+    url: openapi/kevel-flight-api-openapi.yml
+- aid: kevel:kevel-instantcounts-api
+  name: Kevel Instantcounts API
+  description: The Instantcounts API from Kevel — 6 operation(s) for instantcounts.
   humanURL: https://dev.kevel.com/reference/request
   tags:
-  - Zones
+  - Instantcounts
   properties:
   - type: OpenAPI
-    url: openapi/kevel-zones-api-openapi.yml
+    url: openapi/kevel-instantcounts-api-openapi.yml
+- aid: kevel:kevel-itemdb-api
+  name: Kevel Itemdb API
+  description: The Itemdb API from Kevel — 2 operation(s) for itemdb.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Itemdb
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-itemdb-api-openapi.yml
+- aid: kevel:kevel-login-api
+  name: Kevel Login API
+  description: The Login API from Kevel — 2 operation(s) for login.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Login
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-login-api-openapi.yml
+- aid: kevel:kevel-priority-api
+  name: Kevel Priority API
+  description: The Priority API from Kevel — 3 operation(s) for priority.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Priority
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-priority-api-openapi.yml
+- aid: kevel:kevel-region-api
+  name: Kevel Region API
+  description: The Region API from Kevel — 1 operation(s) for region.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Region
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-region-api-openapi.yml
+- aid: kevel:kevel-segment-api
+  name: Kevel Segment API
+  description: The Segment API from Kevel — 3 operation(s) for segment.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Segment
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-segment-api-openapi.yml
+- aid: kevel:kevel-site-api
+  name: Kevel Site API
+  description: The Site API from Kevel — 2 operation(s) for site.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Site
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-site-api-openapi.yml
+- aid: kevel:kevel-zone-api
+  name: Kevel Zone API
+  description: The Zone API from Kevel — 2 operation(s) for zone.
+  humanURL: https://dev.kevel.com/reference/request
+  tags:
+  - Zone
+  properties:
+  - type: OpenAPI
+    url: openapi/kevel-zone-api-openapi.yml
 common:
   - type: Plans
     url: plans/kevel-plans-pricing.yml

@@ -1,0 +1,107 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Country API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Country
+paths:
+  /v1/country/{CountryCode}/regions?version=2:
+    get:
+      summary: List Regions in Country
+      description: ''
+      operationId: list-regions-in-country
+      parameters:
+      - name: CountryCode
+        in: path
+        description: The 2-3 character string that denotes the country you want to target
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  'us:pa': {\n    countryCode: 'US',\n    metros: {\n      '501': {\n        name: 'New York, NY',\n        code: '501',\n        regionCodes: [ 'NY', 'PA', 'CT', 'NJ' ]\n      },\n      '502': {\n        name: 'Binghamton, NY',\n        code: '502',\n        regionCodes: [ 'NY', 'PA' ]\n      },\n      '504': {\n        name: 'Philadelphia, PA',\n        code: '504',\n        regionCodes: [ 'PA', 'DE', 'MD', 'NJ' ]\n      },\n      '508': {\n        name: 'Pittsburgh, PA',\n        code: '508',\n        regionCodes: [ 'PA', 'MD', 'WV' ]\n      },\n      '511': {\n        name: 'Washington, DC (Hagerstown, MD)',\n        code: '511',\n        regionCodes: [ 'VA', 'PA', 'DC', 'MD', 'WV' ]\n      },\n      '514': { name: 'Buffalo, NY', code: '514', regionCodes: [ 'NY', 'PA' ] },\n      '516': { name: 'Erie, PA', code: '516', regionCodes: [ 'NY', 'PA' ] },\n      '536': {\n        name: 'Youngstown, OH',\n        code: '536',\n        regionCodes: [ 'PA', 'OH' ]\n      },\n      '554': {\n        name: 'Wheeling, WV-Steubenville, OH',\n        code: '554',\n        regionCodes: [ 'PA', 'WV', 'OH' ]\n      },\n      '565': { name: 'Elmira, NY', code: '565', regionCodes: [ 'NY', 'PA' ] },\n      '566': {\n        name: 'Harrisburg-Lancaster-Lebanon-York, PA',\n        code: '566',\n        regionCodes: [ 'PA', 'MD' ]\n      },\n      '574': {\n        name: 'Johnstown-Altoona, PA',\n        code: '574',\n        regionCodes: [ 'PA' ]\n      },\n      '577': {\n        name: 'Wilkes Barre-Scranton, PA',\n        code: '577',\n        regionCodes: [ 'NY', 'PA' ]\n      }\n    },\n    name: 'Pennsylvania',\n    code: 'PA'\n  },\n  'us:ak': {\n    countryCode: 'US',\n.....      "
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '## Returns regions in the United States (country code "US")
+
+            curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/country/US/regions"'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listRegionsForCountry() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let response = await client.run(\"geoTargeting\", \"listRegionsForCountry\", {countryCode: \"US\"});\n  let regions = response.regions;\n\n  // Print out the entire response tree\n  console.dir(regions, {depth: null});\n\n  // Print mapping of region codes to names\n  let codesAndNames = Object.keys(regions).map(c => [regions[c].code, regions[c].name]);\n  console.log(codesAndNames);\n}\n\nlistRegionsForCountry();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_regions_for_country()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    country_code = \"US\"\n    pp client.flights.list_regions_for_country(country_code)\nend\nlist_regions_for_country()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Country
+  /v1/country/{CountryCode}/region/{RegionCode}/cities:
+    get:
+      summary: List Cities in Region
+      description: Returns the cities within a specific region, sorted by name. Requires a `CountryCode` and `RegionCode`. City-level coverage is strongest in the US and more limited in other countries.
+      operationId: list-cities-in-region
+      parameters:
+      - name: CountryCode
+        in: path
+        description: The 2-3 character string that denotes the country used for geotargeting
+        schema:
+          type: string
+        required: true
+      - name: RegionCode
+        in: path
+        description: The 2-3 character string that denotes the region (or state, province etc.) used for geotargeting
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n    \"Name\": \"Cary\",\n    \"CityGeonameId\": 4460162\n  },\n  {\n    \"Name\": \"Charlotte\",\n    \"CityGeonameId\": 4460243\n  },\n  {\n    \"Name\": \"Durham\",\n    \"CityGeonameId\": 4464368\n  },\n  {\n    \"Name\": \"Greensboro\",\n    \"CityGeonameId\": 4469146\n  },\n  {\n    \"Name\": \"Raleigh\",\n    \"CityGeonameId\": 4487042\n  }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Name:
+                      type: string
+                      example: Cary
+                    CityGeonameId:
+                      type: integer
+                      example: 4460162
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" https://api.adzerk.net/v1/country/US/region/NC/cities
+        samples-languages:
+        - curl
+      tags:
+      - Country
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

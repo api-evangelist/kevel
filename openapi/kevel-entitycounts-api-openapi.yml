@@ -1,0 +1,99 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Entitycounts API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Entitycounts
+paths:
+  /v1/entitycounts:
+    get:
+      summary: Get Entity Counts
+      description: ''
+      operationId: get-entity-counts
+      parameters:
+      - name: date
+        in: query
+        description: Get the entity counts for a specific date within the last 60 days by entering a date in the format `YYYY-MM-DD`. If no date is provided, the most recent entity count will be returned.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"BillableZones\": 1,\n  \"BillableAds\": 8,\n  \"BillableAdvertisers\": 1,\n  \"BillableChannels\": 5,\n  \"EffectiveAt\": \"2023-08-09T00:00:00\",\n  \"NetworkId\": 10649,\n  \"BillableSites\": 5,\n  \"BillableFlights\": 1,\n  \"BillableCreatives\": 17,\n  \"BillableCampaigns\": 1\n}"
+              schema:
+                type: object
+                properties:
+                  BillableZones:
+                    type: integer
+                    example: 1
+                    default: 0
+                  BillableAds:
+                    type: integer
+                    example: 8
+                    default: 0
+                  BillableAdvertisers:
+                    type: integer
+                    example: 1
+                    default: 0
+                  BillableChannels:
+                    type: integer
+                    example: 5
+                    default: 0
+                  EffectiveAt:
+                    type: string
+                    example: '2023-08-09T00:00:00'
+                  NetworkId:
+                    type: integer
+                    example: 10649
+                    default: 0
+                  BillableSites:
+                    type: integer
+                    example: 5
+                    default: 0
+                  BillableFlights:
+                    type: integer
+                    example: 1
+                    default: 0
+                  BillableCreatives:
+                    type: integer
+                    example: 17
+                    default: 0
+                  BillableCampaigns:
+                    type: integer
+                    example: 1
+                    default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/entitycounts"
+
+
+            # Get entity counts for a specific date within the last 60 days
+
+            curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/entitycounts?date=2023-08-08"'
+        samples-languages:
+        - curl
+      tags:
+      - Entitycounts
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

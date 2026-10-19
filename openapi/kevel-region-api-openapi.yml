@@ -1,0 +1,61 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Region API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Region
+paths:
+  /v1/region/{RegionCode}:
+    get:
+      summary: List Metro Codes in Region
+      description: ''
+      operationId: list-metro-codes-in-region
+      parameters:
+      - name: RegionCode
+        in: path
+        description: The 2-3 character string that denotes the region (or state) that you want to target
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n    name: 'Greenville-New Bern-Washington, NC',\n    code: '545',\n    regionCodes: [ 'NC' ]\n  },\n  {\n    name: 'Greenville-Spartanburg, SC-Asheville, NC-Anderson, SC',\n    code: '567',\n    regionCodes: [ 'SC', 'TN', 'GA', 'NC' ]\n  },\n  {\n    name: 'Knoxville, TN',\n    code: '557',\n    regionCodes: [ 'TN', 'VA', 'KY', 'NC' ]\n  },\n  {\n    name: 'Norfolk-Portsmouth-Newport News,VA',\n    code: '544',\n    regionCodes: [ 'VA', 'NC' ]\n  },\n  {\n    name: 'Tri-Cities, TN-VA',\n    code: '531',\n    regionCodes: [ 'TN', 'VA', 'KY', 'NC' ]\n  },\n  {\n    name: 'Raleigh-Durham (Fayetteville), NC',\n    code: '560',\n    regionCodes: [ 'VA', 'NC' ]\n  },\n  {\n    name: 'Atlanta, GA',\n    code: '524',\n    regionCodes: [ 'GA', 'AL', 'NC' ]\n  },\n  {\n    name: 'Chattanooga, TN',\n    code: '575',\n    regionCodes: [ 'TN', 'GA', 'AL', 'NC' ]\n  },\n  {\n    name: 'Greensboro-High Point-Winston Salem, NC',\n    code: '518',\n    regionCodes: [ 'VA', 'NC' ]\n  },\n  {\n    name: 'Florence-Myrtle Beach, SC',\n    code: '570',\n    regionCodes: [ 'SC', 'NC' ]\n  },\n  { name: 'Wilmington, NC', code: '550', regionCodes: [ 'NC' ] },\n  { name: 'Charlotte, NC', code: '517', regionCodes: [ 'SC', 'NC' ] }\n]"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: '## Returns metro codes in North Carolina (region code "NC")
+
+            curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/region/NC"'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listMetroCodesForRegion() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let metros = await client.run(\"geoTargeting\", \"listMetroCodesForRegion\", {\n    regionCode: \"NC\"\n  });\n\n  // Print out the entire response tree\n  console.dir(metros, {depth: null});\n\n  // Print mapping of metro codes to names\n  let codesAndNames = metros.map(m => [m.code, m.name]);\n  console.log(codesAndNames);\n}\n\nlistMetroCodesForRegion();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_metro_codes()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    region = \"MN\"\n    pp client.flights.regions(region)\nend\nlist_metro_codes()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Region
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

@@ -1,0 +1,166 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Itemdb API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Itemdb
+paths:
+  /v1/itemdb/ingest-url:
+    post:
+      summary: Create Ingest URL
+      description: ''
+      operationId: create-ingest-url
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - folder
+              - filename
+              properties:
+                folder:
+                  type: string
+                  description: The folder the file is uploaded to. Use the folder your Kevel account team set up for your network. When using with Kevel Catalog, this is generally `products` or `categories`, and can end in the table ID, such as `products-103`. The maximum length is 50 characters, and spaces and `/` are replaced with hyphens.
+                filename:
+                  type: string
+                  description: 'The name of the file that will be uploaded to the returned URL. This must include a file type extension (eg `products.ndjson.gz`). Use a `.gz` extension only when your Kevel account team has enabled compression for your network. The maximum length is 50 characters, and spaces and `/` are replaced with hyphens. Note: Kevel will automatically prepend a datetime string to the provided file name.'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{"url": "https://kevel-prod-itemdb-ingest-default.s3.amazonaws.com/99999/products/incoming/2024-04-12T20%3A02%3A18.425674978-products.ndjson?x-amz-security-token=xxx&AWSAccessKeyId=xxx&Expires=1712955738&Signature=xxx","status":"https://api.kevel.co/v1/itemdb/ingest-status?folder=products&file=2024-04-12T20%3A02%3A18.425674978-products.ndjson"}'
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    example: https://kevel-prod-itemdb-ingest-default.s3.amazonaws.com/99999/products/incoming/2024-04-12T20%3A02%3A18.425674978-products.ndjson?x-amz-security-token=xxx&AWSAccessKeyId=xxx&Expires=1712955738&Signature=xxx
+                    description: The signed URL to upload your file to with an HTTP PUT. It expires after 1 hour.
+                  status:
+                    type: string
+                    example: https://api.kevel.co/v1/itemdb/ingest-status?folder=products&file=2024-04-12T20%3A02%3A18.425674978-products.ndjson
+                    description: The URL to request the status of this upload. See [Ingest Status](ref:ingest-status).
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "# Request an ingest URL\ncurl --request POST \\\n     --url https://api.kevel.co/v1/itemdb/ingest-url \\\n     --header 'accept: application/json' \\\n     --header 'content-type: application/json' \\\n     --header 'X-Kevel-ApiKey: <API-KEY>' \\\n     --data '\n{\n  \"folder\": \"products\",\n  \"filename\": \"products.ndjson.gz\"\n}\n'\n\n# Upload a file to the URL received from the request above\ncurl --request PUT --upload-file products.ndjson.gz '{SIGNED_URL_RETURNED_ABOVE}'\n\n# Check the status of the ingestion\ncurl '{STATUS_URL_RETURNED_ABOVE}' \\\n     --header 'X-Kevel-ApiKey: <API-KEY>'"
+          name: 'cURL: Request + Upload'
+        samples-languages:
+        - curl
+      tags:
+      - Itemdb
+  /v1/itemdb/ingest-status:
+    get:
+      summary: Ingest Status
+      description: Returns the processing status of a file uploaded with a URL from Create Ingest URL, and a log of what happened while it was ingested.
+      operationId: ingest-status
+      parameters:
+      - name: folder
+        in: query
+        description: The folder you sent when you created the ingest URL, as it appears in the `status` link.
+        required: true
+        schema:
+          type: string
+      - name: file
+        in: query
+        description: The name of the uploaded file with the timestamp Kevel added to the front, for example `2024-04-12T20:02:18.425674978-products.ndjson`, not the name you sent. Copy it from the `status` link returned by [Create Ingest URL](ref:create-ingest-url).
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Completed:
+                  summary: Completed
+                  value:
+                    status: completed
+                    metadata:
+                      Entries:
+                      - Level: information
+                        Message: Ingest process completed successfully.
+                      - Level: information
+                        Message: Ingest process started.
+                Failed:
+                  summary: Failed because of duplicate IDs
+                  value:
+                    status: failed
+                    metadata:
+                      Entries:
+                      - Level: error
+                        Message: Ingest process failed with error(s).
+                      - Level: error
+                        Message: Duplicate keys found in input file.
+                        Details:
+                          TableId: 123
+                          DuplicateIds: SKU-104,SKU-221
+                      - Level: information
+                        Message: Ingest process started.
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - not found
+                    - incoming
+                    - processing
+                    - failed
+                    - completed
+                    description: The status of the file.
+                  metadata:
+                    type: object
+                    description: A log of the ingestion, newest entry first, up to 500 entries. Included once the file has been picked up.
+                    properties:
+                      Entries:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            Level:
+                              type: string
+                              description: '`information` or `error`.'
+                            Message:
+                              type: string
+                              description: What happened.
+                            Details:
+                              type: object
+                              description: Extra information. Only some entries have it. For duplicate IDs it has `TableId` and `DuplicateIds`.
+                              additionalProperties: true
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Itemdb
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

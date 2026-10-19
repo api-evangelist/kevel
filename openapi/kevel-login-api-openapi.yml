@@ -1,0 +1,299 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Login API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: Login
+paths:
+  /v1/login:
+    post:
+      summary: Create Login
+      description: This adds a new user to your account. The result will include the unique Login ID that can be used to update or remove the login.
+      operationId: create-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              properties:
+                email:
+                  type: string
+                  description: The email used to login and used for alerts and notifications. A valid email address must be entered.
+                name:
+                  type: string
+                  description: Friendly name of user. Defaults to `null`.
+                  default: 'Null'
+                defaultTimeZone:
+                  type: string
+                  description: If allowed by the network, the preferred time zone of the user. [Must be a string in this list.](doc:time-zones-1#available-time-zones-strings) If none supplied, the time zone for the user defaults to the network setting, or if no network setting, GMT.
+                  default: 'null'
+                accessLevel:
+                  type: string
+                  description: The [user permission level](doc:user-permissions-new). Must be one of `admn`, `edit`, or `read`. Defaults to `read`.
+                  default: read
+                canAccessStudio:
+                  type: boolean
+                  description: Must be `true` or `false`. Controls whether or not this user can access [Studio](doc:studio-overview). Defaults to `false`. Setting `CanAccessStudio` to `true` requires that `AccessLevel` be set to `admn` or `edit`.
+                  default: false
+            examples:
+              JSON:
+                value:
+                  email: george.harrison@example.com
+                  name: George Harrison
+                  defaultTimeZone: Antarctica/Vostok
+                  accessLevel: read
+                  canAccessStudio: 'false'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\":12345,\n    \"email\":\"george.harrison@example.com\",\n    \"password\":\"\",\n    \"name\":\"George Harrison\",\n    \"defaultTimeZone\": \"Antarctica/Vostok\",\n    \"accessLevel\":\"read\",\n  \t\"canAccessStudio\": \"false\"\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  email:
+                    type: string
+                    example: george.harrison@example.com
+                  password:
+                    type: string
+                    example: ''
+                  name:
+                    type: string
+                    example: George Harrison
+                  defaultTimeZone:
+                    type: string
+                    example: Antarctica/Vostok
+                  accessLevel:
+                    type: string
+                    example: read
+                  canAccessStudio:
+                    type: string
+                    example: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X POST -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/login" --data-binary '{"Email":"george.harrison@example.com","Name":"George Harrison","Password":"password", "DefaultTimeZone":"Antarctica/Vostok","AccessLevel":"read","CanAccessStudio":"false"}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function createUser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let user = await client.run('user', 'create', {\n    email: 'george.harrison@example.com',\n    password: 'password',\n    name: 'George Harrison',\n    defaultTimeZone: 'Antarctica/Vostok',\n    accessLevel: 'read',\n  });\n  console.log(user);\n}\n\ncreateUser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef create_user()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        email: 'user@example.com',\n        password: '*****',\n        name: 'User Name',\n        default_time_zone: 'America/Detroit',\n      \taccess_level: 'read',\n    }\n    pp client.logins.create(data)\nend\ncreate_user()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Login
+    get:
+      summary: List Logins
+      description: This returns a list of all users in your account.
+      operationId: list-logins
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{  \n    \"page\":1,\n    \"items\":[  \n        {  \n            \"id\":12345,\n            \"email\":\"george.harrison@example.com\",\n            \"password\":\"\",\n            \"name\":\"George Harrison\",\n            \"defaultTimeZone\": \"Antarctica/Vostok\",\n            \"accessLevel\":\"read\",\n            \"canAccessStudio\": \"false\"\n        },\n        .....\n\t\t]\n}\n"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/login"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function listUsers() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let list = await client.run('user', 'list');\n  console.log(list);\n}\n\nlistUsers();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_users()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    pp client.logins.list()\nend\nlist_users()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Login
+  /v1/login/{LoginID}:
+    put:
+      summary: Update Login
+      description: This updates the name or time zone of a user. This will NOT update the password or email address.
+      operationId: update-login
+      parameters:
+      - name: loginId
+        in: path
+        description: ID from the Create Login Endpoint. Can get from List Logins endpoint.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id
+              - email
+              - name
+              properties:
+                id:
+                  type: string
+                  description: Login ID of the user
+                email:
+                  type: string
+                  description: Required by the API, but not updated. You can send as an empty string.
+                name:
+                  type: string
+                  description: Friendly name of the user. If not included, will reset to `null`
+                defaultTimeZone:
+                  type: string
+                  description: If allowed by the network, the preferred time zone of the user.
+                accessLevel:
+                  type: string
+                  description: The [user permission level](doc:user-permissions-new). Must be one of admn, edit, or read. If AccessLevel is not set, the user will retain the current AccessLevel.
+                  default: <current AccessLevel>
+                canAccessStudio:
+                  type: boolean
+                  description: Must be `true` or `false`. Controls whether or not this user can access [Studio](doc:studio-overview). Defaults to `false`. Setting `CanAccessStudio` to `true` requires that `AccessLevel` be set to `admn` or `edit`.
+                  default: false
+            examples:
+              Request Example:
+                value:
+                  id: 12345
+                  email: ''
+                  name: George Harrison
+                  defaultTimeZone: UTC
+                  accessLevel: read
+                  canAccessStudio: 'false'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\":12345,\n    \"email\":\"george.harrison@example.com\",\n    \"password\":\"\",\n    \"name\":\"George Harrison\",\n    \"defaultTimeZone\": \"UTC\",\n    \"accessLevel\":\"read\",\n    \"canAccessStudio\": \"false\"\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  email:
+                    type: string
+                    example: george.harrison@example.com
+                  password:
+                    type: string
+                    example: ''
+                  name:
+                    type: string
+                    example: George Harrison
+                  defaultTimeZone:
+                    type: string
+                    example: UTC
+                  accessLevel:
+                    type: string
+                    example: read
+                  canAccessStudio:
+                    type: string
+                    example: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X PUT -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" -H "Content-Type:application/json" "https://api.kevel.co/v1/login/12345" --data-binary '{"Id":12345,"Email":"","Name":"George Harrison","DefaultTimeZone":"UTC","AccessLevel":"read","CanAccessStudio":"false"}'
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function updateUser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let user = await client.run('user', 'update', {\n    id: 12345,\n    email: '',\n    name: 'George Harrison',\n    defaultTimeZone: 'UTC',\n    accessLevel: 'read',\n  });\n  console.log(user);\n}\n\nupdateUser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef update_user()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    data = {\n        id: 12345,\n        email: 'user@example.com',\n        name: 'New User Name',\n        default_time_zone: 'UTC',\n      \taccess_level: 'read',\n    }\n    pp client.logins.update(data)\nend\nupdate_user()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Login
+    get:
+      summary: Get Login
+      description: This returns the data for a specific user. No parameters are needed, besides the "Log-in ID" in the URL.
+      operationId: get-login
+      parameters:
+      - name: loginId
+        in: path
+        description: ID from Create Login Endpoint
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"id\":12345,\n  \"email\":\"george.harrison@example.com\",\n  \"password\":\"\",\n  \"name\":\"George Harrison\",\n  \"defaultTimeZone\": \"Antarctica/Vostok\",\n  \"accessLevel\":\"read\",\n  \"canAccessStudio\": \"false\"\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 12345
+                    default: 0
+                  email:
+                    type: string
+                    example: george.harrison@example.com
+                  password:
+                    type: string
+                    example: ''
+                  name:
+                    type: string
+                    example: George Harrison
+                  defaultTimeZone:
+                    type: string
+                    example: Antarctica/Vostok
+                  accessLevel:
+                    type: string
+                    example: read
+                  canAccessStudio:
+                    type: string
+                    example: 'false'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/login/12345"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function getUser() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let user = await client.run('user', 'get', {id: 12345});\n  console.log(user);\n}\n\ngetUser();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef get_user()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    id = 12345\n    pp client.logins.get(id)\nend\nget_user()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - Login
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true

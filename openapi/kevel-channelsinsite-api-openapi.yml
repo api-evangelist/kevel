@@ -1,0 +1,69 @@
+openapi: 3.2.0
+info:
+  title: management-api-2 Channels In Site API
+  version: '1.0'
+servers:
+- url: https://api.kevel.co
+security:
+- sec0: []
+tags:
+- name: ChannelsInSite
+paths:
+  /v1/channelsInSite/{SiteID}:
+    get:
+      summary: List Channels for a Site
+      description: This API call returns all "Channel IDs" associated with a given Site.
+      operationId: list-channels-for-a-site
+      parameters:
+      - name: SiteID
+        in: path
+        description: The ID of the Site
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"ChannelIds\": [\n        45678\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  ChannelIds:
+                    type: array
+                    items:
+                      type: integer
+                      example: 45678
+                      default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -X GET -H "X-Adzerk-ApiKey:$ADZERK_API_KEY" "https://api.kevel.co/v1/channel/67890/site/12345"
+        - language: javascript
+          code: "const Adzerk = require('@adzerk/management-sdk');\nconst apiKey = process.env.ADZERK_API_KEY;\n\nasync function channelsInSite() {\n  let specifications = await Adzerk.fetchSpecifications();\n  let client = await Adzerk.buildClient({apiKey, specifications});\n\n  let channelsInSite = await client.run(\"channelsInSite\", \"get\", {\n    siteId: 12345,\n  });\n\n  console.log(channelsInSite);\n}\n\nchannelsInSite();"
+        - language: ruby
+          code: "require \"adzerk\"\n\ndef list_channels_in_site()\n    client = Adzerk::Client.new(ENV[\"ADZERK_API_KEY\"])\n    site_id = 12345\n    pp client.channelsInSite.list(site_id)\nend\nlist_channels_in_site()"
+        samples-languages:
+        - curl
+        - javascript
+        - ruby
+      tags:
+      - ChannelsInSite
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      name: X-Adzerk-ApiKey
+      in: header
+x-readme:
+  headers:
+  - key: X-Adzerk-Sdk-Version
+    value: Readme.io:ManagementAPI2
+  explorer-enabled: false
+  proxy-enabled: true
+x-readme-fauxas: true
