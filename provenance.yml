@@ -9,66 +9,69 @@ artifacts:
   authentication/kevel-authentication.yml:
     method: derived
     evidence: declared in the artifact
+  capabilities/kevel-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-ads-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-ads-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-ads-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-ads-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-advertisers-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-advertisers-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-advertisers-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-advertisers-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-campaigns-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-campaigns-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-campaigns-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-campaigns-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-channels-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-channels-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-channels-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-channels-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-creatives-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-creatives-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-creatives-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-creatives-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-decision-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-decision-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-decision-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-decision-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-flights-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-flights-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-flights-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-flights-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-reporting-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-reporting-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-reporting-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-reporting-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-sites-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-sites-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-sites-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-sites-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-zones-api.opencollection.json:
-    method: derived
-    evidence: openapi/kevel-zones-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel-zones-api.postman_collection.json:
-    method: derived
-    evidence: openapi/kevel-zones-api
+    method: unknown
+    evidence: no authorship recorded
   collections/kevel.opencollection.json:
     method: derived
     evidence: openapi/kevel
@@ -81,127 +84,13 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  integrations/_index.yml:
     method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+    evidence: carries an API Evangelist house phrase
+  integrations/kevel-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -285,44 +174,101 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   llms/kevel-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
   mcp/kevel-mcp.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/_original/kevel-openapi.yml:
+  openapi/_original/kevel-openapi.json:
     method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/kevel-ads-api-openapi.yml:
+    evidence: byte-identical to https://dev.kevel.com/openapi/management-api-2.json (sha256 2f69e2ea15cb,
+      fetched 2026-10-19)
+  openapi/kevel-ad-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-advertisers-api-openapi.yml:
+  openapi/kevel-adtypes-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-campaigns-api-openapi.yml:
+  openapi/kevel-advertiser-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-channels-api-openapi.yml:
+  openapi/kevel-campaign-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-creatives-api-openapi.yml:
+  openapi/kevel-categories-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-decision-api-openapi.yml:
+  openapi/kevel-category-catalog-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-flights-api-openapi.yml:
+  openapi/kevel-channel-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-reporting-api-openapi.yml:
+  openapi/kevel-channelsinsite-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-sites-api-openapi.yml:
+  openapi/kevel-channelsite-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/kevel-zones-api-openapi.yml:
+  openapi/kevel-countries-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-country-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-creative-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-creative-templates-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-entitycounts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-fast-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-flight-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-instantcounts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-itemdb-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-login-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-priority-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-region-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-segment-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-site-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/kevel-zone-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   plans/kevel-plans-pricing.yml:
