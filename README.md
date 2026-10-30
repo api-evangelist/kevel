@@ -1,4 +1,4 @@
-# Kevel (kevel)
+# Kevel
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,117 +66,148 @@
 
 Kevel is an API-first ad serving platform that lets brands and publishers build unified, fully customized ad systems supporting any ad format, any creative, and multiple demand sources. Kevel exposes a Decision API for ad requests, a Management API for campaign and creative operations, a Reporting API for performance analytics, and a UserDB API for first-party audience and user data.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/kevel/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/kevel/refs/heads/main/apis.yml)
+**Areas:** Ad Serving · Advertising · API-First · Audiences · Monetization · Reporting
 
-## Scope
+## Kevel on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Kevel is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kevel/](https://apis.io/providers/kevel/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (14)
 
-- Ad Serving
-- Advertising
-- API-First
-- Audience
-- Monetization
-- Reporting
+- [Kevel Decision API](https://apis.io/apis/kevel/decision-api/) — The Decision API enables ad requests without using ad code. By posting to a RESTful endpoint, Kevel's ad engine returns decision data and creative contents…
+- [Kevel Management API](https://apis.io/apis/kevel/management-api/) — The Management API provides programmatic access to manage advertisers, campaigns, flights, ads, creatives, channels, sites, zones, and other platform…
+- [Kevel Reporting API](https://apis.io/apis/kevel/reporting-api/) — The Reporting API exposes ad serving performance data, allowing customers to pull impressions, clicks, conversions, revenue, and other metrics by…
+- [Kevel UserDB API](https://apis.io/apis/kevel/userdb-api/) — The UserDB API provides first-party audience and user data management, enabling customers to read and write user keys, custom properties, interests, and…
+- [Kevel Ads API](https://apis.io/apis/kevel/kevel-ads-api/) — Manage ads.
+- [Kevel Advertisers API](https://apis.io/apis/kevel/kevel-advertisers-api/) — Manage advertiser accounts.
+- [Kevel Campaigns API](https://apis.io/apis/kevel/kevel-campaigns-api/) — Manage campaigns.
+- [Kevel Channels API](https://apis.io/apis/kevel/kevel-channels-api/) — Manage channels.
+- [Kevel Creatives API](https://apis.io/apis/kevel/kevel-creatives-api/) — Manage creatives.
+- [Kevel Decision API](https://apis.io/apis/kevel/kevel-decision-api/) — Request ad decisions and creatives.
+- [Kevel Flights API](https://apis.io/apis/kevel/kevel-flights-api/) — Manage flights (line items).
+- [Kevel Reporting API](https://apis.io/apis/kevel/kevel-reporting-api/) — Queue and retrieve performance reports.
+- [Kevel Sites API](https://apis.io/apis/kevel/kevel-sites-api/) — Manage sites.
+- [Kevel Zones API](https://apis.io/apis/kevel/kevel-zones-api/) — Manage zones.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-16
-- **Modified:** 2026-04-28
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### Kevel Decision API
+Model Context Protocol servers that expose the API to agents.
 
-The Decision API enables ad requests without using ad code. By posting to a RESTful endpoint, Kevel's ad engine returns decision data and creative contents for serving ads in your application across web, mobile, native, audio, video, and CTV surfaces.
+- [kevel](https://apis.io/servers/kevel/kevel/)
 
-- **Human URL:** [https://dev.kevel.com/reference/request](https://dev.kevel.com/reference/request)
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- Ad Serving
-- Decision
-- Native Ads
+- [Kevel Agentic Access](https://apis.io/agentic-access/kevel/kevel-agentic-access/)
 
-#### Properties
+#### Collections (11)
 
-- [Documentation](https://dev.kevel.com/docs/native-ads-api-quickstart)
-- [Reference](https://dev.kevel.com/reference/request)
-- [Postman Collection](collections/kevel.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/kevel.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Postman and Open Collection request collections.
 
-### Kevel Management API
+- [Kevel APIs](https://apis.io/collections/kevel/open-kevel/)
+- [Kevel APIs Ads API](https://apis.io/collections/kevel/open-kevel-ads-api/)
+- [Kevel APIs Ads Advertisers API](https://apis.io/collections/kevel/open-kevel-advertisers-api/)
+- [Kevel APIs Ads Campaigns API](https://apis.io/collections/kevel/open-kevel-campaigns-api/)
+- [Kevel APIs Ads Channels API](https://apis.io/collections/kevel/open-kevel-channels-api/)
+- [Kevel APIs Ads Creatives API](https://apis.io/collections/kevel/open-kevel-creatives-api/)
+- [Kevel APIs Ads Decision API](https://apis.io/collections/kevel/open-kevel-decision-api/)
+- [Kevel APIs Ads Flights API](https://apis.io/collections/kevel/open-kevel-flights-api/)
+- [Kevel APIs Ads Reporting API](https://apis.io/collections/kevel/open-kevel-reporting-api/)
+- [Kevel APIs Ads Sites API](https://apis.io/collections/kevel/open-kevel-sites-api/)
+- [Kevel APIs Ads Zones API](https://apis.io/collections/kevel/open-kevel-zones-api/)
 
-The Management API provides programmatic access to manage advertisers, campaigns, flights, ads, creatives, channels, sites, zones, and other platform resources. It is the system-of-record API used to provision and operate the Kevel ad server.
+#### Security (3)
 
-- **Human URL:** [https://dev.kevel.com/docs/management-api-tutorial](https://dev.kevel.com/docs/management-api-tutorial)
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Kevel Authentication](https://apis.io/security/kevel/kevel-authentication/)
+- [Kevel Domain Security](https://apis.io/security/kevel/kevel-domain-security/)
+- [Kevel Trust Center](https://apis.io/security/kevel/kevel-trust-center/)
 
-- Campaigns
-- Creatives
-- Management
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
-- [Documentation](https://dev.kevel.com/docs/management-api-tutorial)
-- [Reference](https://dev.kevel.com/reference/getting-started-with-the-management-api)
-- [Postman Collection](collections/kevel.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/kevel.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Kevel Plans Pricing](https://apis.io/plans/kevel/kevel-plans-pricing/)
 
-### Kevel Reporting API
+#### Rate limits (1)
 
-The Reporting API exposes ad serving performance data, allowing customers to pull impressions, clicks, conversions, revenue, and other metrics by advertiser, campaign, flight, ad, creative, site, zone, and date range for analytics and finance workflows.
+Published request limits.
 
-- **Human URL:** [https://dev.kevel.com/reference/reporting-overview](https://dev.kevel.com/reference/reporting-overview)
+- [Kevel Rate Limits](https://apis.io/rate-limits/kevel/kevel-rate-limits/)
 
-#### Tags
+#### FinOps (1)
 
-- Analytics
-- Reporting
+What the API costs to run, by operation.
 
-#### Properties
+- [Kevel Finops](https://apis.io/finops/kevel/kevel-finops/)
 
-- [Documentation](https://dev.kevel.com/reference/reporting-overview)
-- [Postman Collection](collections/kevel.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/kevel.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+## Where to find this API
 
-### Kevel UserDB API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-The UserDB API provides first-party audience and user data management, enabling customers to read and write user keys, custom properties, interests, and audience segment membership for targeting in the Decision API.
-
-- **Human URL:** [https://dev.kevel.com/reference/userdb-overview](https://dev.kevel.com/reference/userdb-overview)
-
-#### Tags
-
-- Audience
-- Targeting
-- UserDB
-
-#### Properties
-
-- [Documentation](https://dev.kevel.com/reference/userdb-overview)
-- [Postman Collection](collections/kevel.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/kevel.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/kevelapi)
 - [Website](https://www.kevel.com)
-- [Portal](https://dev.kevel.com/)
 - [Documentation](https://dev.kevel.com/docs/understanding-kevel)
-- [Getting Started](https://dev.kevel.com/reference/getting-started-with-kevel)
-- [Reference](https://dev.kevel.com/reference)
-- [S D Ks](https://dev.kevel.com/docs/sdks)
-- [Blog](https://www.kevel.com/blog)
+- [Getting started](https://dev.kevel.com/reference/getting-started-with-kevel)
 - [Pricing](https://www.kevel.com/pricing)
-- [L L Ms Txt](https://dev.kevel.com/llms.txt)
+- [Blog](https://www.kevel.com/blog)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 34.3** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.7 |
+| Contract quality | 48.2 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 59.5 |
+| Access clarity | 15.8 |
+
+**Agent readiness 47.2** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kevel/](https://apis.io/providers/kevel/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Kevel: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kevel/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
